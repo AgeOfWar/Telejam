@@ -1,0 +1,51 @@
+package me.palazzomichi.telegram.telejam.objects.inline.results;
+
+import com.google.gson.annotations.SerializedName;
+import me.palazzomichi.telegram.telejam.objects.TelegramObject;
+
+/**
+ * This object represents one result of an inline query.
+ *
+ * @author Michi Palazzo
+ */
+public abstract class InlineQueryResult implements TelegramObject {
+
+  static final String TYPE_FIELD = "type";
+  static final String ID_FIELD = "id";
+
+  /**
+   * Unique identifier for this result, 1-64 Bytes.
+   */
+  @SerializedName(ID_FIELD)
+  private String id;
+
+
+  /**
+   * Constructs an InlineQueryResult.
+   *
+   * @param id unique identifier for this result
+   */
+  public InlineQueryResult(String id) {
+    this.id = id;
+  }
+
+
+  /**
+   * Getter for property {@link #id}.
+   *
+   * @return value for property {@link #id}
+   */
+  public String getId() {
+    return id;
+  }
+
+  /**
+   * Setter for property {@link #id}.
+   *
+   * @param id value for property {@link #id}
+   */
+  public void setId(String id) {
+    this.id = id;
+  }
+
+}
