@@ -6,9 +6,8 @@ import me.palazzomichi.telegram.telejam.objects.updates.Update;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Objects;
-import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.LongUnaryOperator;
 
 /**
@@ -19,9 +18,10 @@ import java.util.function.LongUnaryOperator;
 public final class UpdateReader {
 
   private final TelegramConnection connection;
-  private final Queue<Update> updates;
+  private final ConcurrentLinkedQueue<Update> updates;
   private LongUnaryOperator backOff;
   private long lastUpdateId;
+  private String[] allowedUpdates;
 
   /**
    * Constructs an UpdateReader.
@@ -32,8 +32,9 @@ public final class UpdateReader {
   public UpdateReader(TelegramConnection connection, LongUnaryOperator backOff) {
     this.connection = Objects.requireNonNull(connection);
     this.backOff = Objects.requireNonNull(backOff);
-    updates = new LinkedList<>();
+    updates = new ConcurrentLinkedQueue<>();
     lastUpdateId = -1;
+    allowedUpdates = new String[0];
   }
 
   /**
@@ -48,9 +49,18 @@ public final class UpdateReader {
 
 
   /**
-   * Returns the number of updates that can be read from this input stream without blocking by the
+   * Returns the number of updates that can be read from this update reader without blocking by the
    * next invocation read method for this update reader. The next invocation
    * might be the same thread or another thread.
+   * If the available updates are more than {@code Integer.MAX_VALUE}, returns
+   * {@code Integer.MAX_VALUE}.
+   * <p>
+   * <p>Beware that, this method is <em>NOT</em> a constant-time operation.
+   * Determining the current number of available updates requires an O(n) traversal.
+   * Additionally, if elements are added or removed during execution
+   * of this method, the returned result may be inaccurate.  Thus,
+   * this method is typically not very useful in concurrent
+   * applications.</p>
    *
    * @return the number of updates that can be read from this update reader
    * without blocking by the next invocation read method
@@ -62,8 +72,8 @@ public final class UpdateReader {
   /**
    * Tells whether this stream is ready to be read.
    *
-   * @return True if the next read() is guaranteed not to block for input,
-   * false otherwise.  Note that returning false does not guarantee that the
+   * @return <code>true</code> if the next read() is guaranteed not to block for input,
+   * <code>false</code> otherwise.  Note that returning false does not guarantee that the
    * next read will block.
    */
   public boolean ready() {
@@ -97,7 +107,7 @@ public final class UpdateReader {
   public int getUpdates() throws IOException {
     GetUpdates getUpdates = new GetUpdates()
         .offset(lastUpdateId + 1)
-        .allowedUpdates();
+        .allowedUpdates(allowedUpdates); // all updates allowed
 
     Update[] newUpdates = connection.execute(getUpdates);
 
@@ -144,7 +154,7 @@ public final class UpdateReader {
    * @param backOff value for property {@link #backOff}
    */
   public void setBackOff(LongUnaryOperator backOff) {
-    this.backOff = backOff;
+    this.backOff = Objects.requireNonNull(backOff);
   }
 
   /**
@@ -163,6 +173,24 @@ public final class UpdateReader {
    */
   public long getLastUpdateId() {
     return lastUpdateId;
+  }
+
+  /**
+   * Getter for property {@link #allowedUpdates}.
+   *
+   * @return value for property {@link #allowedUpdates}
+   */
+  public String[] getAllowedUpdates() {
+    return allowedUpdates;
+  }
+
+  /**
+   * Setter for property {@link #allowedUpdates}.
+   *
+   * @param allowedUpdates value for property {@link #allowedUpdates}
+   */
+  public void setAllowedUpdates(String... allowedUpdates) {
+    this.allowedUpdates = Objects.requireNonNull(allowedUpdates);
   }
 
 }

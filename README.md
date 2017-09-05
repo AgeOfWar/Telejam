@@ -17,8 +17,7 @@ A simple to use library to create Telegram Bots in Java.
       try(Bot bot = new Bot("<token>")) {
   
         BotThread thread = new BotThread(bot);
-        thread.setName("HelloBot");
-        thread.getUpdateHandlers().add(u -> System.out.println(u.toJson()));
+        thread.getUpdateHandlers().add(update -> System.out.println(update.toJson()));
         thread.getErrorHandlers().add(IOException::printStackTrace);
         thread.run();
   

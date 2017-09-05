@@ -99,7 +99,7 @@ public class BotThread extends Thread {
         checkResponseParameters(e);
         handleError(e);
       } catch (InterruptedException e) {
-        interrupt();
+        Thread.currentThread().interrupt();
       }
     }
   }
@@ -120,7 +120,7 @@ public class BotThread extends Thread {
       try {
         Thread.sleep(seconds * 1000);
       } catch (InterruptedException e1) {
-        interrupt();
+        Thread.currentThread().interrupt();
       }
     });
   }
