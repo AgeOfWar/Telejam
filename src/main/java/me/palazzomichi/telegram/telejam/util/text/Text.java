@@ -283,11 +283,12 @@ public final class Text extends AttributedString implements CharSequence {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof Text) {
-      Text text = (Text) obj;
-      return toString(ParseMode.HTML).equals(text.toString(ParseMode.HTML));
+    if (!(obj instanceof Text)) {
+      return false;
+
     }
-    return toString(ParseMode.HTML).equals(obj);
+    Text text = (Text) obj;
+    return toString(ParseMode.HTML).equals(text.toString(ParseMode.HTML));
   }
 
 }
