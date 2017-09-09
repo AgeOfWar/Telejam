@@ -13,7 +13,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Objects;
 
@@ -22,7 +25,7 @@ import java.util.Objects;
  *
  * @author Michi Palazzo
  */
-public class TelegramConnection implements Closeable {
+public class TelegramConnection {
 
   /**
    * General link to the Telegram API.
@@ -72,8 +75,7 @@ public class TelegramConnection implements Closeable {
    * @throws TelegramException when the method invocation returns an error
    * @throws JsonParseException when the object returned is unknown
    */
-  public <T extends Serializable> T execute(TelegramMethod<T> method)
-      throws IOException {
+  public <T extends Serializable> T execute(TelegramMethod<T> method) throws IOException {
     Objects.requireNonNull(method, "method cannot be null!");
 
     HttpPost httpPost = new HttpPost(API_URL + token + '/' + method.getName());
@@ -98,11 +100,6 @@ public class TelegramConnection implements Closeable {
     } catch (JsonParseException e) {
       throw new IOException(e);
     }
-  }
-
-  @Override
-  public void close() throws IOException {
-    httpClient.close();
   }
 
   /**

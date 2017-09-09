@@ -82,11 +82,6 @@ public class Bot extends TelegramConnection {
   }
 
   @Override
-  public void close() throws IOException {
-    super.close();
-  }
-
-  @Override
   public boolean equals(Object obj) {
     return (obj instanceof Bot && ((Bot) obj).getId() == id) ||
         (obj instanceof User && ((User) obj).getId() == id);
