@@ -6,21 +6,18 @@ import me.palazzomichi.telegram.telejam.objects.replymarkups.InlineKeyboardMarku
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 /**
- * Represents a link to a photo. By default, this photo will be sent by
- * the user with optional caption. Alternatively, you can use {@link #inputMessageContent}
- * to send a message with the specified content instead of the photo.
+ * Represents a link to a photo stored on the Telegram servers.
+ * By default, this photo will be sent by the user with an optional caption.
+ * Alternatively, you can use {@link #inputMessageContent} to send a message with
+ * the specified content instead of the photo.
  *
  * @author Michi Palazzo
  */
-public class InlineQueryResultPhoto extends InlineQueryResult {
+public class InlineQueryResultCachedPhoto extends InlineQueryResult {
 
-  static final String PHOTO_URL_FIELD = "photo_url";
-  static final String THUMBNAIL_URL_FIELD = "thumb_url";
-  static final String PHOTO_WIDTH_FIELD = "photo_width";
-  static final String PHOTO_HEIGHT_FIELD = "photo_height";
+  static final String PHOTO_FILE_ID_FIELD = "photo_file_id";
   static final String TITLE_FIELD = "title";
   static final String DESCRIPTION_FIELD = "description";
   static final String CAPTION_FIELD = "caption";
@@ -31,30 +28,10 @@ public class InlineQueryResultPhoto extends InlineQueryResult {
   static final String TYPE = "photo";
 
   /**
-   * A valid URL of the photo.
-   * Photo must be in jpeg format.
-   * Photo size must not exceed 5MB.
+   * A valid file identifier of the photo.
    */
-  @SerializedName(PHOTO_URL_FIELD)
-  private String photoUrl;
-
-  /**
-   * URL of the thumbnail for the photo.
-   */
-  @SerializedName(THUMBNAIL_URL_FIELD)
-  private String thumbnailUrl;
-
-  /**
-   * Width of the photo.
-   */
-  @SerializedName(PHOTO_WIDTH_FIELD)
-  private Integer photoWidth;
-
-  /**
-   * Height of the photo.
-   */
-  @SerializedName(PHOTO_HEIGHT_FIELD)
-  private Integer photoHeight;
+  @SerializedName(PHOTO_FILE_ID_FIELD)
+  private String photoFileId;
 
   /**
    * Title for the result.
@@ -87,21 +64,15 @@ public class InlineQueryResultPhoto extends InlineQueryResult {
   private InputMessageContent inputMessageContent;
 
 
-  public InlineQueryResultPhoto(String id,
-                                String photoUrl,
-                                String thumbnailUrl,
-                                Integer photoWidth,
-                                Integer photoHeight,
-                                String title,
-                                String description,
-                                String caption,
-                                InlineKeyboardMarkup replyMarkup,
-                                InputMessageContent inputMessageContent) {
+  public InlineQueryResultCachedPhoto(String id,
+                                      String photoFileId,
+                                      String title,
+                                      String description,
+                                      String caption,
+                                      InlineKeyboardMarkup replyMarkup,
+                                      InputMessageContent inputMessageContent) {
     super(id);
-    this.photoUrl = Objects.requireNonNull(photoUrl);
-    this.thumbnailUrl = Objects.requireNonNull(thumbnailUrl);
-    this.photoWidth = photoWidth;
-    this.photoHeight = photoHeight;
+    this.photoFileId = Objects.requireNonNull(photoFileId);
     this.title = title;
     this.description = description;
     this.caption = caption;
@@ -109,81 +80,27 @@ public class InlineQueryResultPhoto extends InlineQueryResult {
     this.inputMessageContent = inputMessageContent;
   }
 
-  public InlineQueryResultPhoto(String id, String photoUrl, String thumbnailUrl) {
-    this(id, photoUrl, thumbnailUrl, null, null, null, null, null, null, null);
+  public InlineQueryResultCachedPhoto(String id, String photoFileId) {
+    this(id, photoFileId, null, null, null, null, null);
   }
 
 
   /**
-   * Getter for property {@link #photoUrl}.
+   * Getter for property {@link #photoFileId}.
    *
-   * @return value for property {@link #photoUrl}
+   * @return value for property {@link #photoFileId}
    */
-  public String getPhotoUrl() {
-    return photoUrl;
+  public String getPhotoFileId() {
+    return photoFileId;
   }
 
   /**
-   * Setter for property {@link #photoUrl}.
+   * Setter for property {@link #photoFileId}.
    *
-   * @param photoUrl value for property {@link #photoUrl}
+   * @param photoFileId value for property {@link #photoFileId}
    */
-  public void setPhotoUrl(String photoUrl) {
-    this.photoUrl = Objects.requireNonNull(photoUrl);
-  }
-
-  /**
-   * Getter for property {@link #thumbnailUrl}.
-   *
-   * @return value for property {@link #thumbnailUrl}
-   */
-  public String getThumbnailUrl() {
-    return thumbnailUrl;
-  }
-
-  /**
-   * Setter for property {@link #thumbnailUrl}.
-   *
-   * @param thumbnailUrl value for property {@link #thumbnailUrl}
-   */
-  public void setThumbnailUrl(String thumbnailUrl) {
-    this.thumbnailUrl = Objects.requireNonNull(thumbnailUrl);
-  }
-
-  /**
-   * Getter for property {@link #photoWidth}.
-   *
-   * @return optional value for property {@link #photoWidth}
-   */
-  public OptionalInt getPhotoWidth() {
-    return photoWidth == null ? OptionalInt.empty() : OptionalInt.of(photoWidth);
-  }
-
-  /**
-   * Setter for property {@link #photoWidth}.
-   *
-   * @param photoWidth value for property {@link #photoWidth}
-   */
-  public void setPhotoWidth(Integer photoWidth) {
-    this.photoWidth = photoWidth;
-  }
-
-  /**
-   * Getter for property {@link #photoHeight}.
-   *
-   * @return optional value for property {@link #photoHeight}
-   */
-  public OptionalInt getPhotoHeight() {
-    return photoHeight == null ? OptionalInt.empty() : OptionalInt.of(photoHeight);
-  }
-
-  /**
-   * Setter for property {@link #photoHeight}.
-   *
-   * @param photoHeight value for property {@link #photoHeight}
-   */
-  public void setPhotoHeight(Integer photoHeight) {
-    this.photoHeight = photoHeight;
+  public void setPhotoFileId(String photoFileId) {
+    this.photoFileId = Objects.requireNonNull(photoFileId);
   }
 
   /**

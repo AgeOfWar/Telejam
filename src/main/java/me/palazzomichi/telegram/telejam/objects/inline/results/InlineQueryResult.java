@@ -3,6 +3,8 @@ package me.palazzomichi.telegram.telejam.objects.inline.results;
 import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.objects.TelegramObject;
 
+import java.util.Objects;
+
 /**
  * This object represents one result of an inline query.
  *
@@ -25,8 +27,8 @@ public abstract class InlineQueryResult implements TelegramObject {
    *
    * @param id unique identifier for this result
    */
-  public InlineQueryResult(String id) {
-    this.id = id;
+  protected InlineQueryResult(String id) {
+    this.id = Objects.requireNonNull(id);
   }
 
 
@@ -45,7 +47,7 @@ public abstract class InlineQueryResult implements TelegramObject {
    * @param id value for property {@link #id}
    */
   public void setId(String id) {
-    this.id = id;
+    this.id = Objects.requireNonNull(id);
   }
 
 }
