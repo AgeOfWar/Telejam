@@ -5,7 +5,6 @@ import me.palazzomichi.telegram.telejam.TelegramException;
 
 import java.io.Serializable;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 /**
  * Result of the invocation of a Telegram API method.
@@ -36,7 +35,7 @@ public class Result<T extends Serializable> implements TelegramObject {
    * If an error occurred, the error code.
    */
   @SerializedName(ERROR_CODE_FIELD)
-  private Integer errorCode;
+  private int errorCode;
 
   /**
    * If an error occurred, the error description.
@@ -114,10 +113,13 @@ public class Result<T extends Serializable> implements TelegramObject {
   /**
    * Getter for property {@link #errorCode}.
    *
-   * @return optional value for property {@link #errorCode}
+   * @return value for property {@link #errorCode}
    */
-  public OptionalInt getErrorCode() {
-    return errorCode == null ? OptionalInt.empty() : OptionalInt.of(errorCode);
+  public int getErrorCode() {
+    if (success) {
+      throw new IllegalStateException("No error occurred");
+    }
+    return errorCode;
   }
 
   /**
@@ -135,6 +137,9 @@ public class Result<T extends Serializable> implements TelegramObject {
    * @return optional value for property {@link #responseParameters}
    */
   public Optional<ResponseParameters> getResponseParameters() {
+    if (success) {
+      throw new IllegalStateException("No error occurred");
+    }
     return Optional.ofNullable(responseParameters);
   }
 
