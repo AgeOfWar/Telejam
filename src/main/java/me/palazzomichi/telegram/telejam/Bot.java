@@ -48,7 +48,7 @@ public class Bot extends TelegramConnection {
    *
    * @return this bot
    */
-  public User toUser() throws IOException {
+  public User toUser() {
     return new User(id, name, null, username, null, true);
   }
 

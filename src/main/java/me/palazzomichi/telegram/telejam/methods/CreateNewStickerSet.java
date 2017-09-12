@@ -42,7 +42,7 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
    * Short name of sticker set, to be used in <code>t.me/addstickers/</code> URLs (e.g., animals).
    * Can contain only english letters, digits and underscores.
    * Must begin with a letter, can't contain consecutive underscores and must
-   * end in <code>“_by_&lt;bot username&gt;”</code>.
+   * end in <code>"_by_&lt;bot username&gt;"</code>.
    * <code>&lt;bot_username&gt;</code> is case insensitive.
    * 1-64 characters.
    */

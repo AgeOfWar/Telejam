@@ -36,7 +36,7 @@ public class ChatMember implements TelegramObject {
 
   /**
    * The member's status in the chat.
-   * Can be “creator”, “administrator”, “member”,  “restricted”, “left” or “kicked”.
+   * Can be "creator", "administrator", "member",  "restricted", "left" or "kicked".
    */
   @SerializedName(STATUS_FIELD)
   private String status;

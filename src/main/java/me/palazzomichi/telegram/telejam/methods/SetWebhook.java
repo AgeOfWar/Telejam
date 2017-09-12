@@ -13,11 +13,11 @@ import java.nio.file.Path;
  * containing a JSON-serialized Update. In case of an unsuccessful request,
  * we will give up after a reasonable amount of attempts.
  * Returns true.
- * <br /><br />
- * If you'd like to make sure that the Webhook request comes from Telegram,
+ *
+ * <p>If you'd like to make sure that the Webhook request comes from Telegram,
  * we recommend using a secret path in the URL,
  * e.g. <code>https://www.example.com/&lt;token&gt;</code>.
- * Since nobody else knows your bot‘s token, you can be pretty sure it’s us.
+ * Since nobody else knows your bot‘s token, you can be pretty sure it’s us.</p>
  *
  * @author Michi Palazzo
  */
@@ -52,14 +52,14 @@ public class SetWebhook implements TelegramMethod<Boolean> {
 
   /**
    * List the types of updates you want your bot to receive.
-   * For example, specify [“message”, “edited_channel_post”, “callback_query”] to
+   * For example, specify ["message", "edited_channel_post", "callback_query"] to
    * only receive updates of these types. See Update for a complete list of
    * available update types. Specify an empty list to receive all updates
    * regardless of type (default).
    * If not specified, the previous setting will be used.
-   * <br /> <br />
-   * Please note that this parameter doesn't affect updates created before the
-   * call to the setWebhook, so unwanted updates may be received for a short period of time.
+   *
+   * <p>Please note that this parameter doesn't affect updates created before the
+   * call to the setWebhook, so unwanted updates may be received for a short period of time.</p>
    */
   private String[] allowedUpdates;
 

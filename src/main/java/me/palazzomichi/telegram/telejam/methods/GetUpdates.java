@@ -48,7 +48,7 @@ public class GetUpdates extends JsonTelegramMethod<Update[]> {
 
   /**
    * List the types of updates you want your bot to receive.
-   * For example, specify [“message”, “edited_channel_post”, “callback_query”] to
+   * For example, specify ["message", "edited_channel_post", "callback_query"] to
    * only receive updates of these types.
    * See <a href='https://core.telegram.org/bots/api#update'>Update</a> for a
    * complete list of available update types.

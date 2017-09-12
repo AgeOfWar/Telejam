@@ -17,7 +17,7 @@ public class MaskPosition implements TelegramObject {
 
   /**
    * The part of the face relative to which the mask should be placed.
-   * One of “forehead”, “eyes”, “mouth”, or “chin”.
+   * One of "forehead", "eyes", "mouth", or "chin".
    */
   @SerializedName(POINT_FIELD)
   private String point;

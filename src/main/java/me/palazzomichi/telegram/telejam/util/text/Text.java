@@ -41,7 +41,9 @@ public final class Text extends AttributedString implements CharSequence {
   /**
    * Constructs a text.
    *
-   * @param text the text.
+   * @param text the text
+   * @param entities the text entities
+   * @see TextBuilder
    */
   public Text(String text, MessageEntity... entities) {
     super(text);

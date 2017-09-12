@@ -53,13 +53,13 @@ public class MessageEntity implements TelegramObject {
   private int length;
 
   /**
-   * For “text_link” type only, url that will be opened after user taps on the text
+   * For "text_link" type only, url that will be opened after user taps on the text
    */
   @SerializedName(URL_FIELD)
   private String url;
 
   /**
-   * For “text_mention” type only, the mentioned user
+   * For "text_mention" type only, the mentioned user
    */
   @SerializedName(USER_FIELD)
   private User user;

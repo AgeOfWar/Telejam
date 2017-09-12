@@ -54,7 +54,7 @@ public final class UpdateReader {
    * might be the same thread or another thread.
    * If the available updates are more than {@code Integer.MAX_VALUE}, returns
    * {@code Integer.MAX_VALUE}.
-   * <p>
+   *
    * <p>Beware that, this method is <em>NOT</em> a constant-time operation.
    * Determining the current number of available updates requires an O(n) traversal.
    * Additionally, if elements are added or removed during execution
