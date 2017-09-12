@@ -94,7 +94,7 @@ final class HtmlTextParser implements TextParser {
               while ((c = reader.read()) != '<')
                 sb.append((char) c);
               endTag(reader, tag);
-              builder.appendLink(sb.toString(), link.toString());
+              builder.appendLink(sb.toString(), unescape(link.toString()));
               sb.setLength(0);
               break;
 
@@ -135,7 +135,11 @@ final class HtmlTextParser implements TextParser {
     StringBuilder builder = new StringBuilder();
 
     int c;
-    while ((c = reader.read()) >= 0 && !Character.isWhitespace(c)) {
+    reader.mark(1);
+    while ((c = reader.read()) != '>' && !Character.isWhitespace(c)) {
+      if (c <= 0) {
+        throw new TextParseException("Unterminated tag");
+      }
       reader.mark(1);
       builder.append((char) c);
     }

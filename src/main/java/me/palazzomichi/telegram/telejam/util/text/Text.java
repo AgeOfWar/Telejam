@@ -7,10 +7,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Class representing a text with entities.
@@ -76,104 +73,102 @@ public final class Text extends AttributedString implements CharSequence {
   }
 
   /**
-   * Returns a set containing all the bold strings in this text.
+   * Returns a list containing all the bold strings in this text.
    *
-   * @return a set containing all the bold strings in this text
+   * @return a list containing all the bold strings in this text
    */
-  public Set<String> getBoldText() {
-    return getTextEntities(TextEntity.BOLD).keySet();
+  public List<String> getBoldText() {
+    return getEntities(TextEntity.BOLD);
   }
 
   /**
-   * Returns a set containing all the italic strings in this text.
+   * Returns a list containing all the italic strings in this text.
    *
-   * @return a set containing all the italic strings in this text
+   * @return a list containing all the italic strings in this text
    */
-  public Set<String> getItalicText() {
-    return getTextEntities(TextEntity.ITALIC).keySet();
+  public List<String> getItalicText() {
+    return getEntities(TextEntity.ITALIC);
   }
 
   /**
-   * Returns a set containing all the codes in this text.
+   * Returns a list containing all the codes in this text.
    *
-   * @return a set containing all the codes in this text
+   * @return a list containing all the codes in this text
    */
-  public Set<String> getCodeText() {
-    return getTextEntities(TextEntity.CODE).keySet();
+  public List<String> getCodeText() {
+    return getEntities(TextEntity.CODE);
   }
 
   /**
-   * Returns a set containing all the code blocks in this text.
+   * Returns a list containing all the code blocks in this text.
    *
-   * @return a set containing all the code blocks in this text
+   * @return a list containing all the code blocks in this text
    */
-  public Set<String> getCodeBlockText() {
-    return getTextEntities(TextEntity.CODE_BLOCK).keySet();
+  public List<String> getCodeBlockText() {
+    return getEntities(TextEntity.CODE_BLOCK);
   }
 
   /**
-   * Returns a map containing all the links in this text with their relative urls.
+   * Returns a list containing all the links in this text with their relative urls.
    *
-   * @return a map containing all the links in this text with their relative urls
+   * @return a list containing all the links in this text with their relative urls
    */
-  @SuppressWarnings("unchecked")
-  public Map<String, String> getLinks() {
-    return (Map<String, String>) (Map<String, ?>) getTextEntities(TextEntity.LINK);
+  public List<Map.Entry<String, String>> getLinks() {
+    return getEntitiesWithValues(TextEntity.LINK);
   }
 
   /**
-   * Returns a set containing all the urls in this text.
+   * Returns a list containing all the urls in this text.
    *
-   * @return a set containing all the urls in this text
+   * @return a list containing all the urls in this text
    */
-  public Set<String> getUrls() {
-    return getTextEntities(TextEntity.URL).keySet();
+  public List<String> getUrls() {
+    return getEntities(TextEntity.URL);
   }
 
   /**
-   * Returns a set containing all the emails in this text.
+   * Returns a list containing all the emails in this text.
    *
-   * @return a set containing all the emails in this text
+   * @return a list containing all the emails in this text
    */
-  public Set<String> getEmails() {
-    return getTextEntities(TextEntity.EMAIL).keySet();
+  public List<String> getEmails() {
+    return getEntities(TextEntity.EMAIL);
   }
 
   /**
-   * Returns a set containing all the hashtags in this text.
+   * Returns a list containing all the hashtags in this text.
    *
-   * @return a set containing all the hashtags in this text
+   * @return a list containing all the hashtags in this text
    */
-  public Set<String> getHashtags() {
-    return getTextEntities(TextEntity.HASHTAG).keySet();
+  public List<String> getHashtags() {
+    return getEntities(TextEntity.HASHTAG);
   }
 
   /**
-   * Returns a set containing all the mentions in this text.
+   * Returns a list containing all the mentions in this text.
    *
-   * @return a set containing all the mentions in this text
+   * @return a list containing all the mentions in this text
    */
-  public Set<String> getMentions() {
-    return getTextEntities(TextEntity.MENTION).keySet();
+  public List<String> getMentions() {
+    return getEntities(TextEntity.MENTION);
   }
 
   /**
-   * Returns a map containing all the text mentions in this text with their relative users.
+   * Returns a list containing all the text mentions in this text with their relative users.
    *
-   * @return a map containing all the text mentions in this text with their relative users
+   * @return a list containing all the text mentions in this text with their relative users
    */
-  @SuppressWarnings("unchecked")
-  public Map<String, User> getTextMentions() {
-    return (Map<String, User>) (Map<String, ?>) getTextEntities(TextEntity.TEXT_MENTION);
+  public List<Map.Entry<String, User>> getTextMentions() {
+    return getEntitiesWithValues(TextEntity.TEXT_MENTION);
   }
 
   /**
-   * Returns a set containing all the bot commands in this text.
+   * Returns a list containing all the bot commands in this text.
    *
-   * @return a set containing all the bot commands in this text
+   * @return a list containing all the bot commands in this text
    */
-  public Set<String> getBotCommands() {
-    return getTextEntities(TextEntity.BOT_COMMAND).keySet();
+  public List<String> getBotCommands() {
+    return getEntities(TextEntity.BOT_COMMAND);
   }
 
   private void addEntity(MessageEntity entity) {
@@ -181,10 +176,10 @@ public final class Text extends AttributedString implements CharSequence {
 
     Object value = null;
     if (type == TextEntity.LINK) {
-      value = entity.getUrl();
+      value = entity.getUrl().orElseThrow(AssertionError::new);
     }
     if (type == TextEntity.TEXT_MENTION) {
-      value = entity.getUser();
+      value = entity.getUser().orElseThrow(AssertionError::new);
     }
 
     int beginIndex = entity.getOffset();
@@ -193,9 +188,42 @@ public final class Text extends AttributedString implements CharSequence {
     super.addAttribute(type, value, beginIndex, endIndex);
   }
 
-  private Map<String, Object> getTextEntities(TextEntity entity) {
+  @SuppressWarnings("unchecked")
+  private <T> List<Map.Entry<String, T>> getEntitiesWithValues(TextEntity entity) {
     AttributedCharacterIterator iterator = getIterator();
-    HashMap<String, Object> entities = new HashMap<>();
+    List<Map.Entry<String, T>> entities = new ArrayList<>();
+    StringBuilder builder = new StringBuilder();
+
+    Map<AttributedCharacterIterator.Attribute, T> last = Collections.emptyMap();
+    while (iterator.getIndex() != iterator.getEndIndex()) {
+      Map<AttributedCharacterIterator.Attribute, T> curr =
+          (Map<AttributedCharacterIterator.Attribute, T>) iterator.getAttributes();
+      if (curr.containsKey(entity)) {
+        builder.append(iterator.current());
+      } else {
+        if (last.containsKey(entity)) {
+          entities.add(
+              new AbstractMap.SimpleImmutableEntry<>(builder.toString(), last.get(entity))
+          );
+          builder.setLength(0);
+        }
+      }
+      last = curr;
+
+      iterator.next();
+    }
+    if (last.containsKey(entity)) {
+      entities.add(
+          new AbstractMap.SimpleImmutableEntry<>(builder.toString(), last.get(entity))
+      );
+    }
+
+    return entities;
+  }
+
+  private List<String> getEntities(TextEntity entity) {
+    AttributedCharacterIterator iterator = getIterator();
+    List<String> entities = new ArrayList<>();
     StringBuilder builder = new StringBuilder();
 
     Map<AttributedCharacterIterator.Attribute, Object> last = Collections.emptyMap();
@@ -205,7 +233,7 @@ public final class Text extends AttributedString implements CharSequence {
         builder.append(iterator.current());
       } else {
         if (last.containsKey(entity)) {
-          entities.put(builder.toString(), last.get(entity));
+          entities.add(builder.toString());
           builder.setLength(0);
         }
       }
@@ -214,7 +242,7 @@ public final class Text extends AttributedString implements CharSequence {
       iterator.next();
     }
     if (last.containsKey(entity)) {
-      entities.put(builder.toString(), last.get(entity));
+      entities.add(builder.toString());
     }
 
     return entities;
@@ -283,12 +311,37 @@ public final class Text extends AttributedString implements CharSequence {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof Text)) {
-      return false;
-
+    if (obj == this) {
+      return true;
     }
+
+    if(!(obj instanceof Text)) {
+      return false;
+    }
+
     Text text = (Text) obj;
-    return toString(ParseMode.HTML).equals(text.toString(ParseMode.HTML));
+
+    if (this.length() != text.length()) {
+      return false;
+    }
+
+    AttributedCharacterIterator it1 = this.getIterator();
+    AttributedCharacterIterator it2 = text.getIterator();
+    while (true) {
+      if (it1.getIndex() == it1.getEndIndex()) {
+        break;
+      }
+
+      if (it1.next() != it2.next()) {
+        return false;
+      }
+      Map map1 = it1.getAttributes();
+      Map map2 = it2.getAttributes();
+      if (!map1.equals(map2)) {
+        return false;
+      }
+    }
+    return true;
   }
 
 }
