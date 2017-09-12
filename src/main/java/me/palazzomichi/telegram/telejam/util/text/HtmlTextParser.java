@@ -94,7 +94,7 @@ final class HtmlTextParser implements TextParser {
               while ((c = reader.read()) != '<')
                 sb.append((char) c);
               endTag(reader, tag);
-              builder.appendLink(sb.toString(), unescape(link.toString()));
+              builder.appendLink(unescape(sb.toString()), unescape(link.toString()));
               sb.setLength(0);
               break;
 
