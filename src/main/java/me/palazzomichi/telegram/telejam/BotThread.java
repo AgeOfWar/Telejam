@@ -8,7 +8,6 @@ import me.palazzomichi.telegram.telejam.util.stream.UpdateReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
@@ -45,12 +44,12 @@ public class BotThread extends Thread {
   /**
    * Constructs a bot thread.
    *
-   * @param updateReader the update reader
+   * @param bot     the bot used by the reader
+   * @param backOff back off to be used when long polling fails
    */
-  public BotThread(UpdateReader updateReader) {
+  public BotThread(Bot bot, LongUnaryOperator backOff) {
     super();
-    this.updateReader = Objects.requireNonNull(updateReader, "updateReader cannot be null!");
-
+    updateReader = new UpdateReader(bot, backOff);
     updateHandlers = new ArrayList<>();
     errorHandlers = new ArrayList<>();
     executor = Runnable::run;
@@ -62,8 +61,8 @@ public class BotThread extends Thread {
    * @param bot     the bot used by the reader
    * @param backOff back off to be used when long polling fails
    */
-  public BotThread(TelegramConnection bot, LongUnaryOperator backOff) {
-    this(new UpdateReader(bot, backOff));
+  public BotThread(Bot bot, long backOff) {
+    this(bot, a -> backOff);
   }
 
   /**
@@ -71,8 +70,8 @@ public class BotThread extends Thread {
    *
    * @param bot the bot used by the reader
    */
-  public BotThread(TelegramConnection bot) {
-    this(bot, a -> 500L);
+  public BotThread(Bot bot) {
+    this(bot, 500L);
   }
 
 
@@ -142,8 +141,8 @@ public class BotThread extends Thread {
    *
    * @return the connection of the update reader
    */
-  public TelegramConnection getConnection() {
-    return updateReader.getConnection();
+  public Bot getBot() {
+    return (Bot) updateReader.getConnection();
   }
 
   /**
