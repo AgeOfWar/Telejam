@@ -33,7 +33,7 @@ public class BotThread extends Thread {
   /**
    * Handler of errors.
    */
-  private final List<Consumer<? super IOException>> errorHandlers;
+  private final List<Consumer<? super Throwable>> errorHandlers;
 
   /**
    * Executes operations of update handlers.
@@ -125,15 +125,19 @@ public class BotThread extends Thread {
   }
 
   private void handleUpdate(Update update) {
-    updateHandlers.forEach(
-        updateHandler -> executor.execute(
-            () -> updateHandler.accept(update)
-        )
-    );
+    for(UpdateHandler handler : updateHandlers) {
+      executor.execute(() -> {
+        try {
+          handler.accept(update);
+        } catch (Throwable t) {
+          handleError(t);
+        }
+      });
+    }
   }
 
-  private void handleError(IOException e) {
-    errorHandlers.forEach(errorHandler -> errorHandler.accept(e));
+  private void handleError(Throwable t) {
+    errorHandlers.forEach(errorHandler -> errorHandler.accept(t));
   }
 
   /**
@@ -190,7 +194,7 @@ public class BotThread extends Thread {
    *
    * @return value for property {@link #errorHandlers}
    */
-  public List<Consumer<? super IOException>> getErrorHandlers() {
+  public List<Consumer<? super Throwable>> getErrorHandlers() {
     return errorHandlers;
   }
 
