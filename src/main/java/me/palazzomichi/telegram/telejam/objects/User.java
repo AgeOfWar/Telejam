@@ -3,6 +3,7 @@ package me.palazzomichi.telegram.telejam.objects;
 import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.Bot;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -120,12 +121,13 @@ public class User implements TelegramObject {
   }
 
   /**
-   * Getter for property {@link #languageCode}.
+   * Returns the locale of the user.
+   * If This user is a bot then {@link Locale#ROOT} is returned.
    *
-   * @return optional value for property {@link #languageCode}
+   * @return the locale of the user
    */
-  public Optional<String> getLanguageCode() {
-    return Optional.ofNullable(languageCode);
+  public Locale getLocale() {
+    return Locale.forLanguageTag(languageCode == null ? "" : languageCode);
   }
 
   /**
