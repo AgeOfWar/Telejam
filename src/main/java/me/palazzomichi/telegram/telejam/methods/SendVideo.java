@@ -118,6 +118,7 @@ public class SendVideo implements TelegramMethod<VideoMessage> {
 
   public SendVideo replyToMessage(Message message) {
     this.replyToMessageId = message.getId();
+    this.chatId = Long.toString(message.getChat().getId());
     return this;
   }
 

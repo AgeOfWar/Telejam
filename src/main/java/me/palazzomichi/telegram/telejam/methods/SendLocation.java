@@ -90,6 +90,7 @@ public class SendLocation extends JsonTelegramMethod<LocationMessage> {
 
   public SendLocation replyToMessage(Message message) {
     this.replyToMessageId = message.getId();
+    this.chatId = Long.toString(message.getChat().getId());
     return this;
   }
 

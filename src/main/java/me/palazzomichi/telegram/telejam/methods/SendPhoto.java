@@ -95,6 +95,7 @@ public class SendPhoto implements TelegramMethod<PhotoMessage> {
 
   public SendPhoto replyToMessage(Message message) {
     this.replyToMessageId = message.getId();
+    this.chatId = Long.toString(message.getChat().getId());
     return this;
   }
 

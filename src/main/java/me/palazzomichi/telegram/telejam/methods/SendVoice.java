@@ -82,6 +82,7 @@ public class SendVoice implements TelegramMethod<VoiceMessage> {
    */
   private boolean newVoice;
 
+
   public SendVoice chat(String chatId) {
     this.chatId = chatId;
     return this;
@@ -109,6 +110,7 @@ public class SendVoice implements TelegramMethod<VoiceMessage> {
 
   public SendVoice replyToMessage(Message message) {
     this.replyToMessageId = message.getId();
+    this.chatId = Long.toString(message.getChat().getId());
     return this;
   }
 

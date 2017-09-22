@@ -96,6 +96,7 @@ public class SendContact extends JsonTelegramMethod<ContactMessage> {
 
   public SendContact replyToMessage(Message message) {
     this.replyToMessageId = message.getId();
+    this.chatId = Long.toString(message.getChat().getId());
     return this;
   }
 

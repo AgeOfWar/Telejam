@@ -303,8 +303,9 @@ public class SendInvoice extends JsonTelegramMethod<InvoiceMessage> {
     return this;
   }
 
-  public SendInvoice replyToMessage(Message replyToMessage) {
-    this.replyToMessageId = replyToMessage.getId();
+  public SendInvoice replyToMessage(Message message) {
+    this.replyToMessageId = message.getId();
+    this.chatId = message.getChat().getId();
     return this;
   }
 

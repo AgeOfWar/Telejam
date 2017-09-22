@@ -104,6 +104,7 @@ public class SendVideoNote implements TelegramMethod<VideoNoteMessage> {
 
   public SendVideoNote replyToMessage(Message message) {
     this.replyToMessageId = message.getId();
+    this.chatId = Long.toString(message.getChat().getId());
     return this;
   }
 

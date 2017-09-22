@@ -120,6 +120,7 @@ public class SendAudio implements TelegramMethod<AudioMessage> {
 
   public SendAudio replyToMessage(Message message) {
     this.replyToMessageId = message.getId();
+    this.chatId = Long.toString(message.getChat().getId());
     return this;
   }
 

@@ -111,6 +111,7 @@ public class SendVenue extends JsonTelegramMethod<VenueMessage> {
 
   public SendVenue replyToMessage(Message message) {
     this.replyToMessageId = message.getId();
+    this.chatId = Long.toString(message.getChat().getId());
     return this;
   }
 

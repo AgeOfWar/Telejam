@@ -101,6 +101,7 @@ public class SendMessage extends JsonTelegramMethod<TextMessage> {
 
   public SendMessage replyToMessage(Message message) {
     this.replyToMessageId = message.getId();
+    this.chatId = Long.toString(message.getChat().getId());
     return this;
   }
 

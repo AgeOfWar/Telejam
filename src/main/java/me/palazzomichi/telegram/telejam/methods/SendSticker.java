@@ -91,6 +91,7 @@ public class SendSticker implements TelegramMethod<StickerMessage> {
 
   public SendSticker replyToMessage(Message message) {
     this.replyToMessageId = message.getId();
+    this.chatId = Long.toString(message.getChat().getId());
     return this;
   }
 

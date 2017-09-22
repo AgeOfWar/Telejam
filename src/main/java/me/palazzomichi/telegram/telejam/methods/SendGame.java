@@ -87,8 +87,9 @@ public class SendGame extends JsonTelegramMethod<GameMessage> {
     return this;
   }
 
-  public SendGame setReplyToMessage(Message replyToMessage) {
-    this.replyToMessageId = replyToMessage.getId();
+  public SendGame setReplyToMessage(Message message) {
+    this.replyToMessageId = message.getId();
+    this.chatId = message.getChat().getId();
     return this;
   }
 

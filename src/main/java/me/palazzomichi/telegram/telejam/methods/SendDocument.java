@@ -100,6 +100,7 @@ public class SendDocument implements TelegramMethod<DocumentMessage> {
 
   public SendDocument replyToMessage(Message message) {
     this.replyToMessageId = message.getId();
+    this.chatId = Long.toString(message.getChat().getId());
     return this;
   }
 
