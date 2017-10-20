@@ -12,7 +12,7 @@ A simple to use library to create Telegram Bots in Java.
   
   public class HelloWorldBot {
   
-    public static void main(String[] args) {
+    public static void main(String... args) {
   
       try {
         Bot bot = new Bot("<token>");
@@ -23,8 +23,6 @@ A simple to use library to create Telegram Bots in Java.
       } catch (IOException e) {
         e.printStackTrace();
       }
-  
     }
-  
   }
 ```
