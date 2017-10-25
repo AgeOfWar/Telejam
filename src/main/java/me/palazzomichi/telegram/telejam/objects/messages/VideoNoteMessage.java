@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author Michi Palazzo
  */
-public class VideoNoteMessage extends Message {
+public class VideoNoteMessage extends Message implements Forwardable {
 
   static final String VIDEO_NOTE_FIELD = "video_note";
 
@@ -27,17 +27,11 @@ public class VideoNoteMessage extends Message {
                           User sender,
                           long date,
                           Chat chat,
-                          User forwardMessageSender,
-                          Chat forwardMessageChat,
-                          Long forwardMessageId,
-                          Long forwardMessageDate,
                           Message replyToMessage,
                           Long editDate,
                           String authorSignature,
-                          String forwardSignature,
                           VideoNote videoNote) {
-    super(id, sender, date, chat, forwardMessageSender, forwardMessageChat, forwardMessageId,
-        forwardMessageDate, replyToMessage, editDate, authorSignature, forwardSignature);
+    super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.videoNote = Objects.requireNonNull(videoNote);
   }
 

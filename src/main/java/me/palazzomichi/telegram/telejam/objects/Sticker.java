@@ -167,5 +167,24 @@ public class Sticker implements TelegramObject {
   public OptionalInt getSize() {
     return size == null ? OptionalInt.empty() : OptionalInt.of(size);
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof Sticker)) {
+      return false;
+    }
+    
+    Sticker sticker = (Sticker) obj;
+    return id.equals(sticker.getId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
 
 }

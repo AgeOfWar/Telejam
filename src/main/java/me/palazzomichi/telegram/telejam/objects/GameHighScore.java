@@ -67,5 +67,30 @@ public class GameHighScore implements TelegramObject {
   public int getScore() {
     return score;
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof GameHighScore)) {
+      return false;
+    }
+    
+    GameHighScore gameHighScore = (GameHighScore) obj;
+    return position == gameHighScore.getPosition() &&
+        user.equals(gameHighScore.getUser()) &&
+        score == gameHighScore.getScore();
+  }
+  
+  @Override
+  public int hashCode() {
+    int result = 1;
+    result = 37 * result + position;
+    result = 37 * result + user.hashCode();
+    result = 37 * result + score;
+    return result;
+  }
 
 }

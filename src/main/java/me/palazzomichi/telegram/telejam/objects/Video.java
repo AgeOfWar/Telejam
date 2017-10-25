@@ -150,5 +150,24 @@ public class Video implements TelegramObject {
   public OptionalInt getSize() {
     return size == null ? OptionalInt.empty() : OptionalInt.of(size);
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof Video)) {
+      return false;
+    }
+    
+    Video video = (Video) obj;
+    return id.equals(video.getId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
 
 }

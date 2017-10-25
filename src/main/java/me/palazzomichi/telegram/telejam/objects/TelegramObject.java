@@ -11,6 +11,8 @@ import me.palazzomichi.telegram.telejam.objects.inline.inputmessagecontents.Inpu
 import me.palazzomichi.telegram.telejam.objects.inline.inputmessagecontents.InputMessageContentAdapter;
 import me.palazzomichi.telegram.telejam.objects.inline.results.InlineQueryResult;
 import me.palazzomichi.telegram.telejam.objects.inline.results.InlineQueryResultAdapter;
+import me.palazzomichi.telegram.telejam.objects.messages.ForwardMessage;
+import me.palazzomichi.telegram.telejam.objects.messages.ForwardMessageAdapter;
 import me.palazzomichi.telegram.telejam.objects.messages.Message;
 import me.palazzomichi.telegram.telejam.objects.messages.MessageAdapter;
 import me.palazzomichi.telegram.telejam.objects.replymarkups.inlinekeyboardbuttons.InlineKeyboardButton;
@@ -35,11 +37,32 @@ public interface TelegramObject extends Serializable {
    */
   Gson gson = new GsonBuilder()
       .excludeFieldsWithModifiers(Modifier.TRANSIENT)
-      .addSerializationExclusionStrategy(new SerializationExclusionStrategy())
-      .addDeserializationExclusionStrategy(new DeserializationExclusionStrategy())
-      .registerTypeAdapter(Update.class, UpdateAdapter.INSTANCE)
+      .addSerializationExclusionStrategy(new ExclusionStrategy() {
+        @Override
+        public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+          return fieldAttributes.getAnnotation(SerializedName.class) == null;
+        }
+  
+        @Override
+        public boolean shouldSkipClass(Class<?> clazz) {
+          return false;
+        }
+      }).addDeserializationExclusionStrategy(new ExclusionStrategy() {
+        @Override
+        public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+          return fieldAttributes.hasModifier(Modifier.FINAL) ||
+              fieldAttributes.hasModifier(Modifier.STATIC) ||
+              fieldAttributes.getAnnotation(SerializedName.class) == null;
+        }
+      
+        @Override
+        public boolean shouldSkipClass(Class<?> clazz) {
+          return false;
+        }
+      }).registerTypeAdapter(Update.class, UpdateAdapter.INSTANCE)
       .registerTypeAdapter(Chat.class, ChatAdapter.INSTANCE)
       .registerTypeAdapter(Message.class, MessageAdapter.INSTANCE)
+      .registerTypeAdapter(ForwardMessage.class, ForwardMessageAdapter.INSTANCE)
       .registerTypeAdapter(KeyboardButton.class, KeyboardButtonAdapter.INSTANCE)
       .registerTypeAdapter(InlineKeyboardButton.class, InlineKeyboardButtonAdapter.INSTANCE)
       .registerTypeAdapter(InlineQueryResult.class, InlineQueryResultAdapter.INSTANCE)
@@ -53,37 +76,6 @@ public interface TelegramObject extends Serializable {
    */
   default String toJson() {
     return gson.toJson(this, getClass());
-  }
-
-
-  final class SerializationExclusionStrategy implements ExclusionStrategy {
-
-    @Override
-    public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-      return fieldAttributes.getAnnotation(SerializedName.class) == null;
-    }
-
-    @Override
-    public boolean shouldSkipClass(Class<?> clazz) {
-      return false;
-    }
-
-  }
-
-  final class DeserializationExclusionStrategy implements ExclusionStrategy {
-
-    @Override
-    public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-      return fieldAttributes.hasModifier(Modifier.FINAL) ||
-          fieldAttributes.hasModifier(Modifier.STATIC) ||
-          fieldAttributes.getAnnotation(SerializedName.class) == null;
-    }
-
-    @Override
-    public boolean shouldSkipClass(Class<?> clazz) {
-      return false;
-    }
-
   }
 
 }

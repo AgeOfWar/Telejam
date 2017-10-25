@@ -82,5 +82,24 @@ public class StickerSet implements TelegramObject {
   public Sticker[] getStickers() {
     return stickers;
   }
-
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof StickerSet)) {
+      return false;
+    }
+    
+    StickerSet set = (StickerSet) obj;
+    return name.equals(set.getName());
+  }
+  
+  @Override
+  public int hashCode() {
+    return name.hashCode();
+  }
+  
 }

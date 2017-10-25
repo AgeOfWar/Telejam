@@ -57,7 +57,7 @@ public class EditMessageText extends JsonTelegramMethod<Serializable> {
    * A JSON-serialized object for an inline keyboard.
    */
   @SerializedName(INLINE_KEYBOARD_FIELD)
-  private InlineKeyboardMarkup inlineKeyboard;
+  private InlineKeyboardMarkup replyMarkup;
 
   /**
    * New text of the message
@@ -117,8 +117,8 @@ public class EditMessageText extends JsonTelegramMethod<Serializable> {
     return this;
   }
 
-  public EditMessageText inlineKeyboard(InlineKeyboardMarkup inlineKeyboard) {
-    this.inlineKeyboard = inlineKeyboard;
+  public EditMessageText replyMarkup(InlineKeyboardMarkup replyMarkup) {
+    this.replyMarkup = replyMarkup;
     return this;
   }
 

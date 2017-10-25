@@ -40,14 +40,24 @@ public abstract class InlineQueryResult implements TelegramObject {
   public String getId() {
     return id;
   }
-
-  /**
-   * Setter for property {@link #id}.
-   *
-   * @param id value for property {@link #id}
-   */
-  public void setId(String id) {
-    this.id = Objects.requireNonNull(id);
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof InlineQueryResult)) {
+      return false;
+    }
+    
+    InlineQueryResult inlineQueryResult = (InlineQueryResult) obj;
+    return id.equals(inlineQueryResult.getId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return id.hashCode();
   }
 
 }

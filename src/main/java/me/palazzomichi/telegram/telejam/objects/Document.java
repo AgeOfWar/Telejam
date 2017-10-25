@@ -108,5 +108,24 @@ public class Document implements TelegramObject {
   public OptionalInt getSize() {
     return size == null ? OptionalInt.empty() : OptionalInt.of(size);
   }
-
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof Document)) {
+      return false;
+    }
+    
+    Document document = (Document) obj;
+    return id.equals(document.getId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
+  
 }

@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author Michi Palazzo
  */
-public class StickerMessage extends Message {
+public class StickerMessage extends Message implements Forwardable {
 
   static final String STICKER_FIELD = "sticker";
 
@@ -27,17 +27,11 @@ public class StickerMessage extends Message {
                         User sender,
                         long date,
                         Chat chat,
-                        User forwardMessageSender,
-                        Chat forwardMessageChat,
-                        Long forwardMessageId,
-                        Long forwardMessageDate,
                         Message replyToMessage,
                         Long editDate,
                         String authorSignature,
-                        String forwardSignature,
                         Sticker sticker) {
-    super(id, sender, date, chat, forwardMessageSender, forwardMessageChat, forwardMessageId,
-        forwardMessageDate, replyToMessage, editDate, authorSignature, forwardSignature);
+    super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.sticker = Objects.requireNonNull(sticker);
   }
 

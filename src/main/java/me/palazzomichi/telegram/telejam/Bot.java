@@ -83,8 +83,21 @@ public class Bot extends TelegramConnection {
 
   @Override
   public boolean equals(Object obj) {
-    return (obj instanceof Bot && ((Bot) obj).getId() == id) ||
-        (obj instanceof User && ((User) obj).getId() == id);
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof Bot)) {
+      return false;
+    }
+    
+    Bot bot = (Bot) obj;
+    return bot.getId() == id;
   }
-
+  
+  @Override
+  public int hashCode() {
+    return Long.hashCode(id);
+  }
+  
 }

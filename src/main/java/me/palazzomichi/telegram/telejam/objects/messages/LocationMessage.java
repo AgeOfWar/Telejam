@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author Michi Palazzo
  */
-public class LocationMessage extends Message {
+public class LocationMessage extends Message implements Forwardable {
 
   static final String LOCATION_FIELD = "location";
 
@@ -27,17 +27,11 @@ public class LocationMessage extends Message {
                          User sender,
                          long date,
                          Chat chat,
-                         User forwardMessageSender,
-                         Chat forwardMessageChat,
-                         Long forwardMessageId,
-                         Long forwardMessageDate,
                          Message replyToMessage,
                          Long editDate,
                          String authorSignature,
-                         String forwardSignature,
                          Location location) {
-    super(id, sender, date, chat, forwardMessageSender, forwardMessageChat, forwardMessageId,
-        forwardMessageDate, replyToMessage, editDate, authorSignature, forwardSignature);
+    super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.location = Objects.requireNonNull(location);
   }
 

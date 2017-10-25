@@ -109,5 +109,24 @@ public class VideoNote implements TelegramObject {
   public OptionalInt getSize() {
     return size == null ? OptionalInt.empty() : OptionalInt.of(size);
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof VideoNote)) {
+      return false;
+    }
+    
+    VideoNote videoNote = (VideoNote) obj;
+    return id.equals(videoNote.getId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
 
 }

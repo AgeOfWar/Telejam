@@ -148,5 +148,24 @@ public class CallbackQuery implements TelegramObject {
   public Optional<String> getGameShortName() {
     return Optional.ofNullable(gameShortName);
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof CallbackQuery)) {
+      return false;
+    }
+    
+    CallbackQuery callbackQuery = (CallbackQuery) obj;
+    return id.equals(callbackQuery.getId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
 
 }

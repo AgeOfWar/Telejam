@@ -72,5 +72,25 @@ public class Location implements TelegramObject {
   public void setLongitude(float longitude) {
     this.longitude = longitude;
   }
-
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof Location)) {
+      return false;
+    }
+    
+    Location location = (Location) obj;
+    return latitude == location.getLatitude() &&
+        longitude == location.getLongitude();
+  }
+  
+  @Override
+  public int hashCode() {
+    return 31 * Float.hashCode(latitude) + Float.hashCode(longitude);
+  }
+  
 }

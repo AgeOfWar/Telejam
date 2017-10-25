@@ -1,6 +1,7 @@
 package me.palazzomichi.telegram.telejam.objects.chats;
 
 import com.google.gson.annotations.SerializedName;
+import me.palazzomichi.telegram.telejam.objects.ChatPhoto;
 
 import java.util.Objects;
 
@@ -30,12 +31,8 @@ public class Group extends Chat {
   private boolean allAdmins;
 
 
-  public Group(long id,
-               ChatPhoto photo,
-               String description,
-               String inviteLink, String title,
-               boolean allAdmins) {
-    super(id, photo, description, inviteLink);
+  public Group(long id, ChatPhoto photo, String title, boolean allAdmins) {
+    super(id, photo);
     this.title = Objects.requireNonNull(title);
     this.allAdmins = allAdmins;
   }

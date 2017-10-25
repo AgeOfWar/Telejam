@@ -67,7 +67,7 @@ public class MaskPosition implements TelegramObject {
    *
    * @return value for property {@link #xShift}
    */
-  public float getxShift() {
+  public float getShiftX() {
     return xShift;
   }
 
@@ -76,7 +76,7 @@ public class MaskPosition implements TelegramObject {
    *
    * @return value for property {@link #yShift}
    */
-  public float getyShift() {
+  public float getShiftY() {
     return yShift;
   }
 
@@ -88,7 +88,35 @@ public class MaskPosition implements TelegramObject {
   public float getScale() {
     return scale;
   }
-
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof MaskPosition)) {
+      return false;
+    }
+    
+    MaskPosition maskPosition = (MaskPosition) obj;
+    return point.equals(maskPosition.point) &&
+        xShift == maskPosition.getShiftX() &&
+        yShift == maskPosition.getShiftY() &&
+        scale == maskPosition.getScale();
+  }
+  
+  @Override
+  public int hashCode() {
+    int result = 1;
+    result = 37 * result + point.hashCode();
+    result = 37 * result + Float.hashCode(xShift);
+    result = 37 * result + Float.hashCode(yShift);
+    result = 37 * result + Float.hashCode(scale);
+    return result;
+  }
+  
+  
   public enum Point {
     FOREHEAD("forehead"),
     EYES("eyes"),

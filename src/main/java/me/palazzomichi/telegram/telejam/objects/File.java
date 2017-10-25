@@ -73,5 +73,24 @@ public class File implements TelegramObject {
   public Optional<String> getPath() {
     return Optional.ofNullable(path);
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof File)) {
+      return false;
+    }
+    
+    File file = (File) obj;
+    return id.equals(file.getId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
 
 }

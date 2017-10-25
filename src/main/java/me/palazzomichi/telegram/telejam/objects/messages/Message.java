@@ -20,14 +20,9 @@ public abstract class Message implements TelegramObject {
   static final String SENDER_FIELD = "from";
   static final String DATE_FIELD = "date";
   static final String CHAT_FIELD = "chat";
-  static final String FORWARD_MESSAGE_SENDER_FIELD = "forward_from";
-  static final String FORWARD_MESSAGE_CHAT_FIELD = "forward_from_chat";
-  static final String FORWARD_MESSAGE_ID_FIELD = "forward_from_message_id";
-  static final String FORWARD_MESSAGE_DATE_FIELD = "forward_date";
   static final String REPLY_TO_MESSAGE_FIELD = "reply_to_message";
   static final String EDIT_DATE_FIELD = "edit_date";
   static final String AUTHOR_SIGNATURE_FIELD = "author_signature";
-  static final String FORWARD_SIGNATURE_FIELD = "forward_signature";
 
   /**
    * Unique message identifier inside this chat.
@@ -54,30 +49,6 @@ public abstract class Message implements TelegramObject {
   private Chat chat;
 
   /**
-   * For forwarded messages, sender of the original message.
-   */
-  @SerializedName(FORWARD_MESSAGE_SENDER_FIELD)
-  private User forwardMessageSender;
-
-  /**
-   * For messages forwarded from a channel, information about the original channel.
-   */
-  @SerializedName(FORWARD_MESSAGE_CHAT_FIELD)
-  private Chat forwardMessageChat;
-
-  /**
-   * For forwarded channel posts, identifier of the original message in the channel.
-   */
-  @SerializedName(FORWARD_MESSAGE_ID_FIELD)
-  private Long forwardMessageId;
-
-  /**
-   * For forwarded messages, date the original message was sent in Unix time.
-   */
-  @SerializedName(FORWARD_MESSAGE_DATE_FIELD)
-  private Long forwardMessageDate;
-
-  /**
    * For replies, the original message.
    * <p>Note that the Message object in this field
    * will not contain further replyToMessage
@@ -93,54 +64,28 @@ public abstract class Message implements TelegramObject {
   private Long editDate;
 
   /**
-   * Optional.
    * Signature of the post author for messages in channels.
    */
   @SerializedName(AUTHOR_SIGNATURE_FIELD)
   private String authorSignature;
-
-  /**
-   * For messages forwarded from channels, signature of the post author if present.
-   */
-  @SerializedName(FORWARD_SIGNATURE_FIELD)
-  private String forwardSignature;
-
-
+  
+  
   public Message(long id,
                  User sender,
                  long date,
                  Chat chat,
-                 User forwardMessageSender,
-                 Chat forwardMessageChat,
-                 Long forwardMessageId,
-                 Long forwardMessageDate,
                  Message replyToMessage,
                  Long editDate,
-                 String authorSignature,
-                 String forwardSignature) {
+                 String authorSignature) {
     this.id = id;
     this.sender = sender;
     this.date = date;
     this.chat = Objects.requireNonNull(chat);
-    this.forwardMessageSender = forwardMessageSender;
-    this.forwardMessageChat = forwardMessageChat;
-    this.forwardMessageId = forwardMessageId;
-    this.forwardMessageDate = forwardMessageDate;
     this.replyToMessage = replyToMessage;
     this.editDate = editDate;
     this.authorSignature = authorSignature;
-    this.forwardSignature = forwardSignature;
   }
-
-
-  /**
-   * Returns whether or not this message is a forward.
-   *
-   * @return whether or not this message is a forward
-   */
-  public boolean isForward() {
-    return forwardMessageId != null;
-  }
+  
 
   /**
    * Getter for property {@link #id}.
@@ -179,42 +124,6 @@ public abstract class Message implements TelegramObject {
   }
 
   /**
-   * Getter for property {@link #forwardMessageSender}.
-   *
-   * @return value for property {@link #forwardMessageSender}
-   */
-  public User getForwardMessageSender() {
-    return forwardMessageSender;
-  }
-
-  /**
-   * Getter for property {@link #forwardMessageChat}.
-   *
-   * @return value for property {@link #forwardMessageChat}
-   */
-  public Chat getForwardMessageChat() {
-    return forwardMessageChat;
-  }
-
-  /**
-   * Getter for property {@link #forwardMessageId}.
-   *
-   * @return value for property {@link #forwardMessageId}
-   */
-  public Long getForwardMessageId() {
-    return forwardMessageId;
-  }
-
-  /**
-   * Getter for property {@link #forwardMessageDate}.
-   *
-   * @return value for property {@link #forwardMessageDate}
-   */
-  public Long getForwardMessageDate() {
-    return forwardMessageDate;
-  }
-
-  /**
    * Getter for property {@link #replyToMessage}.
    *
    * @return optional value for property {@link #replyToMessage}
@@ -241,22 +150,23 @@ public abstract class Message implements TelegramObject {
     return Optional.ofNullable(authorSignature);
   }
 
-  /**
-   * Getter for property {@link #forwardSignature}.
-   *
-   * @return optional value for property {@link #forwardSignature}
-   */
-  public Optional<String> getForwardSignature() {
-    return Optional.ofNullable(forwardSignature);
-  }
-
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof Message) {
-      Message m = (Message) obj;
-      return m.getId() == id && m.getChat().getId() == chat.getId();
+    if (this == obj) {
+      return true;
     }
-    return false;
+    
+    if (!(obj instanceof Message)) {
+      return false;
+    }
+    
+    Message message = (Message) obj;
+    return id == message.getId() && chat.equals(message.getChat());
+  }
+  
+  @Override
+  public int hashCode() {
+    return 31 * chat.hashCode() + Long.hashCode(id);
   }
 
 }

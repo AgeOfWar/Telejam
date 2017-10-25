@@ -19,28 +19,28 @@ import java.util.function.LongUnaryOperator;
  * @author Michi Palazzo
  */
 public class BotThread extends Thread {
-
+  
   /**
    * Reader of updates.
    */
   private final UpdateReader updateReader;
-
+  
   /**
    * Handler of updates for the bot.
    */
   private final List<UpdateHandler> updateHandlers;
-
+  
   /**
    * Handler of errors.
    */
   private final List<Consumer<? super Throwable>> errorHandlers;
-
+  
   /**
    * Executes operations of update handlers.
    */
   private Executor executor;
-
-
+  
+  
   /**
    * Constructs a bot thread.
    *
@@ -54,7 +54,7 @@ public class BotThread extends Thread {
     errorHandlers = new ArrayList<>();
     executor = Runnable::run;
   }
-
+  
   /**
    * Constructs a bot thread.
    *
@@ -64,7 +64,7 @@ public class BotThread extends Thread {
   public BotThread(Bot bot, long backOff) {
     this(bot, a -> backOff);
   }
-
+  
   /**
    * Constructs a bot thread with 500 milliseconds of back off.
    *
@@ -73,59 +73,59 @@ public class BotThread extends Thread {
   public BotThread(Bot bot) {
     this(bot, 500L);
   }
-
-
+  
+  
   @Override
   public void run() {
-    while (!Thread.interrupted()) {
-      try {
-        if (updateReader.getUpdates() == 0) {
-          break;
-        }
-        updateReader.discard(); //Discards previous updates
-      } catch (IOException e) {
-        checkResponseParameters(e);
-        handleError(e);
-      }
+    try {
+      run0();
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
     }
-
+  }
+  
+  private void run0() throws InterruptedException {
+    try {
+      updateReader.reset();
+    } catch (IOException e) {
+      handleError(e);
+      checkResponseParameters(e);
+      if (!Thread.interrupted())
+        run0();
+      return;
+    }
+    
     while (!Thread.interrupted()) {
       try {
         Update update = updateReader.read();
-
+        
         handleUpdate(update);
       } catch (IOException e) {
-        checkResponseParameters(e);
         handleError(e);
-      } catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
+        checkResponseParameters(e);
       }
     }
   }
-
-  private void checkResponseParameters(IOException e) {
+  
+  private void checkResponseParameters(IOException e) throws InterruptedException {
     if (!(e instanceof TelegramException)) {
       return;
     }
-
-    Optional<ResponseParameters> responseParameters =
-        ((TelegramException) e).getResponseParameters();
-
+    
+    TelegramException exception = (TelegramException) e;
+    Optional<ResponseParameters> responseParameters = exception.getResponseParameters();
+    
     if (!responseParameters.isPresent()) {
       return;
     }
-
-    responseParameters.get().getRetryAfter().ifPresent(seconds -> {
-      try {
-        Thread.sleep(seconds * 1000);
-      } catch (InterruptedException e1) {
-        Thread.currentThread().interrupt();
-      }
-    });
+    
+    int retryAfter = responseParameters.get().getRetryAfter().orElse(0);
+    
+    Thread.sleep(retryAfter * 1000);
   }
-
+  
   private void handleUpdate(Update update) {
-    for(UpdateHandler handler : updateHandlers) {
+    for (UpdateHandler handler : updateHandlers) {
       executor.execute(() -> {
         try {
           handler.accept(update);
@@ -135,11 +135,11 @@ public class BotThread extends Thread {
       });
     }
   }
-
+  
   private void handleError(Throwable t) {
     errorHandlers.forEach(errorHandler -> errorHandler.accept(t));
   }
-
+  
   /**
    * Shortcut for {@link #getUpdateReader()}.{@linkplain UpdateReader#getConnection() getConnection()}.
    *
@@ -148,7 +148,7 @@ public class BotThread extends Thread {
   public Bot getBot() {
     return (Bot) updateReader.getConnection();
   }
-
+  
   /**
    * Setter for property {@link UpdateReader#backOff} of {@link #updateReader}.
    *
@@ -157,7 +157,7 @@ public class BotThread extends Thread {
   public void setBackOff(LongUnaryOperator backOff) {
     updateReader.setBackOff(backOff);
   }
-
+  
   /**
    * Setter for property {@link UpdateReader#backOff} of {@link #updateReader}.
    *
@@ -166,7 +166,7 @@ public class BotThread extends Thread {
   public void setBackOff(long backOff) {
     updateReader.setBackOff(backOff);
   }
-
+  
   /**
    * Getter for property {@link #updateReader}.
    *
@@ -175,7 +175,7 @@ public class BotThread extends Thread {
   public UpdateReader getUpdateReader() {
     return updateReader;
   }
-
+  
   /**
    * Getter for property {@link #updateHandlers}.
    * The list is backed by this BotThread, so changes to this
@@ -186,7 +186,7 @@ public class BotThread extends Thread {
   public List<UpdateHandler> getUpdateHandlers() {
     return updateHandlers;
   }
-
+  
   /**
    * Getter for property {@link #errorHandlers}.
    * The list is backed by this BotThread, so changes to this
@@ -197,7 +197,7 @@ public class BotThread extends Thread {
   public List<Consumer<? super Throwable>> getErrorHandlers() {
     return errorHandlers;
   }
-
+  
   /**
    * Getter for property {@link #executor}.
    *
@@ -206,7 +206,7 @@ public class BotThread extends Thread {
   public Executor getExecutor() {
     return executor;
   }
-
+  
   /**
    * Setter for property {@link #executor}.
    *
@@ -215,5 +215,5 @@ public class BotThread extends Thread {
   public void setExecutor(Executor executor) {
     this.executor = executor;
   }
-
+  
 }

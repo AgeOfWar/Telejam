@@ -1,9 +1,11 @@
 package me.palazzomichi.telegram.telejam.objects.messages;
 
 import com.google.gson.annotations.SerializedName;
+import me.palazzomichi.telegram.telejam.objects.MessageEntity;
 import me.palazzomichi.telegram.telejam.objects.PhotoSize;
 import me.palazzomichi.telegram.telejam.objects.User;
 import me.palazzomichi.telegram.telejam.objects.chats.Chat;
+import me.palazzomichi.telegram.telejam.util.text.Text;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -13,10 +15,11 @@ import java.util.Optional;
  *
  * @author Michi Palazzo
  */
-public class PhotoMessage extends Message {
+public class PhotoMessage extends Message implements Captioned, Forwardable {
 
   static final String PHOTO_FIELD = "photo";
   static final String CAPTION_FIELD = "caption";
+  static final String CAPTION_ENTITIES = "caption_entities";
 
   /**
    * Optional.
@@ -30,26 +33,29 @@ public class PhotoMessage extends Message {
    */
   @SerializedName(CAPTION_FIELD)
   private String caption;
+  
+  /**
+   * Special entities like usernames, URLs, bot
+   * commands, etc. that appear in the caption.
+   */
+  @SerializedName(CAPTION_ENTITIES)
+  private MessageEntity[] captionEntities;
 
 
   public PhotoMessage(long id,
                       User sender,
                       long date,
                       Chat chat,
-                      User forwardMessageSender,
-                      Chat forwardMessageChat,
-                      Long forwardMessageId,
-                      Long forwardMessageDate,
                       Message replyToMessage,
                       Long editDate,
                       String authorSignature,
-                      String forwardSignature,
                       PhotoSize[] photo,
-                      String caption) {
-    super(id, sender, date, chat, forwardMessageSender, forwardMessageChat, forwardMessageId,
-        forwardMessageDate, replyToMessage, editDate, authorSignature, forwardSignature);
+                      String caption,
+                      MessageEntity[] captionEntities) {
+    super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.photo = Objects.requireNonNull(photo);
     this.caption = caption;
+    this.captionEntities = captionEntities;
   }
 
 
@@ -61,14 +67,20 @@ public class PhotoMessage extends Message {
   public PhotoSize[] getPhoto() {
     return photo;
   }
-
+  
   /**
-   * Getter for property {@link #caption}.
+   * Returns the text of the caption.
    *
-   * @return optional value for property {@link #caption}
+   * @return text of the optional caption
    */
-  public Optional<String> getCaption() {
-    return Optional.ofNullable(caption);
+  public Optional<Text> getCaption() {
+    if (caption == null) {
+      return Optional.empty();
+    }
+    
+    return Optional.of(
+        new Text(caption, captionEntities == null ? new MessageEntity[0] : captionEntities)
+    );
   }
 
 }

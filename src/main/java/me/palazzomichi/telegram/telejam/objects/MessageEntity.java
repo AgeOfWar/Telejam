@@ -3,6 +3,7 @@ package me.palazzomichi.telegram.telejam.objects;
 import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.util.text.TextEntity;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -137,6 +138,35 @@ public class MessageEntity implements TelegramObject {
    */
   public Optional<User> getUser() {
     return Optional.ofNullable(user);
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof MessageEntity)) {
+      return false;
+    }
+    
+    MessageEntity entity = (MessageEntity) obj;
+    return type.equals(entity.type) &&
+        offset == entity.getOffset() &&
+        length == entity.getLength() &&
+        Objects.equals(url, entity.url) &&
+        Objects.equals(user, entity.user);
+  }
+  
+  @Override
+  public int hashCode() {
+    int result = 1;
+    result = 37 * result + type.hashCode();
+    result = 37 * result + offset;
+    result = 37 * result + length;
+    result = 37 * result + Objects.hashCode(url);
+    result = 37 * result + Objects.hashCode(user);
+    return result;
   }
 
 }

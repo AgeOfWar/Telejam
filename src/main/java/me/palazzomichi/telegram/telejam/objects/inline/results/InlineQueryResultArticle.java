@@ -109,7 +109,7 @@ public class InlineQueryResultArticle extends InlineQueryResult {
                                   InputMessageContent inputMessageContent,
                                   InlineKeyboardMarkup replyMarkup,
                                   String description) {
-    this(id, title, inputMessageContent, replyMarkup, null, null, description, null, null, null);
+    this(id, title, inputMessageContent, replyMarkup, null, null, description,null, null, null);
   }
 
   public InlineQueryResultArticle(String id, String title, InlineKeyboardMarkup replyMarkup, String description) {

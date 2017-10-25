@@ -19,7 +19,9 @@ public class MessageAdapter implements JsonDeserializer<Message>, JsonSerializer
   @Override
   public Message deserialize(JsonElement src, Type type, JsonDeserializationContext context) throws JsonParseException {
     JsonObject object = src.getAsJsonObject();
-    if (object.has(TextMessage.TEXT_FIELD)) {
+    if (object.has(ForwardMessage.FORWARD_MESSAGE_ID_FIELD)) {
+      return context.deserialize(src, ForwardMessage.class);
+    } else if (object.has(TextMessage.TEXT_FIELD)) {
       return context.deserialize(src, TextMessage.class);
     } else if (object.has(AudioMessage.AUDIO_FIELD)) {
       return context.deserialize(src, AudioMessage.class);

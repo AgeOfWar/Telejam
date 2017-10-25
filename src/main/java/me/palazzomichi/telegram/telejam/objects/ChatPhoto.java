@@ -1,7 +1,6 @@
-package me.palazzomichi.telegram.telejam.objects.chats;
+package me.palazzomichi.telegram.telejam.objects;
 
 import com.google.gson.annotations.SerializedName;
-import me.palazzomichi.telegram.telejam.objects.TelegramObject;
 
 /**
  * This object represents a chat photo.
@@ -50,6 +49,26 @@ public class ChatPhoto implements TelegramObject {
    */
   public String getBigFileId() {
     return bigFileId;
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof ChatPhoto)) {
+      return false;
+    }
+    
+    ChatPhoto chatPhoto = (ChatPhoto) obj;
+    return smallFileId.equals(chatPhoto.getSmallFileId()) &&
+        bigFileId.equals(chatPhoto.getBigFileId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return smallFileId.hashCode() * 31 + bigFileId.hashCode();
   }
 
 }

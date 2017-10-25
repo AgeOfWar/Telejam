@@ -102,5 +102,32 @@ public class Contact implements TelegramObject {
   public OptionalLong getUserId() {
     return userId == null ? OptionalLong.empty() : OptionalLong.of(userId);
   }
-
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof Contact)) {
+      return false;
+    }
+    
+    Contact contact = (Contact) obj;
+    return phoneNumber.equals(contact.phoneNumber) &&
+        firstName.equals(contact.getFirstName()) &&
+        Objects.equals(lastName, contact.lastName) &&
+        Objects.equals(userId, contact.userId);
+  }
+  
+  @Override
+  public int hashCode() {
+    int result = 1;
+    result = 37 * result + phoneNumber.hashCode();
+    result = 37 * result + firstName.hashCode();
+    result = 37 * result + Objects.hashCode(lastName);
+    result = 37 * result + Objects.hashCode(userId);
+    return result;
+  }
+  
 }

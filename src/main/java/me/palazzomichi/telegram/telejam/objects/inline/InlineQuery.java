@@ -105,5 +105,24 @@ public class InlineQuery implements TelegramObject {
   public String getOffset() {
     return offset;
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof InlineQuery)) {
+      return false;
+    }
+    
+    InlineQuery inlineQuery = (InlineQuery) obj;
+    return id.equals(inlineQuery.getId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
 
 }

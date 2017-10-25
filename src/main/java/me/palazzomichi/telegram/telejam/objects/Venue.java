@@ -85,5 +85,24 @@ public class Venue implements TelegramObject {
   public Optional<String> getFoursquareId() {
     return Optional.ofNullable(foursquareId);
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof Venue)) {
+      return false;
+    }
+    
+    Venue venue = (Venue) obj;
+    return location.equals(venue.getLocation());
+  }
+  
+  @Override
+  public int hashCode() {
+    return location.hashCode();
+  }
 
 }

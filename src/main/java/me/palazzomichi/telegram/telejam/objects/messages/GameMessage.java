@@ -27,17 +27,11 @@ public class GameMessage extends Message {
                      User sender,
                      long date,
                      Chat chat,
-                     User forwardMessageSender,
-                     Chat forwardMessageChat,
-                     Long forwardMessageId,
-                     Long forwardMessageDate,
                      Message replyToMessage,
                      Long editDate,
                      String authorSignature,
-                     String forwardSignature,
                      Game game) {
-    super(id, sender, date, chat, forwardMessageSender, forwardMessageChat, forwardMessageId,
-        forwardMessageDate, replyToMessage, editDate, authorSignature, forwardSignature);
+    super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.game = Objects.requireNonNull(game);
   }
 

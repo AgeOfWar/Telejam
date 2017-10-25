@@ -91,5 +91,24 @@ public class Voice implements TelegramObject {
   public OptionalInt getSize() {
     return size == null ? OptionalInt.empty() : OptionalInt.of(size);
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof Voice)) {
+      return false;
+    }
+    
+    Voice voice = (Voice) obj;
+    return id.equals(voice.getId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
 
 }

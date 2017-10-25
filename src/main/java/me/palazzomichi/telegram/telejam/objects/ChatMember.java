@@ -315,6 +315,26 @@ public class ChatMember implements TelegramObject {
   public boolean getCanAddWebPagePreviews() {
     return canAddWebPagePreviews;
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof ChatMember)) {
+      return false;
+    }
+    
+    ChatMember chatMember = (ChatMember) obj;
+    return user.equals(chatMember.getUser());
+  }
+  
+  @Override
+  public int hashCode() {
+    return user.hashCode();
+  }
+  
 
   public enum Status {
     CREATOR("creator"),

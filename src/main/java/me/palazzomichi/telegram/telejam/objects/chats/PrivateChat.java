@@ -1,6 +1,7 @@
 package me.palazzomichi.telegram.telejam.objects.chats;
 
 import com.google.gson.annotations.SerializedName;
+import me.palazzomichi.telegram.telejam.objects.ChatPhoto;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -40,14 +41,8 @@ public class PrivateChat extends Chat {
   private String lastName;
 
 
-  public PrivateChat(long id,
-                     ChatPhoto photo,
-                     String description,
-                     String inviteLink,
-                     String username,
-                     String firstName,
-                     String lastName) {
-    super(id, photo, description, inviteLink);
+  public PrivateChat(long id, ChatPhoto photo, String username, String firstName, String lastName) {
+    super(id, photo);
     this.username = username;
     this.firstName = Objects.requireNonNull(firstName);
     this.lastName = lastName;

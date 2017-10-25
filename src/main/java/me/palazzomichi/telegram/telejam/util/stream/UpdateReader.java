@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.LongUnaryOperator;
 
 /**
- * Utility class that reads new updates of a bot.
+ * Utility class that reads new updates received from a bot.
  *
  * @author Michi Palazzo
  */
@@ -107,7 +107,7 @@ public final class UpdateReader {
   public int getUpdates() throws IOException {
     GetUpdates getUpdates = new GetUpdates()
         .offset(lastUpdateId + 1)
-        .allowedUpdates(allowedUpdates); // all updates allowed
+        .allowedUpdates(allowedUpdates);
 
     Update[] newUpdates = connection.execute(getUpdates);
 
@@ -120,14 +120,22 @@ public final class UpdateReader {
   }
 
   /**
-   * Discards all the buffered updates.
+   * Discards buffered updates and all received updates.
    *
-   * @return the number of discarded updates
+   * @throws IOException if an I/O Exception occurs
    */
-  public int discard() {
-    int size = updates.size();
+  public void reset() throws IOException {
+    GetUpdates getUpdates = new GetUpdates()
+        .offset(-1L)
+        .allowedUpdates(allowedUpdates);
+    
+    Update[] update = connection.execute(getUpdates);
+    
+    if (update.length == 1) {
+      lastUpdateId = update[0].getId();
+    }
+  
     updates.clear();
-    return size;
   }
 
   /**
@@ -176,21 +184,12 @@ public final class UpdateReader {
   }
 
   /**
-   * Getter for property {@link #allowedUpdates}.
-   *
-   * @return value for property {@link #allowedUpdates}
-   */
-  public String[] getAllowedUpdates() {
-    return allowedUpdates;
-  }
-
-  /**
    * Setter for property {@link #allowedUpdates}.
    *
    * @param allowedUpdates value for property {@link #allowedUpdates}
    */
   public void setAllowedUpdates(String... allowedUpdates) {
-    this.allowedUpdates = Objects.requireNonNull(allowedUpdates);
+    this.allowedUpdates = allowedUpdates;
   }
 
 }

@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author Michi Palazzo
  */
-public class ContactMessage extends Message {
+public class ContactMessage extends Message implements Forwardable {
 
   static final String CONTACT_FIELD = "contact";
 
@@ -21,24 +21,20 @@ public class ContactMessage extends Message {
    */
   @SerializedName(CONTACT_FIELD)
   private Contact contact;
+  
 
   public ContactMessage(long id,
                         User sender,
                         long date,
                         Chat chat,
-                        User forwardMessageSender,
-                        Chat forwardMessageChat,
-                        Long forwardMessageId,
-                        Long forwardMessageDate,
                         Message replyToMessage,
                         Long editDate,
                         String authorSignature,
-                        String forwardSignature,
                         Contact contact) {
-    super(id, sender, date, chat, forwardMessageSender, forwardMessageChat, forwardMessageId,
-        forwardMessageDate, replyToMessage, editDate, authorSignature, forwardSignature);
+    super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.contact = Objects.requireNonNull(contact);
   }
+  
 
   /**
    * Getter for property {@link #contact}.

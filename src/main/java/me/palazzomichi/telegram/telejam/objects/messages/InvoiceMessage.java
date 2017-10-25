@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author Michi Palazzo
  */
-public class InvoiceMessage extends Message {
+public class InvoiceMessage extends Message implements Forwardable {
 
   static final String INVOICE_FIELD = "invoice";
 
@@ -27,17 +27,11 @@ public class InvoiceMessage extends Message {
                         User sender,
                         long date,
                         Chat chat,
-                        User forwardMessageSender,
-                        Chat forwardMessageChat,
-                        Long forwardMessageId,
-                        Long forwardMessageDate,
                         Message replyToMessage,
                         Long editDate,
                         String authorSignature,
-                        String forwardSignature,
                         Invoice invoice) {
-    super(id, sender, date, chat, forwardMessageSender, forwardMessageChat, forwardMessageId,
-        forwardMessageDate, replyToMessage, editDate, authorSignature, forwardSignature);
+    super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.invoice = Objects.requireNonNull(invoice);
   }
 

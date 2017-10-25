@@ -107,6 +107,25 @@ public class Animation implements TelegramObject {
   public OptionalInt getSize() {
     return size == null ? OptionalInt.empty() : OptionalInt.of(size);
   }
-
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof Animation)) {
+      return false;
+    }
+    
+    Animation animation = (Animation) obj;
+    return id.equals(animation.getId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
+  
 }
 

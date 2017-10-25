@@ -90,5 +90,24 @@ public class PhotoSize implements TelegramObject {
   public OptionalInt getSize() {
     return size == null ? OptionalInt.empty() : OptionalInt.of(size);
   }
-
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof PhotoSize)) {
+      return false;
+    }
+    
+    PhotoSize photoSize = (PhotoSize) obj;
+    return id.equals(photoSize.getId());
+  }
+  
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
+  
 }

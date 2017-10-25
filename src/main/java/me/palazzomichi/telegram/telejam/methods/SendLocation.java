@@ -24,6 +24,7 @@ public class SendLocation extends JsonTelegramMethod<LocationMessage> {
   static final String REPLY_MARKUP_FIELD = "reply_markup";
   static final String LATITUDE_FIELD = "latitude";
   static final String LONGITUDE_FIELD = "longitude";
+  static final String LIVE_PERIOD_FIELD = "live_period";
 
   /**
    * Unique identifier for the target chat or username of
@@ -61,6 +62,13 @@ public class SendLocation extends JsonTelegramMethod<LocationMessage> {
    */
   @SerializedName(LONGITUDE_FIELD)
   private Float longitude;
+  
+  /**
+   * Period in seconds for which the location will be updated,
+   * should be between 60 and 86400.
+   */
+  @SerializedName(LIVE_PERIOD_FIELD)
+  private Integer livePeriod;
 
 
   public SendLocation chat(String chatId) {
@@ -117,6 +125,11 @@ public class SendLocation extends JsonTelegramMethod<LocationMessage> {
   public SendLocation location(Location location) {
     this.latitude = location.getLatitude();
     this.longitude = location.getLongitude();
+    return this;
+  }
+  
+  public SendLocation livePeriod(Integer livePeriod) {
+    this.livePeriod = livePeriod;
     return this;
   }
 
