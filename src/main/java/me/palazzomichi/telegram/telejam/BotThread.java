@@ -1,6 +1,5 @@
 package me.palazzomichi.telegram.telejam;
 
-import me.palazzomichi.telegram.telejam.objects.ResponseParameters;
 import me.palazzomichi.telegram.telejam.objects.updates.Update;
 import me.palazzomichi.telegram.telejam.util.handlers.UpdateHandler;
 import me.palazzomichi.telegram.telejam.util.stream.UpdateReader;
@@ -8,7 +7,6 @@ import me.palazzomichi.telegram.telejam.util.stream.UpdateReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 import java.util.function.LongUnaryOperator;
@@ -19,6 +17,11 @@ import java.util.function.LongUnaryOperator;
  * @author Michi Palazzo
  */
 public class BotThread extends Thread {
+  
+  /**
+   * The bot.
+   */
+  protected final Bot bot;
   
   /**
    * Reader of updates.
@@ -49,6 +52,7 @@ public class BotThread extends Thread {
    */
   public BotThread(Bot bot, LongUnaryOperator backOff) {
     super();
+    this.bot = bot;
     updateReader = new UpdateReader(bot, backOff);
     updateHandlers = new ArrayList<>();
     errorHandlers = new ArrayList<>();
@@ -89,7 +93,6 @@ public class BotThread extends Thread {
       updateReader.reset();
     } catch (IOException e) {
       handleError(e);
-      checkResponseParameters(e);
       if (!Thread.interrupted())
         run0();
       return;
@@ -102,26 +105,8 @@ public class BotThread extends Thread {
         handleUpdate(update);
       } catch (IOException e) {
         handleError(e);
-        checkResponseParameters(e);
       }
     }
-  }
-  
-  private void checkResponseParameters(IOException e) throws InterruptedException {
-    if (!(e instanceof TelegramException)) {
-      return;
-    }
-    
-    TelegramException exception = (TelegramException) e;
-    Optional<ResponseParameters> responseParameters = exception.getResponseParameters();
-    
-    if (!responseParameters.isPresent()) {
-      return;
-    }
-    
-    int retryAfter = responseParameters.get().getRetryAfter().orElse(0);
-    
-    Thread.sleep(retryAfter * 1000);
   }
   
   private void handleUpdate(Update update) {
@@ -146,7 +131,7 @@ public class BotThread extends Thread {
    * @return the connection of the update reader
    */
   public Bot getBot() {
-    return (Bot) updateReader.getConnection();
+    return bot;
   }
   
   /**

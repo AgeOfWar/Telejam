@@ -17,10 +17,10 @@ public interface ShippingQueryHandler extends UpdateHandler {
    *
    * @param shippingQuery the shipping query
    */
-  void accept(ShippingQuery shippingQuery);
+  void accept(ShippingQuery shippingQuery) throws Throwable;
 
   @Override
-  default void accept(Update update) {
+  default void accept(Update update) throws Throwable {
     if (update instanceof ShippingQueryUpdate) {
       ShippingQuery shippingQuery = ((ShippingQueryUpdate) update).getShippingQuery();
       accept(shippingQuery);

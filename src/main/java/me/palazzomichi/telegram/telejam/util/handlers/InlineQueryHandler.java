@@ -19,18 +19,18 @@ public interface InlineQueryHandler extends UpdateHandler {
    *
    * @param inlineQuery the inline query
    */
-  void accept(InlineQuery inlineQuery);
+  void accept(InlineQuery inlineQuery) throws Throwable;
 
   /**
    * Performs this operation on the given chosen inline result.
    *
    * @param chosenInlineResult the chosen inline result
    */
-  default void accept(ChosenInlineResult chosenInlineResult) {
+  default void accept(ChosenInlineResult chosenInlineResult) throws Throwable {
   }
 
   @Override
-  default void accept(Update update) {
+  default void accept(Update update) throws Throwable {
     if (update instanceof InlineQueryUpdate) {
       InlineQuery inlineQuery = ((InlineQueryUpdate) update).getInlineQuery();
       accept(inlineQuery);

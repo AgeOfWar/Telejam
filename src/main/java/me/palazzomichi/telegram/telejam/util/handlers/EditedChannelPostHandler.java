@@ -20,7 +20,7 @@ public interface EditedChannelPostHandler extends UpdateHandler {
   void accept(Message message);
 
   @Override
-  default void accept(Update update) {
+  default void accept(Update update) throws Throwable {
     if (update instanceof EditedChannelPostUpdate) {
       Message message = ((EditedChannelPostUpdate) update).getEditedChannelPost();
       accept(message);

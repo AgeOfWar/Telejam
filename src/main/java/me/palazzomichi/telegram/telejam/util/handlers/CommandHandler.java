@@ -3,6 +3,8 @@ package me.palazzomichi.telegram.telejam.util.handlers;
 import me.palazzomichi.telegram.telejam.objects.messages.Message;
 import me.palazzomichi.telegram.telejam.objects.messages.TextMessage;
 
+import java.util.Arrays;
+
 /**
  * Represents an operation that accepts a command message and returns no
  * result. Used usually to handle updates received from a bot.
@@ -10,7 +12,7 @@ import me.palazzomichi.telegram.telejam.objects.messages.TextMessage;
  * @author Michi Palazzo
  */
 public interface CommandHandler extends MessageHandler {
-
+  
   /**
    * Performs this operation on the given command.
    *
@@ -18,19 +20,35 @@ public interface CommandHandler extends MessageHandler {
    * @param args    the command args
    * @param message the message
    */
-  void accept(String command, String[] args, TextMessage message);
-
+  void accept(String command, String[] args, TextMessage message) throws Throwable;
+  
   @Override
-  default void accept(Message message) {
+  default void accept(Message message) throws Throwable {
     if (message instanceof TextMessage) {
       TextMessage textMessage = (TextMessage) message;
-      if (textMessage.isCommand()) {
-        String[] command = textMessage.getText().toString().split("\\s+", 2);
-        String commandName = command[0].substring(1);
-        String[] commandArgs = command.length == 1 ? new String[0] : command[1].split("\\s+");
-        accept(commandName, commandArgs, textMessage);
+      String[] command = getCommand(textMessage);
+      if (command.length > 0) {
+        accept(command[0], Arrays.copyOfRange(command, 1, command.length), textMessage);
       }
     }
   }
-
+  
+  /**
+   * Returns the array of args (the first arg is the command name) contained in a
+   * message, or an empty array if the message is not a command.
+   *
+   * @param message the message
+   * @return an array that contains the command name and args, or
+   *         an empty array if the message is not a command
+   */
+  default String[] getCommand(TextMessage message) {
+    if (!message.isCommand()) {
+      return new String[0];
+    }
+    
+    String[] command = message.getText().toString().split("\\s+");
+    command[0] = command[0].substring(1);
+    return command;
+  }
+  
 }

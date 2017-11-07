@@ -17,10 +17,10 @@ public interface ChannelPostHandler extends UpdateHandler {
    *
    * @param message the message
    */
-  void accept(Message message);
+  void accept(Message message) throws Throwable;
 
   @Override
-  default void accept(Update update) {
+  default void accept(Update update) throws Throwable {
     if (update instanceof ChannelPostUpdate) {
       Message message = ((ChannelPostUpdate) update).getChannelPost();
       accept(message);

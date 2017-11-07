@@ -5,7 +5,7 @@ import me.palazzomichi.telegram.telejam.objects.messages.TextMessage;
 
 /**
  * Represents an operation that accepts a command and returns no
- * result. Used usually to handle updates received from a bot.
+ * result. Used to handle updates received from a bot.
  *
  * @author Michi Palazzo
  */
@@ -14,7 +14,7 @@ public abstract class CommandExecutor implements CommandHandler {
   /**
    * The bot that will receive the command.
    */
-  final Bot bot;
+  protected final Bot bot;
 
   /**
    * The name of the command.
@@ -39,8 +39,18 @@ public abstract class CommandExecutor implements CommandHandler {
     this.name = name;
     this.aliases = aliases;
   }
-
-
+  
+  /**
+   * Constructs a CommandExecutor.
+   *
+   * @param bot     the bot that will receive the command
+   * @param name    the name of the command
+   */
+  public CommandExecutor(Bot bot, String name) {
+    this(bot, name, new String[0]);
+  }
+  
+  
   /**
    * Executes a command.
    *
@@ -48,15 +58,15 @@ public abstract class CommandExecutor implements CommandHandler {
    * @param args    the arguments of the command
    * @param message the command message
    */
-  public abstract void execute(String command, String[] args, TextMessage message);
+  public abstract void execute(String command, String[] args, TextMessage message) throws Throwable;
 
   @Override
-  public void accept(String command, String[] args, TextMessage message) {
+  public void accept(String command, String[] args, TextMessage message) throws Throwable {
     if (isThisCommand(command)) {
       execute(command, args, message);
     }
   }
-
+  
   private boolean isThisCommand(String command) {
     if (command.equals(name) || command.equals(name + "@" + bot.getUsername())) {
       return true;

@@ -18,10 +18,10 @@ public interface CallbackQueryHandler extends UpdateHandler {
    *
    * @param callbackQuery the callback query
    */
-  void accept(CallbackQuery callbackQuery);
+  void accept(CallbackQuery callbackQuery) throws Throwable;
 
   @Override
-  default void accept(Update update) {
+  default void accept(Update update) throws Throwable {
     if (update instanceof CallbackQueryUpdate) {
       CallbackQuery callbackQuery = ((CallbackQueryUpdate) update).getCallbackQuery();
       accept(callbackQuery);

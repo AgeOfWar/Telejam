@@ -17,10 +17,10 @@ public interface PreCheckoutQueryHandler extends UpdateHandler {
    *
    * @param preCheckoutQuery the pre-checkout query
    */
-  void accept(PreCheckoutQuery preCheckoutQuery);
+  void accept(PreCheckoutQuery preCheckoutQuery) throws Throwable;
 
   @Override
-  default void accept(Update update) {
+  default void accept(Update update) throws Throwable {
     if (update instanceof PreCheckoutQueryUpdate) {
       PreCheckoutQuery preCheckoutQuery = ((PreCheckoutQueryUpdate) update).getPreCheckoutQuery();
       accept(preCheckoutQuery);
