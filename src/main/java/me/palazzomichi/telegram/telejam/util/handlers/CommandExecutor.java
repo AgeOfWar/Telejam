@@ -10,23 +10,23 @@ import me.palazzomichi.telegram.telejam.objects.messages.TextMessage;
  * @author Michi Palazzo
  */
 public abstract class CommandExecutor implements CommandHandler {
-
+  
   /**
    * The bot that will receive the command.
    */
   protected final Bot bot;
-
+  
   /**
    * The name of the command.
    */
   private String name;
-
+  
   /**
    * The aliases of the command.
    */
   private String[] aliases;
-
-
+  
+  
   /**
    * Constructs a CommandExecutor.
    *
@@ -43,8 +43,8 @@ public abstract class CommandExecutor implements CommandHandler {
   /**
    * Constructs a CommandExecutor.
    *
-   * @param bot     the bot that will receive the command
-   * @param name    the name of the command
+   * @param bot  the bot that will receive the command
+   * @param name the name of the command
    */
   public CommandExecutor(Bot bot, String name) {
     this(bot, name, new String[0]);
@@ -57,9 +57,11 @@ public abstract class CommandExecutor implements CommandHandler {
    * @param command the command name
    * @param args    the arguments of the command
    * @param message the command message
+   * @throws CommandSyntaxException if the command syntax is wrong
+   * @throws Throwable              if a throwable is thrown
    */
   public abstract void execute(String command, String[] args, TextMessage message) throws Throwable;
-
+  
   @Override
   public void accept(String command, String[] args, TextMessage message) throws Throwable {
     if (isThisCommand(command)) {
@@ -78,7 +80,7 @@ public abstract class CommandExecutor implements CommandHandler {
     }
     return false;
   }
-
+  
   /**
    * Getter for property {@link #bot}.
    *
@@ -87,7 +89,7 @@ public abstract class CommandExecutor implements CommandHandler {
   public Bot getBot() {
     return bot;
   }
-
+  
   /**
    * Getter for property {@link #name}.
    *
@@ -96,7 +98,7 @@ public abstract class CommandExecutor implements CommandHandler {
   public String getCommandName() {
     return name;
   }
-
+  
   /**
    * Setter for property {@link #name}.
    *
@@ -105,7 +107,7 @@ public abstract class CommandExecutor implements CommandHandler {
   public void setCommandName(String name) {
     this.name = name;
   }
-
+  
   /**
    * Getter for property {@link #aliases}.
    *
@@ -114,7 +116,7 @@ public abstract class CommandExecutor implements CommandHandler {
   public String[] getCommandAliases() {
     return aliases;
   }
-
+  
   /**
    * Setter for property {@link #aliases}.
    *
@@ -123,5 +125,116 @@ public abstract class CommandExecutor implements CommandHandler {
   public void setCommandAliases(String... aliases) {
     this.aliases = aliases;
   }
-
+  
+  
+  /**
+   * Exception thrown when the syntax of a command received from a bot is incorrect.
+   *
+   * @author Michi Palazzo
+   */
+  public static class CommandSyntaxException extends Exception {
+    
+    /**
+     * The bot that received the command.
+     */
+    private final Bot bot;
+    
+    /**
+     * The command.
+     */
+    private final TextMessage message;
+    
+    /**
+     * The command name.
+     */
+    private final String command;
+    
+    /**
+     * Valid command args.
+     */
+    private final String[] args;
+    
+    
+    /**
+     * Constructs a CommandSyntaxException.
+     *
+     * @param bot     the bot that received the command
+     * @param message the command
+     * @param command the command name
+     * @param args    valid command args
+     */
+    public CommandSyntaxException(Bot bot, TextMessage message, String command, String... args) {
+      super();
+      this.bot = bot;
+      this.message = message;
+      this.command = command;
+      this.args = args;
+    }
+    
+    /**
+     * Constructs a CommandSyntaxException.
+     *
+     * @param command the command name
+     * @param cause   the cause
+     */
+    public CommandSyntaxException(String command, CommandSyntaxException cause) {
+      super(cause);
+      this.bot = cause.getBot();
+      this.message = cause.getCommand();
+      this.command = command;
+      
+      String[] a = cause.getArgs();
+      args = new String[a.length + 1];
+      args[0] = cause.getCommandName();
+      System.arraycopy(a, 0, args, 1, a.length);
+    }
+    
+    
+    /**
+     * Getter for property {@link #bot}.
+     *
+     * @return value for property {@link #bot}
+     */
+    public Bot getBot() {
+      return bot;
+    }
+    
+    /**
+     * Returns the correct syntax of the command.
+     *
+     * @return the correct syntax of the command
+     */
+    public String getSyntax() {
+      return command + " " + String.join(" ", args);
+    }
+    
+    /**
+     * Getter for property {@link #message}.
+     *
+     * @return value for property {@link #message}
+     */
+    public TextMessage getCommand() {
+      return message;
+    }
+    
+    /**
+     * Getter for property {@link #command}.
+     *
+     * @return value for property {@link #command}
+     */
+    public String getCommandName() {
+      return command;
+    }
+    
+    /**
+     * Getter for property {@link #args}.
+     *
+     * @return value for property {@link #args}
+     */
+    public String[] getArgs() {
+      return args;
+    }
+    
+  }
+  
 }

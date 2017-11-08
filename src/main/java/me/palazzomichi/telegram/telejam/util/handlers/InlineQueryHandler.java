@@ -13,22 +13,24 @@ import me.palazzomichi.telegram.telejam.objects.updates.Update;
  * @author Michi Palazzo
  */
 public interface InlineQueryHandler extends UpdateHandler {
-
+  
   /**
    * Performs this operation on the given inline query.
    *
    * @param inlineQuery the inline query
+   * @throws Throwable if a throwable is thrown
    */
   void accept(InlineQuery inlineQuery) throws Throwable;
-
+  
   /**
    * Performs this operation on the given chosen inline result.
    *
    * @param chosenInlineResult the chosen inline result
+   * @throws Throwable if a throwable is thrown
    */
   default void accept(ChosenInlineResult chosenInlineResult) throws Throwable {
   }
-
+  
   @Override
   default void accept(Update update) throws Throwable {
     if (update instanceof InlineQueryUpdate) {
@@ -39,5 +41,5 @@ public interface InlineQueryHandler extends UpdateHandler {
       accept(chosenInlineResult);
     }
   }
-
+  
 }

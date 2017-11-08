@@ -14,6 +14,7 @@ public interface UpdateHandler {
    * Performs this operation on the given update.
    *
    * @param update the update
+   * @throws Throwable if a throwable is thrown
    */
   void accept(Update update) throws Throwable;
   

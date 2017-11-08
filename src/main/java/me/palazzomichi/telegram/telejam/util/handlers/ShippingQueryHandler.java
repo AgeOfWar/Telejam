@@ -11,14 +11,15 @@ import me.palazzomichi.telegram.telejam.objects.updates.Update;
  * @author Michi Palazzo
  */
 public interface ShippingQueryHandler extends UpdateHandler {
-
+  
   /**
    * Performs this operation on the given shipping query.
    *
    * @param shippingQuery the shipping query
+   * @throws Throwable if a throwable is thrown
    */
   void accept(ShippingQuery shippingQuery) throws Throwable;
-
+  
   @Override
   default void accept(Update update) throws Throwable {
     if (update instanceof ShippingQueryUpdate) {
@@ -26,5 +27,5 @@ public interface ShippingQueryHandler extends UpdateHandler {
       accept(shippingQuery);
     }
   }
-
+  
 }

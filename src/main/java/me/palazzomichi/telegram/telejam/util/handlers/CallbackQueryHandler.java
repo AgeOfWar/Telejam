@@ -12,14 +12,15 @@ import me.palazzomichi.telegram.telejam.objects.updates.Update;
  * @see me.palazzomichi.telegram.telejam.Bot
  */
 public interface CallbackQueryHandler extends UpdateHandler {
-
+  
   /**
    * Performs this operation on the given callback query.
    *
    * @param callbackQuery the callback query
+   * @throws Throwable if a throwable is thrown
    */
   void accept(CallbackQuery callbackQuery) throws Throwable;
-
+  
   @Override
   default void accept(Update update) throws Throwable {
     if (update instanceof CallbackQueryUpdate) {
@@ -27,5 +28,5 @@ public interface CallbackQueryHandler extends UpdateHandler {
       accept(callbackQuery);
     }
   }
-
+  
 }

@@ -11,14 +11,15 @@ import me.palazzomichi.telegram.telejam.objects.updates.Update;
  * @author Michi Palazzo
  */
 public interface ChannelPostHandler extends UpdateHandler {
-
+  
   /**
    * Performs this operation on the given channel post.
    *
    * @param message the message
+   * @throws Throwable if a throwable is thrown
    */
   void accept(Message message) throws Throwable;
-
+  
   @Override
   default void accept(Update update) throws Throwable {
     if (update instanceof ChannelPostUpdate) {
@@ -26,5 +27,5 @@ public interface ChannelPostHandler extends UpdateHandler {
       accept(message);
     }
   }
-
+  
 }

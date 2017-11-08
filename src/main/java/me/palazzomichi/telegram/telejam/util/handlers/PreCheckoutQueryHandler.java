@@ -11,14 +11,15 @@ import me.palazzomichi.telegram.telejam.objects.updates.Update;
  * @author Michi Palazzo
  */
 public interface PreCheckoutQueryHandler extends UpdateHandler {
-
+  
   /**
    * Performs this operation on the given pre-checkout query.
    *
    * @param preCheckoutQuery the pre-checkout query
+   * @throws Throwable if a throwable is thrown
    */
   void accept(PreCheckoutQuery preCheckoutQuery) throws Throwable;
-
+  
   @Override
   default void accept(Update update) throws Throwable {
     if (update instanceof PreCheckoutQueryUpdate) {
@@ -26,5 +27,5 @@ public interface PreCheckoutQueryHandler extends UpdateHandler {
       accept(preCheckoutQuery);
     }
   }
-
+  
 }

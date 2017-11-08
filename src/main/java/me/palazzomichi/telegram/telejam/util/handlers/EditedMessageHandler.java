@@ -16,6 +16,7 @@ public interface EditedMessageHandler extends UpdateHandler {
    * Performs this operation on the given edited message.
    *
    * @param message the message
+   * @throws Throwable if a throwable is thrown
    */
   void accept(Message message) throws Throwable;
 

@@ -19,6 +19,7 @@ public interface CommandHandler extends MessageHandler {
    * @param command the command name
    * @param args    the command args
    * @param message the message
+   * @throws Throwable if a throwable is thrown
    */
   void accept(String command, String[] args, TextMessage message) throws Throwable;
   
