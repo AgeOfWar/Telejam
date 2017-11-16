@@ -3,6 +3,8 @@ package me.palazzomichi.telegram.telejam.util.handlers;
 import me.palazzomichi.telegram.telejam.Bot;
 import me.palazzomichi.telegram.telejam.objects.messages.TextMessage;
 
+import java.util.Arrays;
+
 /**
  * Represents an operation that accepts a command and returns no
  * result. Used to handle updates received from a bot.
@@ -15,6 +17,13 @@ public abstract class CommandExecutor implements CommandHandler {
    * The bot that will receive the command.
    */
   protected final Bot bot;
+  
+  /**
+   * Sub-commands of this command.
+   * For example, in the command <code>/foo bar 1234</code>,
+   * <code>bar 1234</code>bar is sub-command of foo.
+   */
+  private final CommandHandler[] subCommands;
   
   /**
    * The name of the command.
@@ -30,24 +39,27 @@ public abstract class CommandExecutor implements CommandHandler {
   /**
    * Constructs a CommandExecutor.
    *
-   * @param bot     the bot that will receive the command
-   * @param name    the name of the command
-   * @param aliases the aliases of the command
+   * @param bot         the bot that will receive the command
+   * @param name        the name of the command
+   * @param aliases     the aliases of the command
+   * @param subCommands sub-commands of this command
    */
-  public CommandExecutor(Bot bot, String name, String... aliases) {
+  protected CommandExecutor(Bot bot, String name, String[] aliases, CommandHandler... subCommands) {
     this.bot = bot;
     this.name = name;
     this.aliases = aliases;
+    this.subCommands = subCommands;
   }
   
   /**
    * Constructs a CommandExecutor.
    *
-   * @param bot  the bot that will receive the command
-   * @param name the name of the command
+   * @param bot     the bot that will receive the command
+   * @param name    the name of the command
+   * @param aliases the aliases of the command
    */
-  public CommandExecutor(Bot bot, String name) {
-    this(bot, name, new String[0]);
+  public CommandExecutor(Bot bot, String name, String... aliases) {
+    this(bot, name, aliases, new CommandHandler[0]);
   }
   
   
@@ -66,15 +78,24 @@ public abstract class CommandExecutor implements CommandHandler {
   public void accept(String command, String[] args, TextMessage message) throws Throwable {
     if (isThisCommand(command)) {
       execute(command, args, message);
+      if (args.length > 0) {
+        for (CommandHandler subCommand : subCommands) {
+          try {
+            subCommand.accept(args[0], Arrays.copyOfRange(args, 1, args.length), message);
+          } catch (CommandSyntaxException syntaxException) {
+            throw new CommandSyntaxException(command, syntaxException);
+          }
+        }
+      }
     }
   }
   
   private boolean isThisCommand(String command) {
-    if (command.equals(name) || command.equals(name + "@" + bot.getUsername())) {
+    if (command.equalsIgnoreCase(name) || command.equalsIgnoreCase(name + "@" + bot.getUsername())) {
       return true;
     }
     for (String alias : aliases) {
-      if (command.equals(alias) || command.equals(alias + "@" + bot.getUsername())) {
+      if (command.equalsIgnoreCase(alias) || command.equalsIgnoreCase(alias + "@" + bot.getUsername())) {
         return true;
       }
     }
@@ -205,7 +226,8 @@ public abstract class CommandExecutor implements CommandHandler {
      * @return the correct syntax of the command
      */
     public String getSyntax() {
-      return command + " " + String.join(" ", args);
+      final String delimiter = " ";
+      return command + delimiter + String.join(delimiter, args);
     }
     
     /**
