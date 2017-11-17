@@ -27,7 +27,7 @@ public interface CommandHandler extends MessageHandler {
   default void accept(Message message) throws Throwable {
     if (message instanceof TextMessage) {
       TextMessage textMessage = (TextMessage) message;
-      String[] command = getCommand(textMessage);
+      String[] command = getArgs(textMessage);
       if (command.length > 0) {
         accept(command[0], Arrays.copyOfRange(command, 1, command.length), textMessage);
       }
@@ -42,7 +42,7 @@ public interface CommandHandler extends MessageHandler {
    * @return an array that contains the command name and args, or
    *         an empty array if the message is not a command
    */
-  default String[] getCommand(TextMessage message) {
+  default String[] getArgs(TextMessage message) {
     if (!message.isCommand()) {
       return new String[0];
     }

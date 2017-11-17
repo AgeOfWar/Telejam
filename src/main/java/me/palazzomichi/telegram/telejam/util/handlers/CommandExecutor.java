@@ -23,7 +23,7 @@ public abstract class CommandExecutor implements CommandHandler {
    * For example, in the command <code>/foo bar 1234</code>,
    * <code>bar 1234</code>bar is sub-command of foo.
    */
-  private final CommandHandler[] subCommands;
+  private final CommandExecutor[] subCommands;
   
   /**
    * The name of the command.
@@ -44,7 +44,7 @@ public abstract class CommandExecutor implements CommandHandler {
    * @param aliases     the aliases of the command
    * @param subCommands sub-commands of this command
    */
-  protected CommandExecutor(Bot bot, String name, String[] aliases, CommandHandler... subCommands) {
+  protected CommandExecutor(Bot bot, String name, String[] aliases, CommandExecutor... subCommands) {
     this.bot = bot;
     this.name = name;
     this.aliases = aliases;
@@ -59,7 +59,7 @@ public abstract class CommandExecutor implements CommandHandler {
    * @param aliases the aliases of the command
    */
   public CommandExecutor(Bot bot, String name, String... aliases) {
-    this(bot, name, aliases, new CommandHandler[0]);
+    this(bot, name, aliases, new CommandExecutor[0]);
   }
   
   
@@ -77,15 +77,21 @@ public abstract class CommandExecutor implements CommandHandler {
   @Override
   public void accept(String command, String[] args, TextMessage message) throws Throwable {
     if (isThisCommand(command)) {
-      execute(command, args, message);
+      boolean executed = false;
       if (args.length > 0) {
-        for (CommandHandler subCommand : subCommands) {
-          try {
-            subCommand.accept(args[0], Arrays.copyOfRange(args, 1, args.length), message);
-          } catch (CommandSyntaxException syntaxException) {
-            throw new CommandSyntaxException(command, syntaxException);
+        for (CommandExecutor subCommand : subCommands) {
+          if (executed = subCommand.isThisCommand(args[0])) {
+            try {
+              subCommand.execute(args[0], Arrays.copyOfRange(args, 1, args.length), message);
+              break;
+            } catch (CommandSyntaxException syntaxException) {
+              throw new CommandSyntaxException(command, syntaxException);
+            }
           }
         }
+      }
+      if (!executed) {
+        execute(command, args, message);
       }
     }
   }
