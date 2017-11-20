@@ -1,6 +1,8 @@
 package me.palazzomichi.telegram.telejam.objects.messages;
 
 import com.google.gson.*;
+import me.palazzomichi.telegram.telejam.objects.User;
+import me.palazzomichi.telegram.telejam.objects.chats.Chat;
 
 import java.lang.reflect.Type;
 
@@ -19,8 +21,8 @@ public class MessageAdapter implements JsonDeserializer<Message>, JsonSerializer
   @Override
   public Message deserialize(JsonElement src, Type type, JsonDeserializationContext context) throws JsonParseException {
     JsonObject object = src.getAsJsonObject();
-    if (object.has(ForwardMessage.FORWARD_MESSAGE_ID_FIELD)) {
-      return context.deserialize(src, ForwardMessage.class);
+    if (object.has(Forward.FORWARD_MESSAGE_ID_FIELD)) {
+      return context.deserialize(src, Forward.class);
     } else if (object.has(TextMessage.TEXT_FIELD)) {
       return context.deserialize(src, TextMessage.class);
     } else if (object.has(AudioMessage.AUDIO_FIELD)) {
@@ -72,7 +74,20 @@ public class MessageAdapter implements JsonDeserializer<Message>, JsonSerializer
     } else if (object.has(SuccessfulPaymentMessage.SUCCESSFUL_PAYMENT_FIELD)) {
       return context.deserialize(src, SuccessfulPaymentMessage.class);
     }
-    throw new JsonParseException("Unknown object: " + src);
+    long id = object.getAsJsonPrimitive(Message.ID_FIELD).getAsLong();
+    User sender = context.deserialize(object.get(Message.SENDER_FIELD), User.class);
+    long date = object.getAsJsonPrimitive(Message.DATE_FIELD).getAsLong();
+    Chat chat = context.deserialize(object.get(Message.CHAT_FIELD), Chat.class);
+    Message replyToMessage = object.has(Message.REPLY_TO_MESSAGE_FIELD) ?
+        context.deserialize(object.get(Message.REPLY_TO_MESSAGE_FIELD), Message.class) :
+        null;
+    Long editDate = object.has(Message.EDIT_DATE_FIELD) ?
+        object.getAsJsonPrimitive(Message.EDIT_DATE_FIELD).getAsLong() :
+        null;
+    String authorSignature = object.has(Message.AUTHOR_SIGNATURE_FIELD) ?
+        object.getAsJsonPrimitive(Message.AUTHOR_SIGNATURE_FIELD).getAsString() :
+        null;
+    return new Message(id, sender, date, chat, replyToMessage, editDate, authorSignature) {}; // unknown message
   }
 
   @Override

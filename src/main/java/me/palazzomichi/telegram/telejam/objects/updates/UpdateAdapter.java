@@ -38,7 +38,8 @@ public class UpdateAdapter implements JsonDeserializer<Update>, JsonSerializer<U
     } else if (object.has(PreCheckoutQueryUpdate.PRE_CHECKOUT_QUERY_FIELD)) {
       return context.deserialize(src, PreCheckoutQueryUpdate.class);
     }
-    throw new JsonParseException("Unknown object: " + src);
+    long updateId = object.getAsJsonPrimitive(Update.ID_FIELD).getAsLong();
+    return new Update(updateId) {}; // unknown update
   }
 
   @Override

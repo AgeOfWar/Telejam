@@ -32,7 +32,8 @@ public class InlineKeyboardButtonAdapter implements JsonSerializer<InlineKeyboar
     } else if (object.has(PayInlineKeyboardButton.PAY_FIELD)) {
       return context.deserialize(src, PayInlineKeyboardButton.class);
     }
-    throw new JsonParseException("Unknown object: " + src);
+    String text = object.getAsJsonPrimitive(InlineKeyboardButton.TEXT_FIELD).getAsString();
+    return new InlineKeyboardButton(text) {}; // unknown inline keyboard button
   }
 
   @Override

@@ -2,7 +2,10 @@ package me.palazzomichi.telegram.telejam.methods;
 
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
+import me.palazzomichi.telegram.telejam.objects.User;
 import me.palazzomichi.telegram.telejam.objects.chats.Chat;
+import me.palazzomichi.telegram.telejam.objects.messages.Forward;
+import me.palazzomichi.telegram.telejam.objects.messages.Forwardable;
 import me.palazzomichi.telegram.telejam.objects.messages.Message;
 
 /**
@@ -11,7 +14,7 @@ import me.palazzomichi.telegram.telejam.objects.messages.Message;
  *
  * @author Michi Palazzo
  */
-public class ForwardMessage extends JsonTelegramMethod<Message> {
+public class ForwardMessage<T extends Message & Forwardable> extends JsonTelegramMethod<Forward<T>> {
 
   public static final String NAME = "forwardMessage";
 
@@ -47,52 +50,52 @@ public class ForwardMessage extends JsonTelegramMethod<Message> {
   private Long messageId;
 
 
-  public ForwardMessage chat(String chatId) {
+  public ForwardMessage<T> chat(String chatId) {
     this.chatId = chatId;
     return this;
   }
 
-  public ForwardMessage chat(long chatId) {
+  public ForwardMessage<T> chat(long chatId) {
     this.chatId = Long.toString(chatId);
     return this;
   }
 
-  public ForwardMessage chat(Chat chat) {
+  public ForwardMessage<T> chat(Chat chat) {
     this.chatId = Long.toString(chat.getId());
     return this;
   }
 
-  public ForwardMessage fromChat(String fromChatId) {
+  public ForwardMessage<T> fromChat(String fromChatId) {
     this.fromChatId = fromChatId;
     return this;
   }
 
-  public ForwardMessage fromChat(long fromChatId) {
+  public ForwardMessage<T> fromChat(long fromChatId) {
     this.fromChatId = Long.toString(fromChatId);
     return this;
   }
 
-  public ForwardMessage fromChat(Chat fromChat) {
+  public ForwardMessage<T> fromChat(Chat fromChat) {
     this.fromChatId = Long.toString(fromChat.getId());
     return this;
   }
 
-  public ForwardMessage disableNotification(Boolean disableNotification) {
+  public ForwardMessage<T> disableNotification(Boolean disableNotification) {
     this.disableNotification = disableNotification;
     return this;
   }
 
-  public ForwardMessage disableNotification() {
+  public ForwardMessage<T> disableNotification() {
     this.disableNotification = true;
     return this;
   }
 
-  public ForwardMessage message(Long messageId) {
+  public ForwardMessage<T> message(Long messageId) {
     this.messageId = messageId;
     return this;
   }
 
-  public ForwardMessage message(Message message) {
+  public ForwardMessage<T> message(Message message) {
     this.chatId = Long.toString(message.getChat().getId());
     this.messageId = message.getId();
     return this;
@@ -104,8 +107,14 @@ public class ForwardMessage extends JsonTelegramMethod<Message> {
   }
 
   @Override
-  public Class<? extends Message> getReturnType(JsonElement response) {
-    return Message.class;
+  @SuppressWarnings("unchecked")
+  public Class<? extends Forward<T>> getReturnType(JsonElement response) {
+    class ReturnType extends Forward<T> {
+      public ReturnType(long id, User sender, long date, Chat chat, String authorSignature, T forwardedMessage) {
+        super(id, sender, date, chat, authorSignature, forwardedMessage);
+      }
+    }
+    return (Class<Forward<T>>) ReturnType.class.getGenericSuperclass();
   }
 
 }

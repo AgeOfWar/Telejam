@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
  *
  * @author Michi Palazzo
  */
-public class ForwardMessageAdapter implements JsonSerializer<ForwardMessage<?>>, JsonDeserializer<ForwardMessage<?>> {
+public class ForwardMessageAdapter implements JsonSerializer<Forward<?>>, JsonDeserializer<Forward<?>> {
   
   public static final ForwardMessageAdapter INSTANCE = new ForwardMessageAdapter();
   
@@ -20,7 +20,7 @@ public class ForwardMessageAdapter implements JsonSerializer<ForwardMessage<?>>,
   
   @Override
   @SuppressWarnings("unchecked")
-  public ForwardMessage<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+  public Forward<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
       throws JsonParseException {
     JsonObject object = json.getAsJsonObject();
     
@@ -32,31 +32,31 @@ public class ForwardMessageAdapter implements JsonSerializer<ForwardMessage<?>>,
         object.getAsJsonPrimitive(Message.AUTHOR_SIGNATURE_FIELD).getAsString() :
         null;
     
-    object.add(Message.SENDER_FIELD, object.get(ForwardMessage.FORWARD_MESSAGE_SENDER_FIELD));
-    object.add(Message.CHAT_FIELD, object.get(ForwardMessage.FORWARD_MESSAGE_CHAT_FIELD));
-    object.add(Message.ID_FIELD, object.get(ForwardMessage.FORWARD_MESSAGE_ID_FIELD));
-    object.add(Message.DATE_FIELD, object.get(ForwardMessage.FORWARD_MESSAGE_DATE_FIELD));
-    object.add(Message.AUTHOR_SIGNATURE_FIELD, object.get(ForwardMessage.FORWARD_SIGNATURE_FIELD));
+    object.add(Message.SENDER_FIELD, object.get(Forward.FORWARD_MESSAGE_SENDER_FIELD));
+    object.add(Message.CHAT_FIELD, object.get(Forward.FORWARD_MESSAGE_CHAT_FIELD));
+    object.add(Message.ID_FIELD, object.get(Forward.FORWARD_MESSAGE_ID_FIELD));
+    object.add(Message.DATE_FIELD, object.get(Forward.FORWARD_MESSAGE_DATE_FIELD));
+    object.add(Message.AUTHOR_SIGNATURE_FIELD, object.get(Forward.FORWARD_SIGNATURE_FIELD));
     
-    object.remove(ForwardMessage.FORWARD_MESSAGE_SENDER_FIELD);
-    object.remove(ForwardMessage.FORWARD_MESSAGE_CHAT_FIELD);
-    object.remove(ForwardMessage.FORWARD_MESSAGE_ID_FIELD);
-    object.remove(ForwardMessage.FORWARD_MESSAGE_DATE_FIELD);
-    object.remove(ForwardMessage.FORWARD_SIGNATURE_FIELD);
+    object.remove(Forward.FORWARD_MESSAGE_SENDER_FIELD);
+    object.remove(Forward.FORWARD_MESSAGE_CHAT_FIELD);
+    object.remove(Forward.FORWARD_MESSAGE_ID_FIELD);
+    object.remove(Forward.FORWARD_MESSAGE_DATE_FIELD);
+    object.remove(Forward.FORWARD_SIGNATURE_FIELD);
     
-    return new ForwardMessage(
+    return new Forward(
         id, sender, date, chat, authorSignature, context.deserialize(object, Message.class)
     );
   }
   
   @Override
-  public JsonElement serialize(ForwardMessage<?> message, Type typeOfSrc, JsonSerializationContext context) {
+  public JsonElement serialize(Forward<?> message, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject object = context.serialize(message.getForwardedMessage()).getAsJsonObject();
-    object.add(ForwardMessage.FORWARD_MESSAGE_SENDER_FIELD, object.get(Message.SENDER_FIELD));
-    object.add(ForwardMessage.FORWARD_MESSAGE_CHAT_FIELD, object.get(Message.CHAT_FIELD));
-    object.add(ForwardMessage.FORWARD_MESSAGE_ID_FIELD, object.get(Message.ID_FIELD));
-    object.add(ForwardMessage.FORWARD_MESSAGE_DATE_FIELD, object.get(Message.DATE_FIELD));
-    object.add(ForwardMessage.FORWARD_SIGNATURE_FIELD, object.get(Message.AUTHOR_SIGNATURE_FIELD));
+    object.add(Forward.FORWARD_MESSAGE_SENDER_FIELD, object.get(Message.SENDER_FIELD));
+    object.add(Forward.FORWARD_MESSAGE_CHAT_FIELD, object.get(Message.CHAT_FIELD));
+    object.add(Forward.FORWARD_MESSAGE_ID_FIELD, object.get(Message.ID_FIELD));
+    object.add(Forward.FORWARD_MESSAGE_DATE_FIELD, object.get(Message.DATE_FIELD));
+    object.add(Forward.FORWARD_SIGNATURE_FIELD, object.get(Message.AUTHOR_SIGNATURE_FIELD));
     
     object.addProperty(Message.ID_FIELD, message.getId());
     object.add(Message.SENDER_FIELD, context.serialize(message.getSender()));

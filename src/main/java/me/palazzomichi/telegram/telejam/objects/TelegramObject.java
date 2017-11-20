@@ -11,7 +11,7 @@ import me.palazzomichi.telegram.telejam.objects.inline.inputmessagecontents.Inpu
 import me.palazzomichi.telegram.telejam.objects.inline.inputmessagecontents.InputMessageContentAdapter;
 import me.palazzomichi.telegram.telejam.objects.inline.results.InlineQueryResult;
 import me.palazzomichi.telegram.telejam.objects.inline.results.InlineQueryResultAdapter;
-import me.palazzomichi.telegram.telejam.objects.messages.ForwardMessage;
+import me.palazzomichi.telegram.telejam.objects.messages.Forward;
 import me.palazzomichi.telegram.telejam.objects.messages.ForwardMessageAdapter;
 import me.palazzomichi.telegram.telejam.objects.messages.Message;
 import me.palazzomichi.telegram.telejam.objects.messages.MessageAdapter;
@@ -62,7 +62,7 @@ public interface TelegramObject extends Serializable {
       }).registerTypeAdapter(Update.class, UpdateAdapter.INSTANCE)
       .registerTypeAdapter(Chat.class, ChatAdapter.INSTANCE)
       .registerTypeAdapter(Message.class, MessageAdapter.INSTANCE)
-      .registerTypeAdapter(ForwardMessage.class, ForwardMessageAdapter.INSTANCE)
+      .registerTypeAdapter(Forward.class, ForwardMessageAdapter.INSTANCE)
       .registerTypeAdapter(KeyboardButton.class, KeyboardButtonAdapter.INSTANCE)
       .registerTypeAdapter(InlineKeyboardButton.class, InlineKeyboardButtonAdapter.INSTANCE)
       .registerTypeAdapter(InlineQueryResult.class, InlineQueryResultAdapter.INSTANCE)

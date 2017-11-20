@@ -11,7 +11,7 @@ import java.util.Objects;
  * @param <T> the type of the forwarded message
  * @author Michi Palazzo
  */
-public class ForwardMessage<T extends Message & Forwardable> extends Message {
+public class Forward<T extends Message & Forwardable> extends Message {
   
   static final String FORWARD_MESSAGE_SENDER_FIELD = "forward_from";
   static final String FORWARD_MESSAGE_CHAT_FIELD = "forward_from_chat";
@@ -25,12 +25,12 @@ public class ForwardMessage<T extends Message & Forwardable> extends Message {
   private T forwardedMessage;
   
   
-  public ForwardMessage(long id,
-                        User sender,
-                        long date,
-                        Chat chat,
-                        String authorSignature,
-                        T forwardedMessage) {
+  public Forward(long id,
+                 User sender,
+                 long date,
+                 Chat chat,
+                 String authorSignature,
+                 T forwardedMessage) {
     super(id, sender, date, chat, null, null, authorSignature);
     this.forwardedMessage = Objects.requireNonNull(forwardedMessage);
   }

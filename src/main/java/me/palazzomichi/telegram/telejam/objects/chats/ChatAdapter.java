@@ -1,6 +1,7 @@
 package me.palazzomichi.telegram.telejam.objects.chats;
 
 import com.google.gson.*;
+import me.palazzomichi.telegram.telejam.objects.ChatPhoto;
 
 import java.lang.reflect.Type;
 
@@ -19,7 +20,8 @@ public class ChatAdapter implements JsonDeserializer<Chat>, JsonSerializer<Chat>
   @Override
   public Chat deserialize(JsonElement src, Type type, JsonDeserializationContext context)
       throws JsonParseException {
-    String chatType = src.getAsJsonObject().getAsJsonPrimitive(Chat.TYPE_FIELD).getAsString();
+    JsonObject object = src.getAsJsonObject();
+    String chatType = object.getAsJsonPrimitive(Chat.TYPE_FIELD).getAsString();
     switch (chatType) {
       case PrivateChat.TYPE:
         return context.deserialize(src, PrivateChat.class);
@@ -30,7 +32,11 @@ public class ChatAdapter implements JsonDeserializer<Chat>, JsonSerializer<Chat>
       case Channel.TYPE:
         return context.deserialize(src, Channel.class);
       default:
-        throw new JsonParseException("Unknown object: " + src);
+        long id = object.getAsJsonPrimitive(Chat.ID_FIELD).getAsLong();
+        ChatPhoto chatPhoto = object.has(Chat.PHOTO_FIELD) ?
+            context.deserialize(object.get(Chat.PHOTO_FIELD), ChatPhoto.class) :
+            null;
+        return new Chat(id, chatPhoto) {}; // unknown chat
     }
   }
 
