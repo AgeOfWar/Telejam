@@ -10,6 +10,7 @@ import me.palazzomichi.telegram.telejam.objects.*;
 import me.palazzomichi.telegram.telejam.objects.chats.Chat;
 import me.palazzomichi.telegram.telejam.objects.inline.InlineQuery;
 import me.palazzomichi.telegram.telejam.objects.inline.results.InlineQueryResult;
+import me.palazzomichi.telegram.telejam.objects.inputmedia.InputMedia;
 import me.palazzomichi.telegram.telejam.objects.messages.*;
 import me.palazzomichi.telegram.telejam.objects.payments.*;
 import me.palazzomichi.telegram.telejam.objects.replymarkups.InlineKeyboardMarkup;
@@ -2410,6 +2411,38 @@ public class TelegramConnection {
         .user(user)
         .inlineMessage(inlineMessageId);
     return execute(getGameHighScores);
+  }
+  
+  public Message[] sendMediaGroup(Message replyToMessage, InputMedia[] media, boolean disableNotification)
+      throws IOException {
+    SendMediaGroup sendMediaGroup = new SendMediaGroup()
+        .replyToMessage(replyToMessage)
+        .media(media)
+        .disableNotification(disableNotification);
+    return execute(sendMediaGroup);
+  }
+  
+  public Message[] sendMediaGroup(Message replyToMessage, InputMedia... media) throws IOException {
+    SendMediaGroup sendMediaGroup = new SendMediaGroup()
+        .replyToMessage(replyToMessage)
+        .media(media);
+    return execute(sendMediaGroup);
+  }
+  
+  public Message[] sendMediaGroup(Chat chat, InputMedia[] media, boolean disableNotification)
+      throws IOException {
+    SendMediaGroup sendMediaGroup = new SendMediaGroup()
+        .chat(chat)
+        .media(media)
+        .disableNotification(disableNotification);
+    return execute(sendMediaGroup);
+  }
+  
+  public Message[] sendMediaGroup(Chat chat, InputMedia... media) throws IOException {
+    SendMediaGroup sendMediaGroup = new SendMediaGroup()
+        .chat(chat)
+        .media(media);
+    return execute(sendMediaGroup);
   }
   
   /* end API methods */
