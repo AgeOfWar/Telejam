@@ -21,15 +21,6 @@ public class DeleteStickerFromSet extends JsonTelegramMethod<Boolean> {
   private String sticker;
 
 
-  public DeleteStickerFromSet(String sticker) {
-    this.sticker = sticker;
-  }
-
-  public DeleteStickerFromSet(Sticker sticker) {
-    this(sticker.getId());
-  }
-
-
   public DeleteStickerFromSet sticker(String sticker) {
     this.sticker = sticker;
     return this;

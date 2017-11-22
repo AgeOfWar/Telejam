@@ -34,7 +34,7 @@ public class AnswerPreCheckoutQuery extends JsonTelegramMethod<Boolean> {
    * the bot is ready to proceed with the order. Use <code>false</code> if there are any problems.
    */
   @SerializedName(SUCCESS_FIELD)
-  private Boolean success;
+  private boolean success  = true;
 
   /**
    * Required if ok is <code>false</code>.

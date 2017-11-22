@@ -27,6 +27,7 @@ public class SendInvoice extends JsonTelegramMethod<InvoiceMessage> {
   static final String START_PARAMETER_FIELD = "start_parameter";
   static final String CURRENCY_FIELD = "currency";
   static final String PRICES_FIELD = "prices";
+  static final String PROVIDER_DATA_FIELD = "provider_data";
   static final String PHOTO_URL_FIELD = "photo_url";
   static final String PHOTO_SIZE_FIELD = "photo_size";
   static final String PHOTO_WIDTH_FIELD = "photo_width";
@@ -90,6 +91,13 @@ public class SendInvoice extends JsonTelegramMethod<InvoiceMessage> {
    */
   @SerializedName(PRICES_FIELD)
   private LabeledPrice[] prices;
+  
+  /**
+   * Data about the invoice, which will be shared with the payment provider.
+   * A detailed description of required fields should be provided by the payment provider.
+   */
+  @SerializedName(PROVIDER_DATA_FIELD)
+  private String providerData;
 
   /**
    * URL of the product photo for the invoice.
@@ -217,6 +225,11 @@ public class SendInvoice extends JsonTelegramMethod<InvoiceMessage> {
     this.prices = prices;
     return this;
   }
+  
+  public SendInvoice providerData(String providerData) {
+    this.providerData = providerData;
+    return this;
+  }
 
   public SendInvoice photoUrl(String photoUrl) {
     this.photoUrl = photoUrl;
@@ -309,7 +322,7 @@ public class SendInvoice extends JsonTelegramMethod<InvoiceMessage> {
     return this;
   }
 
-  public SendInvoice setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
+  public SendInvoice replyMarkup(InlineKeyboardMarkup replyMarkup) {
     this.replyMarkup = replyMarkup;
     return this;
   }

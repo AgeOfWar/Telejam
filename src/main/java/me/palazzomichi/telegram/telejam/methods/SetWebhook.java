@@ -69,11 +69,6 @@ public class SetWebhook implements TelegramMethod<Boolean> {
     return this;
   }
 
-  public SetWebhook certificate(String certificate) {
-    this.certificate = certificate;
-    return this;
-  }
-
   public SetWebhook certificate(File certificate) {
     this.certificate = certificate.getPath();
     return this;

@@ -82,12 +82,12 @@ public class SendGame extends JsonTelegramMethod<GameMessage> {
     return this;
   }
 
-  public SendGame setReplyToMessage(Long replyToMessageId) {
+  public SendGame replyToMessage(Long replyToMessageId) {
     this.replyToMessageId = replyToMessageId;
     return this;
   }
 
-  public SendGame setReplyToMessage(Message message) {
+  public SendGame replyToMessage(Message message) {
     this.replyToMessageId = message.getId();
     this.chatId = message.getChat().getId();
     return this;

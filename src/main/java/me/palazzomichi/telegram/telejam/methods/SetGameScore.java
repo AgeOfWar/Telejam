@@ -111,9 +111,8 @@ public class SetGameScore extends JsonTelegramMethod<Serializable> {
     return this;
   }
 
-  public SetGameScore message(Long chatId, Long messageId) {
+  public SetGameScore message(Long messageId) {
     inlineMessageId = null;
-    this.chatId = chatId;
     this.messageId = messageId;
     return this;
   }
@@ -125,7 +124,7 @@ public class SetGameScore extends JsonTelegramMethod<Serializable> {
     return this;
   }
 
-  public SetGameScore message(String inlineMessageId) {
+  public SetGameScore inlineMessage(String inlineMessageId) {
     chatId = null;
     messageId = null;
     this.inlineMessageId = inlineMessageId;

@@ -1,6 +1,5 @@
 package me.palazzomichi.telegram.telejam;
 
-import me.palazzomichi.telegram.telejam.methods.GetMe;
 import me.palazzomichi.telegram.telejam.objects.User;
 
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class Bot extends TelegramConnection {
    */
   public Bot(String token) throws IOException {
     super(token);
-    User thisBot = execute(GetMe.INSTANCE);
+    User thisBot = getMe();
     id = thisBot.getId();
     name = thisBot.getFirstName();
     username = thisBot.getUsername().orElseThrow(AssertionError::new);

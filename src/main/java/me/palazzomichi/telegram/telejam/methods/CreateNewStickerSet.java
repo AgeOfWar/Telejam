@@ -130,7 +130,12 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
     this.containsMasks = containsMasks;
     return this;
   }
-
+  
+  public CreateNewStickerSet containsMask(boolean containsMasks) {
+    this.containsMasks = containsMasks;
+    return this;
+  }
+  
   public CreateNewStickerSet containsMask() {
     this.containsMasks = true;
     return this;

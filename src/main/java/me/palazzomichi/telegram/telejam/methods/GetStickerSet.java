@@ -23,11 +23,6 @@ public class GetStickerSet extends JsonTelegramMethod<StickerSet> {
   private String name;
 
 
-  public GetStickerSet(String name) {
-    this.name = name;
-  }
-
-
   public GetStickerSet name(String name) {
     this.name = name;
     return this;

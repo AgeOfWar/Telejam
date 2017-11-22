@@ -65,9 +65,8 @@ public class GetGameHighScores extends JsonTelegramMethod<GameHighScore[]> {
     return this;
   }
 
-  public GetGameHighScores setMessage(Long chatId, Long messageId) {
+  public GetGameHighScores message(Long messageId) {
     inlineMessageId = null;
-    this.chatId = chatId;
     this.messageId = messageId;
     return this;
   }
@@ -79,7 +78,7 @@ public class GetGameHighScores extends JsonTelegramMethod<GameHighScore[]> {
     return this;
   }
 
-  public GetGameHighScores setMessage(String inlineMessageId) {
+  public GetGameHighScores inlineMessage(String inlineMessageId) {
     chatId = null;
     messageId = null;
     this.inlineMessageId = inlineMessageId;
