@@ -7,6 +7,7 @@ import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonReader;
 import me.palazzomichi.telegram.telejam.methods.*;
 import me.palazzomichi.telegram.telejam.objects.*;
+import me.palazzomichi.telegram.telejam.objects.File;
 import me.palazzomichi.telegram.telejam.objects.chats.Chat;
 import me.palazzomichi.telegram.telejam.objects.inline.InlineQuery;
 import me.palazzomichi.telegram.telejam.objects.inline.results.InlineQueryResult;
@@ -19,17 +20,16 @@ import me.palazzomichi.telegram.telejam.objects.updates.Update;
 import me.palazzomichi.telegram.telejam.util.text.ParseMode;
 import me.palazzomichi.telegram.telejam.util.text.Text;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Serializable;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Class representing a connection to the Telegram API.
@@ -37,23 +37,28 @@ import java.util.Objects;
  * @author Michi Palazzo
  */
 public class TelegramConnection {
-
+  
   /**
    * General link to the Telegram API.
    */
   private static final String API_URL = "https://api.telegram.org/bot";
-
+  
+  /**
+   * General link for download Telegram files.
+   */
+  private static final String API_FILE_URL = "https://api.telegram.org/file/bot";
+  
   /**
    * The HTTP client used for send requests.
    */
   private CloseableHttpClient httpClient;
-
+  
   /**
    * Token to access Telegram API.
    */
   private final String token;
-
-
+  
+  
   /**
    * Constructs a Telegram Connection with a token.
    *
@@ -64,7 +69,7 @@ public class TelegramConnection {
     this.httpClient = httpClient;
     this.token = Objects.requireNonNull(token);
   }
-
+  
   /**
    * Constructs a Telegram Connection with a token.
    *
@@ -73,44 +78,73 @@ public class TelegramConnection {
   public TelegramConnection(String token) {
     this(HttpClients.createMinimal(), token);
   }
-
-
+  
+  
   /**
    * Invokes a method from the Telegram API.
    *
    * @param method the method
    * @param <T>    the return type
    * @return the object returned from the method invocation
-   * @throws IOException       when an I/O Exception occurs during the method
-   *                           invocation
-   * @throws TelegramException when the method invocation returns an error
+   * @throws IOException        when an I/O Exception occurs during the method
+   *                            invocation
+   * @throws TelegramException  when the method invocation returns an error
    * @throws JsonParseException when the object returned is unknown
    */
   public <T extends Serializable> T execute(TelegramMethod<T> method) throws IOException {
     Objects.requireNonNull(method, "method cannot be null!");
-
+    
     HttpPost httpPost = new HttpPost(API_URL + token + '/' + method.getName());
     httpPost.setEntity(method.getHttpEntity());
-
+    
     try (CloseableHttpResponse response = httpClient.execute(httpPost);
          InputStreamReader reader =
              new InputStreamReader(response.getEntity().getContent());
          BufferedReader bufferedReader = new BufferedReader(reader);
          JsonReader json = new JsonReader(bufferedReader)) {
-
+      
       JsonElement src = Streams.parse(json);
       Type typeOfT =
           $Gson$Types.newParameterizedTypeWithOwner(null, Result.class, method.getReturnType(src));
       Result<T> result = TelegramObject.gson.fromJson(src, typeOfT);
-
+      
       if (!result.ok()) {
         throw result.toException();
       }
-
+      
       return result.get();
     } catch (JsonParseException e) {
       throw new IOException(e);
     }
+  }
+  
+  /**
+   * Returns the stream of the file in the specified path.
+   *
+   * @param filePath the path of the file
+   * @return the stream of the file
+   * @throws IOException when an I/O Exception occurs
+   */
+  public InputStream downloadFile(String filePath) throws IOException {
+    Objects.requireNonNull(filePath, "file cannot be null!");
+    
+    HttpGet httpGet = new HttpGet(API_FILE_URL + token + "/" + filePath);
+    return httpClient.execute(httpGet).getEntity().getContent();
+  }
+  
+  /**
+   * Returns the stream of a file if is possible.
+   *
+   * @param file the file
+   * @return teh stream of the file
+   * @throws IOException when an I/O Exception occurs
+   */
+  public Optional<InputStream> downloadFile(File file) throws IOException {
+    Optional<String> filePath = file.getPath();
+    if (filePath.isPresent()) {
+      return Optional.of(downloadFile(filePath.get()));
+    }
+    return Optional.empty();
   }
   
   /* API methods */
@@ -146,7 +180,7 @@ public class TelegramConnection {
   }
   
   public void setWebhook(String url, java.io.File certificate, int maxConnections, String... allowedUpdates)
-    throws IOException {
+      throws IOException {
     SetWebhook setWebhook = new SetWebhook()
         .url(url)
         .certificate(certificate)
@@ -509,10 +543,10 @@ public class TelegramConnection {
   }
   
   public DocumentMessage sendDocument(Message replyToMessage,
-                                       java.io.File document,
-                                       String caption,
-                                       ReplyMarkup replyMarkup,
-                                       boolean disableNotification) throws IOException {
+                                      java.io.File document,
+                                      String caption,
+                                      ReplyMarkup replyMarkup,
+                                      boolean disableNotification) throws IOException {
     SendDocument sendDocument = new SendDocument()
         .replyToMessage(replyToMessage)
         .file(document)
@@ -789,11 +823,11 @@ public class TelegramConnection {
   }
   
   public VideoNoteMessage sendVideoNote(Message replyToMessage,
-                                String video,
-                                int duration,
-                                int size,
-                                ReplyMarkup replyMarkup,
-                                boolean disableNotification) throws IOException {
+                                        String video,
+                                        int duration,
+                                        int size,
+                                        ReplyMarkup replyMarkup,
+                                        boolean disableNotification) throws IOException {
     SendVideoNote sendVideo = new SendVideoNote()
         .replyToMessage(replyToMessage)
         .video(video)
@@ -805,11 +839,11 @@ public class TelegramConnection {
   }
   
   public VideoNoteMessage sendVideoNote(Chat chat,
-                                String video,
-                                int duration,
-                                int size,
-                                ReplyMarkup replyMarkup,
-                                boolean disableNotification) throws IOException {
+                                        String video,
+                                        int duration,
+                                        int size,
+                                        ReplyMarkup replyMarkup,
+                                        boolean disableNotification) throws IOException {
     SendVideoNote sendVideo = new SendVideoNote()
         .chat(chat)
         .video(video)
@@ -821,9 +855,9 @@ public class TelegramConnection {
   }
   
   public VideoNoteMessage sendVideoNote(Message replyToMessage,
-                                String video,
-                                ReplyMarkup replyMarkup,
-                                boolean disableNotification) throws IOException {
+                                        String video,
+                                        ReplyMarkup replyMarkup,
+                                        boolean disableNotification) throws IOException {
     SendVideoNote sendVideo = new SendVideoNote()
         .replyToMessage(replyToMessage)
         .video(video)
@@ -833,9 +867,9 @@ public class TelegramConnection {
   }
   
   public VideoNoteMessage sendVideoNote(Chat chat,
-                                String video,
-                                ReplyMarkup replyMarkup,
-                                boolean disableNotification) throws IOException {
+                                        String video,
+                                        ReplyMarkup replyMarkup,
+                                        boolean disableNotification) throws IOException {
     SendVideoNote sendVideo = new SendVideoNote()
         .chat(chat)
         .video(video)
@@ -845,11 +879,11 @@ public class TelegramConnection {
   }
   
   public VideoNoteMessage sendVideoNote(Message replyToMessage,
-                                java.io.File video,
-                                int duration,
-                                int size,
-                                ReplyMarkup replyMarkup,
-                                boolean disableNotification) throws IOException {
+                                        java.io.File video,
+                                        int duration,
+                                        int size,
+                                        ReplyMarkup replyMarkup,
+                                        boolean disableNotification) throws IOException {
     SendVideoNote sendVideo = new SendVideoNote()
         .replyToMessage(replyToMessage)
         .video(video)
@@ -861,11 +895,11 @@ public class TelegramConnection {
   }
   
   public VideoNoteMessage sendVideoNote(Chat chat,
-                                java.io.File video,
-                                int duration,
-                                int size,
-                                ReplyMarkup replyMarkup,
-                                boolean disableNotification) throws IOException {
+                                        java.io.File video,
+                                        int duration,
+                                        int size,
+                                        ReplyMarkup replyMarkup,
+                                        boolean disableNotification) throws IOException {
     SendVideoNote sendVideo = new SendVideoNote()
         .chat(chat)
         .video(video)
@@ -877,9 +911,9 @@ public class TelegramConnection {
   }
   
   public VideoNoteMessage sendVideoNote(Message replyToMessage,
-                                java.io.File video,
-                                ReplyMarkup replyMarkup,
-                                boolean disableNotification) throws IOException {
+                                        java.io.File video,
+                                        ReplyMarkup replyMarkup,
+                                        boolean disableNotification) throws IOException {
     SendVideoNote sendVideo = new SendVideoNote()
         .replyToMessage(replyToMessage)
         .video(video)
@@ -889,9 +923,9 @@ public class TelegramConnection {
   }
   
   public VideoNoteMessage sendVideoNote(Chat chat,
-                                java.io.File video,
-                                ReplyMarkup replyMarkup,
-                                boolean disableNotification) throws IOException {
+                                        java.io.File video,
+                                        ReplyMarkup replyMarkup,
+                                        boolean disableNotification) throws IOException {
     SendVideoNote sendVideo = new SendVideoNote()
         .chat(chat)
         .video(video)
@@ -2446,7 +2480,7 @@ public class TelegramConnection {
   }
   
   /* end API methods */
-
+  
   /**
    * Getter for property {@link #token}.
    *
@@ -2455,5 +2489,5 @@ public class TelegramConnection {
   public String getToken() {
     return token;
   }
-
+  
 }

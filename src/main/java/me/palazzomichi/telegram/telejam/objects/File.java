@@ -15,7 +15,7 @@ public class File implements TelegramObject {
 
   static final String ID_FIELD = "file_id";
   static final String SIZE_FIELD = "file_size";
-  static final String PATH_FIELD = "path";
+  static final String PATH_FIELD = "file_path";
 
   /**
    * Unique identifier for this file.

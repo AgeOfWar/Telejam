@@ -105,11 +105,7 @@ public final class UpdateReader {
    * @throws IOException if an I/O Exception occurs
    */
   public int getUpdates() throws IOException {
-    GetUpdates getUpdates = new GetUpdates()
-        .offset(lastUpdateId + 1)
-        .allowedUpdates(allowedUpdates);
-
-    Update[] newUpdates = connection.execute(getUpdates);
+    Update[] newUpdates = connection.getUpdates(lastUpdateId + 1, allowedUpdates);
 
     Collections.addAll(updates, newUpdates);
 
