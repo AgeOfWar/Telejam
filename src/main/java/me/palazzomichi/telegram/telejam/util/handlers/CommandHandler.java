@@ -11,6 +11,7 @@ import java.util.Arrays;
  *
  * @author Michi Palazzo
  */
+@FunctionalInterface
 public interface CommandHandler extends MessageHandler {
   
   /**

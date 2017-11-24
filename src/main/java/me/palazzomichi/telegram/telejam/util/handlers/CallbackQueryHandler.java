@@ -11,6 +11,7 @@ import me.palazzomichi.telegram.telejam.objects.updates.Update;
  * @author Michi Palazzo
  * @see me.palazzomichi.telegram.telejam.Bot
  */
+@FunctionalInterface
 public interface CallbackQueryHandler extends UpdateHandler {
   
   /**

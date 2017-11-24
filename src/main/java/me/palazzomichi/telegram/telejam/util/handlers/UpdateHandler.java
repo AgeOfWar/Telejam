@@ -8,6 +8,7 @@ import me.palazzomichi.telegram.telejam.objects.updates.Update;
  *
  * @author Michi Palazzo
  */
+@FunctionalInterface
 public interface UpdateHandler {
   
   /**

@@ -23,7 +23,7 @@ public abstract class CommandExecutor implements CommandHandler {
    * For example, in the command <code>/foo bar 1234</code>,
    * <code>bar 1234</code>bar is sub-command of foo.
    */
-  private final CommandExecutor[] subCommands;
+  protected final CommandExecutor[] subCommands;
   
   /**
    * The name of the command.
