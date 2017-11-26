@@ -82,7 +82,7 @@ public abstract class CommandExecutor implements CommandHandler {
         for (CommandExecutor subCommand : subCommands) {
           if (executed = subCommand.isThisCommand(args[0])) {
             try {
-              subCommand.execute(args[0], Arrays.copyOfRange(args, 1, args.length), message);
+              subCommand.accept(args[0], Arrays.copyOfRange(args, 1, args.length), message);
               break;
             } catch (CommandSyntaxException syntaxException) {
               throw new CommandSyntaxException(command, syntaxException);
