@@ -12,21 +12,21 @@ import java.util.Optional;
  * @author Michi Palazzo
  */
 public class Channel extends Chat {
-
+  
   static final String TITLE_FIELD = "title";
   static final String USERNAME_FIELD = "username";
   static final String DESCRIPTION_FIELD = "description";
   static final String INVITE_LINK_FIELD = "invite_link";
-
+  
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "channel";
-
+  
   /**
    * The title of the channel.
    */
   @SerializedName(TITLE_FIELD)
   private String title;
-
+  
   /**
    * The username of the channel.
    */
@@ -46,8 +46,8 @@ public class Channel extends Chat {
    */
   @SerializedName(INVITE_LINK_FIELD)
   private String inviteLink;
-
-
+  
+  
   public Channel(long id,
                  ChatPhoto photo,
                  String title,
@@ -60,23 +60,24 @@ public class Channel extends Chat {
     this.description = description;
     this.inviteLink = inviteLink;
   }
-
+  
   public Channel(long id, String title, String username) {
     super(id);
     this.title = Objects.requireNonNull(title);
     this.username = Objects.requireNonNull(username);
   }
-
-
+  
+  
   /**
    * Getter for property {@link #title}.
    *
    * @return value for property {@link #title}
    */
+  @Override
   public String getTitle() {
     return title;
   }
-
+  
   /**
    * Getter for property {@link #username}.
    *
@@ -103,5 +104,5 @@ public class Channel extends Chat {
   public Optional<String> getInviteLink() {
     return Optional.ofNullable(inviteLink);
   }
-
+  
 }

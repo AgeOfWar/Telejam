@@ -13,17 +13,17 @@ import java.util.Optional;
  * @see me.palazzomichi.telegram.telejam.methods.GetChat
  */
 public abstract class Chat implements TelegramObject {
-
+  
   static final String ID_FIELD = "id";
   static final String TYPE_FIELD = "type";
   static final String PHOTO_FIELD = "photo";
-
+  
   /**
    * Unique identifier for this chat.
    */
   @SerializedName(ID_FIELD)
   private long id;
-
+  
   /**
    * Chat photo.
    * Returned only in {@link me.palazzomichi.telegram.telejam.methods.GetChat}.
@@ -36,12 +36,19 @@ public abstract class Chat implements TelegramObject {
     this.id = id;
     this.photo = photo;
   }
-
+  
   public Chat(long id) {
     this.id = id;
   }
-
-
+  
+  
+  /**
+   * Returns the title of the chat.
+   *
+   * @return the title of the chat
+   */
+  public abstract String getTitle();
+  
   /**
    * Getter for property {@link #id}.
    *
@@ -50,7 +57,7 @@ public abstract class Chat implements TelegramObject {
   public long getId() {
     return id;
   }
-
+  
   /**
    * Getter for property {@link #photo}.
    *
@@ -78,5 +85,5 @@ public abstract class Chat implements TelegramObject {
   public int hashCode() {
     return Long.hashCode(id);
   }
-
+  
 }

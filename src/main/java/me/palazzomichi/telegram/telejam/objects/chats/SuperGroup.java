@@ -13,7 +13,7 @@ import java.util.Optional;
  * @author Michi Palazzo
  */
 public class SuperGroup extends Chat {
-
+  
   static final String TITLE_FIELD = "title";
   static final String USERNAME_FIELD = "username";
   static final String DESCRIPTION_FIELD = "description";
@@ -21,16 +21,16 @@ public class SuperGroup extends Chat {
   static final String PINNED_MESSAGE_FIELD = "pinned_message";
   static final String STICKER_SET_NAME_FIELD = "sticker_set_name";
   static final String CAN_SET_STICKER_SET_FIELD = "can_set_sticker_set";
-
+  
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "supergroup";
-
+  
   /**
    * The title of the supergroup.
    */
   @SerializedName(TITLE_FIELD)
   private String title;
-
+  
   /**
    * The username of the supergroup.
    */
@@ -72,7 +72,7 @@ public class SuperGroup extends Chat {
   @SerializedName(CAN_SET_STICKER_SET_FIELD)
   private Boolean canSetStickerSet;
   
-
+  
   public SuperGroup(long id,
                     ChatPhoto photo,
                     String title,
@@ -91,23 +91,24 @@ public class SuperGroup extends Chat {
     this.stickerSetName = stickerSetName;
     this.canSetStickerSet = canSetStickerSet;
   }
-
+  
   public SuperGroup(long id, String title, String username) {
     super(id);
     this.title = Objects.requireNonNull(title);
     this.username = Objects.requireNonNull(username);
   }
-
-
+  
+  
   /**
    * Getter for property {@link #title}.
    *
    * @return value for property {@link #title}
    */
+  @Override
   public String getTitle() {
     return title;
   }
-
+  
   /**
    * Getter for property {@link #username}.
    *

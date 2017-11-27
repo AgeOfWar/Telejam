@@ -36,7 +36,12 @@ public class ChatAdapter implements JsonDeserializer<Chat>, JsonSerializer<Chat>
         ChatPhoto chatPhoto = object.has(Chat.PHOTO_FIELD) ?
             context.deserialize(object.get(Chat.PHOTO_FIELD), ChatPhoto.class) :
             null;
-        return new Chat(id, chatPhoto) {}; // unknown chat
+        return new Chat(id, chatPhoto) {
+          @Override
+          public String getTitle() {
+            return null;
+          }
+        }; // unknown chat
     }
   }
 
