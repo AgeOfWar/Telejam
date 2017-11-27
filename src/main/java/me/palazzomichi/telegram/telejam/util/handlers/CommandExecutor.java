@@ -80,7 +80,7 @@ public abstract class CommandExecutor implements CommandHandler {
       boolean executed = false;
       if (args.length > 0) {
         for (CommandExecutor subCommand : subCommands) {
-          if (executed = subCommand.isThisCommand(args[0])) {
+          if (executed = subCommand.isThisSubCommand(args[0])) {
             try {
               subCommand.accept(args[0], Arrays.copyOfRange(args, 1, args.length), message);
               break;
@@ -97,11 +97,24 @@ public abstract class CommandExecutor implements CommandHandler {
   }
   
   private boolean isThisCommand(String command) {
-    if (command.equalsIgnoreCase(name) || command.equalsIgnoreCase(name + "@" + bot.getUsername())) {
+    String botUsername = bot.getUsername();
+    if (command.equalsIgnoreCase(name) || command.equalsIgnoreCase(name + "@" + botUsername)) {
       return true;
     }
     for (String alias : aliases) {
-      if (command.equalsIgnoreCase(alias) || command.equalsIgnoreCase(alias + "@" + bot.getUsername())) {
+      if (command.equalsIgnoreCase(alias) || command.equalsIgnoreCase(alias + "@" + botUsername)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  private boolean isThisSubCommand(String command) {
+    if (command.equalsIgnoreCase(name)) {
+      return true;
+    }
+    for (String alias : aliases) {
+      if (command.equalsIgnoreCase(alias)) {
         return true;
       }
     }
