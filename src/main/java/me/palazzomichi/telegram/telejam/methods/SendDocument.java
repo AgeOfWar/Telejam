@@ -12,7 +12,8 @@ import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,9 +69,9 @@ public class SendDocument implements TelegramMethod<DocumentMessage> {
   private String caption;
 
   /**
-   * True if the file is not present in Telegram servers.
+   * File not present in Telegram servers.
    */
-  private boolean newFile;
+  private InputStream newFile;
 
 
   public SendDocument chat(String chatId) {
@@ -115,20 +116,26 @@ public class SendDocument implements TelegramMethod<DocumentMessage> {
   }
 
   public SendDocument file(String file) {
-    newFile = false;
+    newFile = null;
     this.file = file;
     return this;
   }
-
-  public SendDocument file(File file) {
-    newFile = true;
-    this.file = file.getPath();
+  
+  public SendDocument file(InputStream newFile) {
+    file = null;
+    this.newFile = newFile;
     return this;
   }
-
-  public SendDocument photo(Path file) {
-    newFile = true;
-    this.file = file.toString();
+  
+  public SendDocument file(File newFile) throws FileNotFoundException {
+    file = null;
+    this.newFile = new FileInputStream(newFile);
+    return this;
+  }
+  
+  public SendDocument file(Path newFile) throws IOException {
+    file = null;
+    this.newFile = Files.newInputStream(newFile);
     return this;
   }
 
@@ -154,7 +161,7 @@ public class SendDocument implements TelegramMethod<DocumentMessage> {
 
   @Override
   public HttpEntity getHttpEntity() {
-    if (newFile) {
+    if (newFile != null) {
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 
       if (chatId != null)
@@ -169,8 +176,7 @@ public class SendDocument implements TelegramMethod<DocumentMessage> {
       if (replyMarkup != null)
         builder.addTextBody(REPLY_MARKUP_FIELD, replyMarkup.toString());
 
-      if (file != null)
-        builder.addBinaryBody(FILE_FIELD, new File(file));
+      builder.addBinaryBody(FILE_FIELD, newFile);
 
       if (caption != null)
         builder.addTextBody(CAPTION_FIELD, caption);

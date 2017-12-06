@@ -351,7 +351,7 @@ public class TelegramConnection {
   }
   
   public PhotoMessage sendPhoto(Message replyToMessage,
-                                java.io.File photo,
+                                InputStream photo,
                                 String caption,
                                 ReplyMarkup replyMarkup,
                                 boolean disableNotification) throws IOException {
@@ -365,7 +365,7 @@ public class TelegramConnection {
   }
   
   public PhotoMessage sendPhoto(Chat chat,
-                                java.io.File photo,
+                                InputStream photo,
                                 String caption,
                                 ReplyMarkup replyMarkup,
                                 boolean disableNotification) throws IOException {
@@ -447,7 +447,7 @@ public class TelegramConnection {
   }
   
   public AudioMessage sendAudio(Message replyToMessage,
-                                java.io.File audio,
+                                InputStream audio,
                                 String caption,
                                 String title,
                                 String performer,
@@ -467,7 +467,7 @@ public class TelegramConnection {
   }
   
   public AudioMessage sendAudio(Message replyToMessage,
-                                java.io.File audio,
+                                InputStream audio,
                                 String caption,
                                 ReplyMarkup replyMarkup,
                                 boolean disableNotification) throws IOException {
@@ -481,7 +481,7 @@ public class TelegramConnection {
   }
   
   public AudioMessage sendAudio(Chat chat,
-                                java.io.File audio,
+                                InputStream audio,
                                 String caption,
                                 String title,
                                 String performer,
@@ -501,7 +501,7 @@ public class TelegramConnection {
   }
   
   public AudioMessage sendAudio(Chat chat,
-                                java.io.File audio,
+                                InputStream audio,
                                 String caption,
                                 ReplyMarkup replyMarkup,
                                 boolean disableNotification) throws IOException {
@@ -543,7 +543,7 @@ public class TelegramConnection {
   }
   
   public DocumentMessage sendDocument(Message replyToMessage,
-                                      java.io.File document,
+                                      InputStream document,
                                       String caption,
                                       ReplyMarkup replyMarkup,
                                       boolean disableNotification) throws IOException {
@@ -557,7 +557,7 @@ public class TelegramConnection {
   }
   
   public DocumentMessage sendDocument(Chat chat,
-                                      java.io.File document,
+                                      InputStream document,
                                       String caption,
                                       ReplyMarkup replyMarkup,
                                       boolean disableNotification) throws IOException {
@@ -637,7 +637,7 @@ public class TelegramConnection {
   }
   
   public VideoMessage sendVideo(Message replyToMessage,
-                                java.io.File video,
+                                InputStream video,
                                 int duration,
                                 int width,
                                 int height,
@@ -656,7 +656,7 @@ public class TelegramConnection {
   }
   
   public VideoMessage sendVideo(Chat chat,
-                                java.io.File video,
+                                InputStream video,
                                 int duration,
                                 int width,
                                 int height,
@@ -675,7 +675,7 @@ public class TelegramConnection {
   }
   
   public VideoMessage sendVideo(Message replyToMessage,
-                                java.io.File video,
+                                InputStream video,
                                 String caption,
                                 ReplyMarkup replyMarkup,
                                 boolean disableNotification) throws IOException {
@@ -689,7 +689,7 @@ public class TelegramConnection {
   }
   
   public VideoMessage sendVideo(Chat chat,
-                                java.io.File video,
+                                InputStream video,
                                 String caption,
                                 ReplyMarkup replyMarkup,
                                 boolean disableNotification) throws IOException {
@@ -763,7 +763,7 @@ public class TelegramConnection {
   }
   
   public VoiceMessage sendVoice(Message replyToMessage,
-                                java.io.File voice,
+                                InputStream voice,
                                 String caption,
                                 int duration,
                                 ReplyMarkup replyMarkup,
@@ -779,7 +779,7 @@ public class TelegramConnection {
   }
   
   public VoiceMessage sendVoice(Chat chat,
-                                java.io.File voice,
+                                InputStream voice,
                                 String caption,
                                 int duration,
                                 ReplyMarkup replyMarkup,
@@ -795,7 +795,7 @@ public class TelegramConnection {
   }
   
   public VoiceMessage sendVoice(Message replyToMessage,
-                                java.io.File voice,
+                                InputStream voice,
                                 String caption,
                                 ReplyMarkup replyMarkup,
                                 boolean disableNotification) throws IOException {
@@ -809,7 +809,7 @@ public class TelegramConnection {
   }
   
   public VoiceMessage sendVoice(Chat chat,
-                                java.io.File voice,
+                                InputStream voice,
                                 String caption,
                                 ReplyMarkup replyMarkup,
                                 boolean disableNotification) throws IOException {
@@ -879,7 +879,7 @@ public class TelegramConnection {
   }
   
   public VideoNoteMessage sendVideoNote(Message replyToMessage,
-                                        java.io.File video,
+                                        InputStream video,
                                         int duration,
                                         int size,
                                         ReplyMarkup replyMarkup,
@@ -895,7 +895,7 @@ public class TelegramConnection {
   }
   
   public VideoNoteMessage sendVideoNote(Chat chat,
-                                        java.io.File video,
+                                        InputStream video,
                                         int duration,
                                         int size,
                                         ReplyMarkup replyMarkup,
@@ -911,7 +911,7 @@ public class TelegramConnection {
   }
   
   public VideoNoteMessage sendVideoNote(Message replyToMessage,
-                                        java.io.File video,
+                                        InputStream video,
                                         ReplyMarkup replyMarkup,
                                         boolean disableNotification) throws IOException {
     SendVideoNote sendVideo = new SendVideoNote()
@@ -923,7 +923,7 @@ public class TelegramConnection {
   }
   
   public VideoNoteMessage sendVideoNote(Chat chat,
-                                        java.io.File video,
+                                        InputStream video,
                                         ReplyMarkup replyMarkup,
                                         boolean disableNotification) throws IOException {
     SendVideoNote sendVideo = new SendVideoNote()
@@ -1468,7 +1468,7 @@ public class TelegramConnection {
     execute(setChatPhoto);
   }
   
-  public void setChatPhoto(Chat chat, java.io.File photo) throws IOException {
+  public void setChatPhoto(Chat chat, InputStream photo) throws IOException {
     SetChatPhoto setChatPhoto = new SetChatPhoto()
         .chat(chat)
         .photo(photo);
@@ -1713,21 +1713,21 @@ public class TelegramConnection {
   }
   
   public <CaptionedMessage extends Message & Captioned> Serializable editMessageCaption(
-      CaptionedMessage photoMessage,
+      CaptionedMessage message,
       String caption,
       InlineKeyboardMarkup replyMarkup) throws IOException {
     EditMessageCaption editMessageCaption = new EditMessageCaption()
-        .message(photoMessage)
+        .message(message)
         .caption(caption)
         .replyMarkup(replyMarkup);
     return execute(editMessageCaption);
   }
   
   public <CaptionedMessage extends Message & Captioned> Serializable editMessageCaption(
-      CaptionedMessage photoMessage,
+      CaptionedMessage message,
       String caption) throws IOException {
     EditMessageCaption editMessageCaption = new EditMessageCaption()
-        .message(photoMessage)
+        .message(message)
         .caption(caption);
     return execute(editMessageCaption);
   }
@@ -1812,7 +1812,7 @@ public class TelegramConnection {
   }
   
   public StickerMessage sendSticker(Message replyToMessage,
-                                    java.io.File sticker,
+                                    InputStream sticker,
                                     ReplyMarkup replyMarkup,
                                     boolean disableNotification) throws IOException {
     SendSticker sendSticker = new SendSticker()
@@ -1824,7 +1824,7 @@ public class TelegramConnection {
   }
   
   public StickerMessage sendSticker(Chat chat,
-                                    java.io.File sticker,
+                                    InputStream sticker,
                                     ReplyMarkup replyMarkup,
                                     boolean disableNotification) throws IOException {
     SendSticker sendSticker = new SendSticker()
@@ -1836,7 +1836,7 @@ public class TelegramConnection {
   }
   
   public StickerMessage sendSticker(Message replyToMessage,
-                                    java.io.File sticker) throws IOException {
+                                    InputStream sticker) throws IOException {
     SendSticker sendSticker = new SendSticker()
         .replyToMessage(replyToMessage)
         .sticker(sticker);
@@ -1844,7 +1844,7 @@ public class TelegramConnection {
   }
   
   public StickerMessage sendSticker(Chat chat,
-                                    java.io.File sticker) throws IOException {
+                                    InputStream sticker) throws IOException {
     SendSticker sendSticker = new SendSticker()
         .chat(chat)
         .sticker(sticker);
@@ -1857,14 +1857,14 @@ public class TelegramConnection {
     return execute(getStickerSet);
   }
   
-  public File uploadStickerFile(User owner, java.io.File sticker) throws IOException {
+  public File uploadStickerFile(User owner, InputStream sticker) throws IOException {
     UploadStickerFile uploadStickerFile = new UploadStickerFile()
         .user(owner)
         .sticker(sticker);
     return execute(uploadStickerFile);
   }
   
-  public File uploadStickerFile(long ownerId, java.io.File sticker) throws IOException {
+  public File uploadStickerFile(long ownerId, InputStream sticker) throws IOException {
     UploadStickerFile uploadStickerFile = new UploadStickerFile()
         .user(ownerId)
         .sticker(sticker);
@@ -1906,7 +1906,7 @@ public class TelegramConnection {
   public void createNewStickerSet(User owner,
                                   String name,
                                   String title,
-                                  java.io.File pngSticker,
+                                  InputStream pngSticker,
                                   String emojis,
                                   boolean containsMasks,
                                   MaskPosition maskPosition) throws IOException {
@@ -1924,7 +1924,7 @@ public class TelegramConnection {
   public void createNewStickerSet(User owner,
                                   String name,
                                   String title,
-                                  java.io.File pngSticker,
+                                  InputStream pngSticker,
                                   String emojis) throws IOException {
     CreateNewStickerSet createNewStickerSet = new CreateNewStickerSet()
         .user(owner)
@@ -1970,7 +1970,7 @@ public class TelegramConnection {
   public void createNewStickerSet(long ownerId,
                                   String name,
                                   String title,
-                                  java.io.File pngSticker,
+                                  InputStream pngSticker,
                                   String emojis,
                                   boolean containsMasks,
                                   MaskPosition maskPosition) throws IOException {
@@ -1988,7 +1988,7 @@ public class TelegramConnection {
   public void createNewStickerSet(long ownerId,
                                   String name,
                                   String title,
-                                  java.io.File pngSticker,
+                                  InputStream pngSticker,
                                   String emojis) throws IOException {
     CreateNewStickerSet createNewStickerSet = new CreateNewStickerSet()
         .user(ownerId)

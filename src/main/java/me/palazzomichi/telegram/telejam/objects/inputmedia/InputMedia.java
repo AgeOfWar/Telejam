@@ -3,7 +3,7 @@ package me.palazzomichi.telegram.telejam.objects.inputmedia;
 import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.objects.TelegramObject;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -34,9 +34,9 @@ public abstract class InputMedia implements TelegramObject {
   private String caption;
   
   /**
-   * The path to the file.
+   * File not present in Telegram servers.
    */
-  private String file;
+  private InputStream file;
   
   /**
    * Unique name for this media.
@@ -62,10 +62,10 @@ public abstract class InputMedia implements TelegramObject {
    * @param name    unique name for this media
    * @param caption caption of the file to be sent, 0-200 characters
    */
-  public InputMedia(File media, String name, String caption) {
+  public InputMedia(InputStream media, String name, String caption) {
     this.media = ATTACH_PREFIX + name;
     this.caption = caption;
-    this.file = media.getPath();
+    this.file = media;
     this.fileAttachName = name;
   }
   
@@ -113,7 +113,7 @@ public abstract class InputMedia implements TelegramObject {
    *
    * @return optional value for property {@link #file}
    */
-  public Optional<String> getFile() {
+  public Optional<InputStream> getFile() {
     return Optional.ofNullable(file);
   }
   
@@ -122,7 +122,7 @@ public abstract class InputMedia implements TelegramObject {
    *
    * @param file value for property {@link #file}
    */
-  public void setFile(String file) {
+  public void setFile(InputStream file) {
     this.file = file;
   }
   

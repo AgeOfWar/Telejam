@@ -11,7 +11,8 @@ import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,9 +60,9 @@ public class SendSticker implements TelegramMethod<StickerMessage> {
   private String sticker;
 
   /**
-   * True if the sticker is not present in Telegram servers.
+   * Sticker not present in Telegram servers.
    */
-  private boolean newSticker;
+  private InputStream newSticker;
 
 
   public SendSticker chat(String chatId) {
@@ -106,20 +107,26 @@ public class SendSticker implements TelegramMethod<StickerMessage> {
   }
 
   public SendSticker sticker(String sticker) {
-    newSticker = false;
+    newSticker = null;
     this.sticker = sticker;
     return this;
   }
-
-  public SendSticker sticker(File sticker) {
-    newSticker = true;
-    this.sticker = sticker.getPath();
+  
+  public SendSticker sticker(InputStream newSticker) {
+    sticker = null;
+    this.newSticker = newSticker;
     return this;
   }
-
-  public SendSticker sticker(Path sticker) {
-    newSticker = true;
-    this.sticker = sticker.toString();
+  
+  public SendSticker sticker(File newSticker) throws FileNotFoundException {
+    sticker = null;
+    this.newSticker = new FileInputStream(newSticker);
+    return this;
+  }
+  
+  public SendSticker sticker(Path newSticker) throws IOException {
+    sticker = null;
+    this.newSticker = Files.newInputStream(newSticker);
     return this;
   }
 
@@ -135,7 +142,7 @@ public class SendSticker implements TelegramMethod<StickerMessage> {
 
   @Override
   public HttpEntity getHttpEntity() {
-    if (newSticker) {
+    if (newSticker != null) {
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 
       if (chatId != null)
@@ -150,8 +157,7 @@ public class SendSticker implements TelegramMethod<StickerMessage> {
       if (replyMarkup != null)
         builder.addTextBody(REPLY_MARKUP_FIELD, replyMarkup.toString());
 
-      if (sticker != null)
-        builder.addBinaryBody(STICKER_FIELD, new File(sticker));
+      builder.addBinaryBody(STICKER_FIELD, newSticker);
 
       return builder.build();
     } else {

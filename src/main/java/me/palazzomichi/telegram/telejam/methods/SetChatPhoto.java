@@ -6,7 +6,8 @@ import me.palazzomichi.telegram.telejam.objects.chats.Chat;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
@@ -39,7 +40,7 @@ public class SetChatPhoto implements TelegramMethod<Boolean> {
    * New chat photo.
    */
   @SerializedName(PHOTO_FIELD)
-  private String photo;
+  private InputStream photo;
 
 
   public SetChatPhoto chat(String chatId) {
@@ -57,18 +58,23 @@ public class SetChatPhoto implements TelegramMethod<Boolean> {
     return this;
   }
 
-  public SetChatPhoto photo(String photo) {
+  public SetChatPhoto photo(String photo) throws FileNotFoundException {
+    this.photo = new FileInputStream(photo);
+    return this;
+  }
+  
+  public SetChatPhoto photo(InputStream photo) {
     this.photo = photo;
     return this;
   }
-
-  public SetChatPhoto photo(File photo) {
-    this.photo = photo.getPath();
+  
+  public SetChatPhoto photo(File photo) throws FileNotFoundException {
+    this.photo = new FileInputStream(photo);
     return this;
   }
-
-  public SetChatPhoto photo(Path photo) {
-    this.photo = photo.toString();
+  
+  public SetChatPhoto photo(Path photo) throws IOException {
+    this.photo = Files.newInputStream(photo);
     return this;
   }
 
@@ -90,7 +96,7 @@ public class SetChatPhoto implements TelegramMethod<Boolean> {
         builder.addTextBody(CHAT_ID_FIELD, chatId);
 
     if(photo != null)
-        builder.addBinaryBody(PHOTO_FIELD, new File(photo));
+        builder.addBinaryBody(PHOTO_FIELD, photo);
 
     return builder.build();
   }

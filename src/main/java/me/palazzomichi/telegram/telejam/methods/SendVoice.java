@@ -12,7 +12,8 @@ import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,9 +79,9 @@ public class SendVoice implements TelegramMethod<VoiceMessage> {
   private Integer duration;
 
   /**
-   * True if the voice is not present in Telegram servers.
+   * Voice not present in Telegram servers.
    */
-  private boolean newVoice;
+  private InputStream newVoice;
 
 
   public SendVoice chat(String chatId) {
@@ -125,20 +126,26 @@ public class SendVoice implements TelegramMethod<VoiceMessage> {
   }
 
   public SendVoice voice(String voice) {
-    newVoice = false;
+    newVoice = null;
     this.voice = voice;
     return this;
   }
-
-  public SendVoice voice(File voice) {
-    newVoice = true;
-    this.voice = voice.getPath();
+  
+  public SendVoice voice(InputStream newVoice) {
+    voice = null;
+    this.newVoice = newVoice;
     return this;
   }
-
-  public SendVoice voice(Path voice) {
-    newVoice = true;
-    this.voice = voice.toString();
+  
+  public SendVoice voice(File newVoice) throws FileNotFoundException {
+    voice = null;
+    this.newVoice = new FileInputStream(newVoice);
+    return this;
+  }
+  
+  public SendVoice voice(Path newVoice) throws IOException {
+    voice = null;
+    this.newVoice = Files.newInputStream(newVoice);
     return this;
   }
 
@@ -169,7 +176,7 @@ public class SendVoice implements TelegramMethod<VoiceMessage> {
 
   @Override
   public HttpEntity getHttpEntity() {
-    if (newVoice) {
+    if (newVoice != null) {
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 
       if (chatId != null)
@@ -184,8 +191,7 @@ public class SendVoice implements TelegramMethod<VoiceMessage> {
       if (replyMarkup != null)
         builder.addTextBody(REPLY_MARKUP_FIELD, replyMarkup.toString());
 
-      if (voice != null)
-        builder.addBinaryBody(VOICE_FIELD, new File(voice));
+      builder.addBinaryBody(VOICE_FIELD, newVoice);
 
       if (caption != null)
         builder.addTextBody(CAPTION_FIELD, caption);

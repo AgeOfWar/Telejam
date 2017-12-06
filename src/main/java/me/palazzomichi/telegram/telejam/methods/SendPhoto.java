@@ -12,7 +12,8 @@ import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +64,9 @@ public class SendPhoto implements TelegramMethod<PhotoMessage> {
   private String caption;
 
   /**
-   * True if the photo is not present in Telegram servers.
+   * Photo not present in Telegram servers.
    */
-  private boolean newPhoto;
+  private InputStream newPhoto;
 
 
   public SendPhoto chat(String chatId) {
@@ -110,20 +111,26 @@ public class SendPhoto implements TelegramMethod<PhotoMessage> {
   }
 
   public SendPhoto photo(String photo) {
-    newPhoto = false;
+    newPhoto = null;
     this.photo = photo;
     return this;
   }
-
-  public SendPhoto photo(File photo) {
-    newPhoto = true;
-    this.photo = photo.getPath();
+  
+  public SendPhoto photo(InputStream newPhoto) {
+    photo = null;
+    this.newPhoto = newPhoto;
     return this;
   }
-
-  public SendPhoto photo(Path photo) {
-    newPhoto = true;
-    this.photo = photo.toString();
+  
+  public SendPhoto photo(File newPhoto) throws FileNotFoundException {
+    photo = null;
+    this.newPhoto = new FileInputStream(newPhoto);
+    return this;
+  }
+  
+  public SendPhoto photo(Path newPhoto) throws IOException {
+    photo = null;
+    this.newPhoto = Files.newInputStream(newPhoto);
     return this;
   }
 
@@ -149,7 +156,7 @@ public class SendPhoto implements TelegramMethod<PhotoMessage> {
 
   @Override
   public HttpEntity getHttpEntity() {
-    if (newPhoto) {
+    if (newPhoto != null) {
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 
       if (chatId != null)
@@ -164,8 +171,7 @@ public class SendPhoto implements TelegramMethod<PhotoMessage> {
       if (replyMarkup != null)
         builder.addTextBody(REPLY_MARKUP_FIELD, replyMarkup.toString());
 
-      if (photo != null)
-        builder.addBinaryBody(PHOTO_FIELD, new File(photo));
+      builder.addBinaryBody(PHOTO_FIELD, newPhoto);
 
       if (caption != null)
         builder.addTextBody(CAPTION_FIELD, caption);
