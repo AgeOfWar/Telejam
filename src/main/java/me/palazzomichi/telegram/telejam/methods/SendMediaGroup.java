@@ -9,7 +9,7 @@ import me.palazzomichi.telegram.telejam.objects.messages.Message;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
-import java.io.File;
+import java.io.InputStream;
 
 /**
  * Use this method to send a group of photos or videos as an album.
@@ -114,10 +114,12 @@ public class SendMediaGroup implements TelegramMethod<Message[]> {
     if (media != null) {
       builder.addTextBody(MEDIA_FIELD, TelegramObject.gson.toJson(media));
       for (InputMedia inputMedia : media) {
-        inputMedia.getFileAttachName().ifPresent(name -> {
-          String file = inputMedia.getFile().orElseThrow(NullPointerException::new);
-          builder.addBinaryBody(name, new File(file));
-        });
+        if (inputMedia.getFile().isPresent()) {
+          InputStream file = inputMedia.getFile().get();
+          String fileAttachName = inputMedia.getFileAttachName()
+              .orElseThrow(NullPointerException::new);
+          builder.addBinaryBody(fileAttachName, file);
+        }
       }
     }
     

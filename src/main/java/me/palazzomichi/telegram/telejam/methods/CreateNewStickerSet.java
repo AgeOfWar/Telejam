@@ -9,7 +9,8 @@ import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,9 @@ import java.util.List;
  * @author Michi Palazzo
  */
 public class CreateNewStickerSet implements TelegramMethod<Boolean> {
-
+  
   public static final String NAME = "createNewStickerSet";
-
+  
   static final String USER_ID_FIELD = "user_id";
   static final String NAME_FIELD = "name";
   static final String TITLE_FIELD = "title";
@@ -32,12 +33,12 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
   static final String EMOJIS_FIELD = "emojis";
   static final String CONTAINS_MASKS_FIELD = "contains_masks";
   static final String MASK_POSITION_FIELD = "mask_position";
-
+  
   /**
    * User identifier of created sticker set owner.
    */
   private Long userId;
-
+  
   /**
    * Short name of sticker set, to be used in <code>t.me/addstickers/</code> URLs (e.g., animals).
    * Can contain only english letters, digits and underscores.
@@ -47,12 +48,12 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
    * 1-64 characters.
    */
   private String name;
-
+  
   /**
    * Sticker set title, 1-64 characters.
    */
   private String title;
-
+  
   /**
    * Png image with the sticker, must be up to 512 kilobytes in size,
    * dimensions must not exceed 512px, and either width or height must be
@@ -61,71 +62,77 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
    * Telegram to get a file from the Internet, or upload a new one using multipart/form-data.
    */
   private String sticker;
-
+  
   /**
    * One or more emoji corresponding to the sticker.
    */
   private String emojis;
-
+  
   /**
    * Pass True, if a set of mask stickers should be created.
    */
   private Boolean containsMasks;
-
+  
   /**
    * Point where the mask should be placed on faces.
    */
   private MaskPosition maskPosition;
-
+  
   /**
-   * True if the sticker is not present in Telegram servers.
+   * Sticker not present in Telegram servers.
    */
-  private boolean newSticker;
-
-
+  private InputStream newSticker;
+  
+  
   public CreateNewStickerSet user(long userId) {
     this.userId = userId;
     return this;
   }
-
+  
   public CreateNewStickerSet user(User user) {
     this.userId = user.getId();
     return this;
   }
-
+  
   public CreateNewStickerSet name(String name) {
     this.name = name;
     return this;
   }
-
+  
   public CreateNewStickerSet title(String title) {
     this.title = title;
     return this;
   }
-
+  
   public CreateNewStickerSet sticker(String sticker) {
-    this.newSticker = false;
+    newSticker = null;
     this.sticker = sticker;
     return this;
   }
-
-  public CreateNewStickerSet sticker(File sticker) {
-    this.newSticker = true;
-    this.sticker = sticker.getPath();
+  
+  public CreateNewStickerSet sticker(InputStream newSticker) {
+    sticker = null;
+    this.newSticker = newSticker;
     return this;
   }
-
-  public CreateNewStickerSet sticker(Path sticker) {
-    this.newSticker = true;
-    this.sticker = sticker.toString();
+  
+  public CreateNewStickerSet sticker(File newSticker) throws FileNotFoundException {
+    sticker = null;
+    this.newSticker = new FileInputStream(newSticker);
     return this;
   }
-
+  
+  public CreateNewStickerSet sticker(Path newSticker) throws IOException {
+    sticker = null;
+    this.newSticker = Files.newInputStream(newSticker);
+    return this;
+  }
+  
   public CreateNewStickerSet emojis(String emojis) {
     this.emojis = emojis;
     return this;
   }
-
+  
   public CreateNewStickerSet containsMasks(Boolean containsMasks) {
     this.containsMasks = containsMasks;
     return this;
@@ -140,91 +147,90 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
     this.containsMasks = true;
     return this;
   }
-
+  
   public CreateNewStickerSet maskPosition(MaskPosition maskPosition) {
     this.maskPosition = maskPosition;
     return this;
   }
-
+  
   @Override
   public String getName() {
     return NAME;
   }
-
+  
   @Override
   public Class<? extends Boolean> getReturnType(JsonElement response) {
     return Boolean.class;
   }
-
+  
   @Override
   public HttpEntity getHttpEntity() {
-    if (newSticker) {
+    if (newSticker != null) {
       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-
+      
       if (userId != null)
         builder.addTextBody(USER_ID_FIELD, userId.toString());
-
+      
       if (name != null)
         builder.addTextBody(NAME, name);
-
+      
       if (title != null)
         builder.addTextBody(TITLE_FIELD, title);
-
-      if (sticker != null)
-        builder.addBinaryBody(STICKER_FIELD, new File(sticker));
-
+      
+      builder.addBinaryBody(STICKER_FIELD, newSticker);
+      
       if (emojis != null)
         builder.addTextBody(EMOJIS_FIELD, emojis);
-
+      
       if (containsMasks != null)
         builder.addTextBody(CONTAINS_MASKS_FIELD, containsMasks.toString());
-
+      
       if (maskPosition != null)
         builder.addTextBody(MASK_POSITION_FIELD, maskPosition.toJson());
-
+      
       return builder.build();
     } else {
       List<NameValuePair> params = new ArrayList<>();
-
+      
       if (userId != null)
         params.add(
             new BasicNameValuePair(USER_ID_FIELD, userId.toString())
         );
-
-      if(name != null)
+      
+      if (name != null)
         params.add(
             new BasicNameValuePair(NAME_FIELD, name)
         );
-
-      if(title != null)
+      
+      if (title != null)
         params.add(
             new BasicNameValuePair(TITLE_FIELD, title)
         );
-
-      if(sticker != null)
+      
+      if (sticker != null)
         params.add(
             new BasicNameValuePair(STICKER_FIELD, sticker)
         );
-
+      
       if (emojis != null)
         params.add(
             new BasicNameValuePair(EMOJIS_FIELD, emojis)
         );
-
+      
       if (containsMasks != null)
         params.add(
             new BasicNameValuePair(CONTAINS_MASKS_FIELD, containsMasks.toString())
         );
-
+      
       if (maskPosition != null)
         params.add(
             new BasicNameValuePair(MASK_POSITION_FIELD, maskPosition.toJson())
         );
-
+      
       return EntityBuilder.create()
           .setParameters(params)
           .build();
     }
   }
-
+  
 }

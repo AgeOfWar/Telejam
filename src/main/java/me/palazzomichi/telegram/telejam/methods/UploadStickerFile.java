@@ -6,6 +6,11 @@ import me.palazzomichi.telegram.telejam.objects.User;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
@@ -31,7 +36,7 @@ public class UploadStickerFile implements TelegramMethod<File> {
    * Png image with the sticker, must be up to 512 kilobytes in size,
    * dimensions must not exceed 512px, and either width or height must be exactly 512px.
    */
-  private String sticker;
+  private InputStream sticker;
 
 
   public UploadStickerFile user(long userId) {
@@ -44,18 +49,23 @@ public class UploadStickerFile implements TelegramMethod<File> {
     return this;
   }
 
-  public UploadStickerFile sticker(String sticker) {
+  public UploadStickerFile sticker(InputStream sticker) {
     this.sticker = sticker;
     return this;
   }
-
-  public UploadStickerFile sticker(java.io.File sticker) {
-    this.sticker = sticker.getPath();
+  
+  public UploadStickerFile sticker(String sticker) throws FileNotFoundException {
+    this.sticker = new FileInputStream(sticker);
     return this;
   }
 
-  public UploadStickerFile sticker(Path sticker) {
-    this.sticker = sticker.toString();
+  public UploadStickerFile sticker(java.io.File sticker) throws FileNotFoundException {
+    this.sticker = new FileInputStream(sticker);
+    return this;
+  }
+
+  public UploadStickerFile sticker(Path sticker) throws IOException {
+    this.sticker = Files.newInputStream(sticker);
     return this;
   }
 
@@ -78,7 +88,7 @@ public class UploadStickerFile implements TelegramMethod<File> {
       builder.addTextBody(USER_ID_FIELD, userId.toString());
 
     if (sticker != null)
-      builder.addBinaryBody(STICKER_FIELD, new java.io.File(sticker));
+      builder.addBinaryBody(STICKER_FIELD, sticker);
 
     return builder.build();
   }
