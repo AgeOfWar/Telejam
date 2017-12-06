@@ -2,7 +2,7 @@ package me.palazzomichi.telegram.telejam.objects.inputmedia;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.OptionalInt;
 
 /**
@@ -74,7 +74,7 @@ public class InputMediaVideo extends InputMedia {
    * @param height   video height
    * @param duration video duration
    */
-  public InputMediaVideo(File media, String name, String caption, int width, int height, int duration) {
+  public InputMediaVideo(InputStream media, String name, String caption, int width, int height, int duration) {
     super(media, name, caption);
     this.width = width;
     this.height = height;
@@ -88,7 +88,7 @@ public class InputMediaVideo extends InputMedia {
    * @param name     unique name for this media
    * @param caption  caption of the file to be sent, 0-200 characters
    */
-  public InputMediaVideo(File media, String name, String caption) {
+  public InputMediaVideo(InputStream media, String name, String caption) {
     super(media, name, caption);
   }
   
