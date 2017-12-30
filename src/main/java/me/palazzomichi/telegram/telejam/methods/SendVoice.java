@@ -9,6 +9,7 @@ import me.palazzomichi.telegram.telejam.util.text.Text;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -82,6 +83,11 @@ public class SendVoice implements TelegramMethod<VoiceMessage> {
    * Voice not present in Telegram servers.
    */
   private InputStream newVoice;
+  
+  /**
+   * Name of {@link #newVoice}.
+   */
+  private String fileName;
 
 
   public SendVoice chat(String chatId) {
@@ -131,21 +137,31 @@ public class SendVoice implements TelegramMethod<VoiceMessage> {
     return this;
   }
   
-  public SendVoice voice(InputStream newVoice) {
+  public SendVoice voice(InputStream newVoice, String name) {
     voice = null;
     this.newVoice = newVoice;
+    this.fileName = name;
     return this;
   }
   
   public SendVoice voice(File newVoice) throws FileNotFoundException {
     voice = null;
     this.newVoice = new FileInputStream(newVoice);
+    this.fileName = newVoice.getName();
     return this;
   }
   
-  public SendVoice voice(Path newVoice) throws IOException {
+  public SendVoice voice(File newVoice, String name) throws FileNotFoundException {
+    voice = null;
+    this.newVoice = new FileInputStream(newVoice);
+    this.fileName = name;
+    return this;
+  }
+  
+  public SendVoice voice(Path newVoice, String name) throws IOException {
     voice = null;
     this.newVoice = Files.newInputStream(newVoice);
+    this.fileName = name;
     return this;
   }
 
@@ -191,7 +207,7 @@ public class SendVoice implements TelegramMethod<VoiceMessage> {
       if (replyMarkup != null)
         builder.addTextBody(REPLY_MARKUP_FIELD, replyMarkup.toString());
 
-      builder.addBinaryBody(VOICE_FIELD, newVoice);
+      builder.addBinaryBody(VOICE_FIELD, newVoice, ContentType.APPLICATION_OCTET_STREAM, fileName);
 
       if (caption != null)
         builder.addTextBody(CAPTION_FIELD, caption);

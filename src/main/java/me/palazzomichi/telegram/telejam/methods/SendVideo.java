@@ -9,6 +9,7 @@ import me.palazzomichi.telegram.telejam.util.text.Text;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -92,6 +93,11 @@ public class SendVideo implements TelegramMethod<VideoMessage> {
    */
   private InputStream newVideo;
   
+  /**
+   * Name of {@link #newVideo}.
+   */
+  private String fileName;
+  
   
   public SendVideo chat(String chatId) {
     this.chatId = chatId;
@@ -140,21 +146,31 @@ public class SendVideo implements TelegramMethod<VideoMessage> {
     return this;
   }
   
-  public SendVideo video(InputStream newVideo) {
+  public SendVideo video(InputStream newVideo, String name) {
     video = null;
     this.newVideo = newVideo;
+    this.fileName = name;
     return this;
   }
   
   public SendVideo video(File newVideo) throws FileNotFoundException {
     video = null;
     this.newVideo = new FileInputStream(newVideo);
+    this.fileName = newVideo.getName();
     return this;
   }
   
-  public SendVideo video(Path newVideo) throws IOException {
+  public SendVideo video(File newVideo, String name) throws FileNotFoundException {
+    video = null;
+    this.newVideo = new FileInputStream(newVideo);
+    this.fileName = name;
+    return this;
+  }
+  
+  public SendVideo video(Path newVideo, String name) throws IOException {
     video = null;
     this.newVideo = Files.newInputStream(newVideo);
+    this.fileName = name;
     return this;
   }
   
@@ -216,7 +232,7 @@ public class SendVideo implements TelegramMethod<VideoMessage> {
       if (replyMarkup != null)
         builder.addTextBody(REPLY_MARKUP_FIELD, replyMarkup.toString());
         
-      builder.addBinaryBody(VIDEO_FIELD, newVideo);
+      builder.addBinaryBody(VIDEO_FIELD, newVideo, ContentType.APPLICATION_OCTET_STREAM, fileName);
       
       if (width != null)
         builder.addTextBody(WIDTH_FIELD, width.toString());

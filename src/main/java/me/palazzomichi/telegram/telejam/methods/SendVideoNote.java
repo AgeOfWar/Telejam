@@ -8,6 +8,7 @@ import me.palazzomichi.telegram.telejam.objects.replymarkups.ReplyMarkup;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -77,6 +78,11 @@ public class SendVideoNote implements TelegramMethod<VideoNoteMessage> {
    */
   private InputStream newVideo;
   
+  /**
+   * Name of {@link #newVideo}.
+   */
+  private String fileName;
+  
   
   public SendVideoNote chat(String chatId) {
     this.chatId = chatId;
@@ -125,21 +131,31 @@ public class SendVideoNote implements TelegramMethod<VideoNoteMessage> {
     return this;
   }
   
-  public SendVideoNote video(InputStream newVideo) {
+  public SendVideoNote video(InputStream newVideo, String name) {
     video = null;
     this.newVideo = newVideo;
+    this.fileName = name;
     return this;
   }
   
   public SendVideoNote video(File newVideo) throws FileNotFoundException {
     video = null;
     this.newVideo = new FileInputStream(newVideo);
+    this.fileName = newVideo.getName();
     return this;
   }
   
-  public SendVideoNote video(Path newVideo) throws IOException {
+  public SendVideoNote video(File newVideo, String name) throws FileNotFoundException {
+    video = null;
+    this.newVideo = new FileInputStream(newVideo);
+    this.fileName = name;
+    return this;
+  }
+  
+  public SendVideoNote video(Path newVideo, String name) throws IOException {
     video = null;
     this.newVideo = Files.newInputStream(newVideo);
+    this.fileName = name;
     return this;
   }
   
@@ -180,7 +196,7 @@ public class SendVideoNote implements TelegramMethod<VideoNoteMessage> {
       if (replyMarkup != null)
         builder.addTextBody(REPLY_MARKUP_FIELD, replyMarkup.toString());
       
-      builder.addBinaryBody(VIDEO_FIELD, newVideo);
+      builder.addBinaryBody(VIDEO_FIELD, newVideo, ContentType.APPLICATION_OCTET_STREAM, fileName);
       
       if (size != null)
         builder.addTextBody(SIZE_FIELD, size.toString());

@@ -7,6 +7,7 @@ import me.palazzomichi.telegram.telejam.objects.chats.Chat;
 import me.palazzomichi.telegram.telejam.objects.inputmedia.InputMedia;
 import me.palazzomichi.telegram.telejam.objects.messages.Message;
 import org.apache.http.HttpEntity;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import java.io.InputStream;
@@ -118,7 +119,7 @@ public class SendMediaGroup implements TelegramMethod<Message[]> {
           InputStream file = inputMedia.getFile().get();
           String fileAttachName = inputMedia.getFileAttachName()
               .orElseThrow(NullPointerException::new);
-          builder.addBinaryBody(fileAttachName, file);
+          builder.addBinaryBody(fileAttachName, file, ContentType.APPLICATION_OCTET_STREAM, fileAttachName);
         }
       }
     }

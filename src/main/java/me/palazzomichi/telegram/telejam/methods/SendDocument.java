@@ -9,6 +9,7 @@ import me.palazzomichi.telegram.telejam.util.text.Text;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -72,6 +73,11 @@ public class SendDocument implements TelegramMethod<DocumentMessage> {
    * File not present in Telegram servers.
    */
   private InputStream newFile;
+  
+  /**
+   * Name of {@link #newFile}.
+   */
+  private String fileName;
 
 
   public SendDocument chat(String chatId) {
@@ -121,21 +127,31 @@ public class SendDocument implements TelegramMethod<DocumentMessage> {
     return this;
   }
   
-  public SendDocument file(InputStream newFile) {
+  public SendDocument file(InputStream newFile, String name) {
     file = null;
     this.newFile = newFile;
+    this.fileName = name;
     return this;
   }
   
   public SendDocument file(File newFile) throws FileNotFoundException {
     file = null;
     this.newFile = new FileInputStream(newFile);
+    this.fileName = newFile.getName();
     return this;
   }
   
-  public SendDocument file(Path newFile) throws IOException {
+  public SendDocument file(File newFile, String fileName) throws FileNotFoundException {
+    file = null;
+    this.newFile = new FileInputStream(newFile);
+    this.fileName = fileName;
+    return this;
+  }
+  
+  public SendDocument file(Path newFile, String name) throws IOException {
     file = null;
     this.newFile = Files.newInputStream(newFile);
+    this.fileName = name;
     return this;
   }
 
@@ -176,7 +192,7 @@ public class SendDocument implements TelegramMethod<DocumentMessage> {
       if (replyMarkup != null)
         builder.addTextBody(REPLY_MARKUP_FIELD, replyMarkup.toString());
 
-      builder.addBinaryBody(FILE_FIELD, newFile);
+      builder.addBinaryBody(FILE_FIELD, newFile, ContentType.APPLICATION_OCTET_STREAM, fileName);
 
       if (caption != null)
         builder.addTextBody(CAPTION_FIELD, caption);
