@@ -75,17 +75,17 @@ public abstract class CommandExecutor implements CommandHandler {
   public abstract void execute(String command, String[] args, TextMessage message) throws Throwable;
   
   @Override
-  public void accept(String command, String[] args, TextMessage message) throws Throwable {
+  public void acceptCommand(String command, String[] args, TextMessage message) throws Throwable {
     if (isThisCommand(command)) {
       boolean executed = false;
       if (args.length > 0) {
         for (CommandExecutor subCommand : subCommands) {
           if (executed = subCommand.isThisSubCommand(args[0])) {
             try {
-              subCommand.accept(args[0], Arrays.copyOfRange(args, 1, args.length), message);
+              subCommand.acceptCommand(args[0], Arrays.copyOfRange(args, 1, args.length), message);
               break;
             } catch (CommandSyntaxException syntaxException) {
-              throw new CommandSyntaxException(command, syntaxException);
+              throw new CommandSyntaxException(syntaxException);
             }
           }
         }
@@ -172,12 +172,7 @@ public abstract class CommandExecutor implements CommandHandler {
    *
    * @author Michi Palazzo
    */
-  public static class CommandSyntaxException extends Exception {
-    
-    /**
-     * The bot that received the command.
-     */
-    private final Bot bot;
+  public class CommandSyntaxException extends Exception {
     
     /**
      * The command.
@@ -185,48 +180,36 @@ public abstract class CommandExecutor implements CommandHandler {
     private final TextMessage message;
     
     /**
-     * The command name.
-     */
-    private final String command;
-    
-    /**
      * Valid command args.
      */
-    private final String[] args;
+    private final String[] validArgs;
     
     
     /**
      * Constructs a CommandSyntaxException.
      *
-     * @param bot     the bot that received the command
-     * @param message the command
-     * @param command the command name
-     * @param args    valid command args
+     * @param message   the command message
+     * @param validArgs valid command args
      */
-    public CommandSyntaxException(Bot bot, TextMessage message, String command, String... args) {
+    public CommandSyntaxException(TextMessage message, String... validArgs) {
       super();
-      this.bot = bot;
       this.message = message;
-      this.command = command;
-      this.args = args;
+      this.validArgs = validArgs;
     }
     
     /**
      * Constructs a CommandSyntaxException.
      *
-     * @param command the command name
-     * @param cause   the cause
+     * @param cause the cause
      */
-    public CommandSyntaxException(String command, CommandSyntaxException cause) {
+    public CommandSyntaxException(CommandSyntaxException cause) {
       super(cause);
-      this.bot = cause.getBot();
-      this.message = cause.getCommand();
-      this.command = command;
+      this.message = cause.getCommandMessage();
       
-      String[] a = cause.getArgs();
-      args = new String[a.length + 1];
-      args[0] = cause.getCommandName();
-      System.arraycopy(a, 0, args, 1, a.length);
+      String[] a = cause.getValidArgs();
+      validArgs = new String[a.length + 1];
+      validArgs[0] = cause.getCommand();
+      System.arraycopy(a, 0, validArgs, 1, a.length);
     }
     
     
@@ -245,8 +228,7 @@ public abstract class CommandExecutor implements CommandHandler {
      * @return the correct syntax of the command
      */
     public String getSyntax() {
-      final String delimiter = " ";
-      return command + delimiter + String.join(delimiter, args);
+      return name + " " + String.join(" ", validArgs);
     }
     
     /**
@@ -254,26 +236,26 @@ public abstract class CommandExecutor implements CommandHandler {
      *
      * @return value for property {@link #message}
      */
-    public TextMessage getCommand() {
+    public TextMessage getCommandMessage() {
       return message;
     }
     
     /**
-     * Getter for property {@link #command}.
+     * Getter for property {@link #name}.
      *
-     * @return value for property {@link #command}
+     * @return value for property {@link #name}
      */
-    public String getCommandName() {
-      return command;
+    public String getCommand() {
+      return name;
     }
     
     /**
-     * Getter for property {@link #args}.
+     * Getter for property {@link #validArgs}.
      *
-     * @return value for property {@link #args}
+     * @return value for property {@link #validArgs}
      */
-    public String[] getArgs() {
-      return args;
+    public String[] getValidArgs() {
+      return validArgs;
     }
     
   }

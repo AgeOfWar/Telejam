@@ -12,7 +12,7 @@ import java.util.Arrays;
  * @author Michi Palazzo
  */
 @FunctionalInterface
-public interface CommandHandler extends MessageHandler {
+public interface CommandHandler extends UpdateAdapter {
   
   /**
    * Performs this operation on the given command.
@@ -22,15 +22,15 @@ public interface CommandHandler extends MessageHandler {
    * @param message the message
    * @throws Throwable if a throwable is thrown
    */
-  void accept(String command, String[] args, TextMessage message) throws Throwable;
+  void acceptCommand(String command, String[] args, TextMessage message) throws Throwable;
   
   @Override
-  default void accept(Message message) throws Throwable {
+  default void acceptMessage(Message message) throws Throwable {
     if (message instanceof TextMessage) {
       TextMessage textMessage = (TextMessage) message;
       String[] command = getArgs(textMessage);
       if (command.length > 0) {
-        accept(command[0], Arrays.copyOfRange(command, 1, command.length), textMessage);
+        acceptCommand(command[0], Arrays.copyOfRange(command, 1, command.length), textMessage);
       }
     }
   }
