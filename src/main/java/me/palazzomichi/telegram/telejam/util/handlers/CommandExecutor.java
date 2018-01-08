@@ -3,8 +3,6 @@ package me.palazzomichi.telegram.telejam.util.handlers;
 import me.palazzomichi.telegram.telejam.Bot;
 import me.palazzomichi.telegram.telejam.objects.messages.TextMessage;
 
-import java.util.Arrays;
-
 /**
  * Represents an operation that accepts a command and returns no
  * result. Used to handle updates received from a bot.
@@ -17,13 +15,6 @@ public abstract class CommandExecutor implements CommandHandler {
    * The bot that will receive the command.
    */
   protected final Bot bot;
-  
-  /**
-   * Sub-commands of this command.
-   * For example, in the command <code>/foo bar 1234</code>,
-   * <code>bar 1234</code>bar is sub-command of foo.
-   */
-  protected final CommandExecutor[] subCommands;
   
   /**
    * The name of the command.
@@ -39,27 +30,14 @@ public abstract class CommandExecutor implements CommandHandler {
   /**
    * Constructs a CommandExecutor.
    *
-   * @param bot         the bot that will receive the command
-   * @param name        the name of the command
-   * @param aliases     the aliases of the command
-   * @param subCommands sub-commands of this command
-   */
-  protected CommandExecutor(Bot bot, String name, String[] aliases, CommandExecutor... subCommands) {
-    this.bot = bot;
-    this.name = name;
-    this.aliases = aliases;
-    this.subCommands = subCommands;
-  }
-  
-  /**
-   * Constructs a CommandExecutor.
-   *
    * @param bot     the bot that will receive the command
    * @param name    the name of the command
    * @param aliases the aliases of the command
    */
-  public CommandExecutor(Bot bot, String name, String... aliases) {
-    this(bot, name, aliases, new CommandExecutor[0]);
+  protected CommandExecutor(Bot bot, String name, String... aliases) {
+    this.bot = bot;
+    this.name = name;
+    this.aliases = aliases;
   }
   
   
@@ -77,22 +55,7 @@ public abstract class CommandExecutor implements CommandHandler {
   @Override
   public void acceptCommand(String command, String[] args, TextMessage message) throws Throwable {
     if (isThisCommand(command)) {
-      boolean executed = false;
-      if (args.length > 0) {
-        for (CommandExecutor subCommand : subCommands) {
-          if (executed = subCommand.isThisSubCommand(args[0])) {
-            try {
-              subCommand.acceptCommand(args[0], Arrays.copyOfRange(args, 1, args.length), message);
-              break;
-            } catch (CommandSyntaxException syntaxException) {
-              throw new CommandSyntaxException(syntaxException);
-            }
-          }
-        }
-      }
-      if (!executed) {
-        execute(command, args, message);
-      }
+      execute(command, args, message);
     }
   }
   
@@ -103,18 +66,6 @@ public abstract class CommandExecutor implements CommandHandler {
     }
     for (String alias : aliases) {
       if (command.equalsIgnoreCase(alias) || command.equalsIgnoreCase(alias + "@" + botUsername)) {
-        return true;
-      }
-    }
-    return false;
-  }
-  
-  private boolean isThisSubCommand(String command) {
-    if (command.equalsIgnoreCase(name)) {
-      return true;
-    }
-    for (String alias : aliases) {
-      if (command.equalsIgnoreCase(alias)) {
         return true;
       }
     }
@@ -180,6 +131,11 @@ public abstract class CommandExecutor implements CommandHandler {
     private final TextMessage message;
     
     /**
+     * The command name;
+     */
+    private final String commandName;
+    
+    /**
      * Valid command args.
      */
     private final String[] validArgs;
@@ -188,28 +144,15 @@ public abstract class CommandExecutor implements CommandHandler {
     /**
      * Constructs a CommandSyntaxException.
      *
-     * @param message   the command message
-     * @param validArgs valid command args
+     * @param message     the command message
+     * @param commandName the command name
+     * @param validArgs   valid command args
      */
-    public CommandSyntaxException(TextMessage message, String... validArgs) {
+    public CommandSyntaxException(TextMessage message, String commandName, String... validArgs) {
       super();
       this.message = message;
+      this.commandName = commandName;
       this.validArgs = validArgs;
-    }
-    
-    /**
-     * Constructs a CommandSyntaxException.
-     *
-     * @param cause the cause
-     */
-    public CommandSyntaxException(CommandSyntaxException cause) {
-      super(cause);
-      this.message = cause.getCommandMessage();
-      
-      String[] a = cause.getValidArgs();
-      validArgs = new String[a.length + 1];
-      validArgs[0] = cause.getCommand();
-      System.arraycopy(a, 0, validArgs, 1, a.length);
     }
     
     
@@ -228,7 +171,7 @@ public abstract class CommandExecutor implements CommandHandler {
      * @return the correct syntax of the command
      */
     public String getSyntax() {
-      return name + " " + String.join(" ", validArgs);
+      return commandName + " " + String.join(" ", validArgs);
     }
     
     /**
@@ -245,8 +188,8 @@ public abstract class CommandExecutor implements CommandHandler {
      *
      * @return value for property {@link #name}
      */
-    public String getCommand() {
-      return name;
+    public String getCommandName() {
+      return commandName;
     }
     
     /**
