@@ -22,8 +22,10 @@ import me.palazzomichi.telegram.telejam.util.text.Text;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.config.SocketConfig;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -49,14 +51,14 @@ public class TelegramConnection {
   private static final String API_FILE_URL = "https://api.telegram.org/file/bot";
   
   /**
-   * The HTTP client used for send requests.
-   */
-  private CloseableHttpClient httpClient;
-  
-  /**
    * Token to access Telegram API.
    */
   private final String token;
+  
+  /**
+   * The HTTP client used for send requests.
+   */
+  private CloseableHttpClient httpClient;
   
   
   /**
@@ -76,9 +78,21 @@ public class TelegramConnection {
    * @param token the token used for the connection to the Telegram API
    */
   public TelegramConnection(String token) {
-    this(HttpClients.createMinimal(), token);
+    this(newHttpClient(), token);
   }
   
+  private static CloseableHttpClient newHttpClient() {
+    SocketConfig socketConfig = SocketConfig.custom()
+        .setSoTimeout(5_000)
+        .build();
+    
+    return HttpClientBuilder.create()
+        .setDefaultSocketConfig(socketConfig)
+        .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+        .disableCookieManagement()
+        .disableRedirectHandling()
+        .build();
+  }
   
   /**
    * Invokes a method from the Telegram API.
