@@ -13,16 +13,16 @@ A simple to use library to create Telegram Bots in Java.
   public class HelloWorldBot {
   
     public static void main(String... args) {
-  
       try {
         Bot bot = new Bot("<token>");
         BotThread thread = new BotThread(bot);
         thread.getUpdateHandlers().add(update -> System.out.println(update.toJson()));
-        thread.getErrorHandlers().add(IOException::printStackTrace);
+        thread.getErrorHandlers().add(Throwable::printStackTrace);
         thread.run();
       } catch (IOException e) {
         e.printStackTrace();
       }
     }
+    
   }
 ```
