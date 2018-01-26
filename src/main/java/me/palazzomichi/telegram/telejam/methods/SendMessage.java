@@ -127,7 +127,7 @@ public class SendMessage extends JsonTelegramMethod<TextMessage> {
   }
 
   public SendMessage parseMode(ParseMode parseMode) {
-    this.parseMode = parseMode.toString();
+    this.parseMode = parseMode == null ? null : parseMode.toString();
     return this;
   }
 
