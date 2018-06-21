@@ -65,7 +65,7 @@ public class Sticker implements TelegramObject {
   private MaskPosition maskPosition;
 
   /**
-   * File size.
+   * InputFile size.
    */
   @SerializedName(SIZE_FIELD)
   private Integer size;

@@ -35,7 +35,7 @@ public class PhotoSize implements TelegramObject {
   private int height;
 
   /**
-   * File size.
+   * InputFile size.
    */
   @SerializedName(SIZE_FIELD)
   private Integer size;

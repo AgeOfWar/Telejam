@@ -1,7 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
 import com.google.gson.annotations.SerializedName;
-import me.palazzomichi.telegram.telejam.objects.messages.Message;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -73,13 +72,21 @@ public class CallbackQuery implements TelegramObject {
    */
   @SerializedName(GAME_SHORT_NAME_FIELD)
   private String gameShortName;
-
-
-  public CallbackQuery(String id, User sender, Message message, String inlineMessageId, String chatInstance, String data, String gameShortName) {
+  
+  
+  public CallbackQuery(String id, User sender, Message message, String chatInstance, String data, String gameShortName) {
     this.id = Objects.requireNonNull(id);
     this.sender = Objects.requireNonNull(sender);
-    this.message = message;
-    this.inlineMessageId = inlineMessageId;
+    this.message = Objects.requireNonNull(message);
+    this.chatInstance = Objects.requireNonNull(chatInstance);
+    this.data = data;
+    this.gameShortName = gameShortName;
+  }
+  
+  public CallbackQuery(String id, User sender, String inlineMessageId, String chatInstance, String data, String gameShortName) {
+    this.id = Objects.requireNonNull(id);
+    this.sender = Objects.requireNonNull(sender);
+    this.inlineMessageId = Objects.requireNonNull(inlineMessageId);
     this.chatInstance = Objects.requireNonNull(chatInstance);
     this.data = data;
     this.gameShortName = gameShortName;

@@ -20,8 +20,6 @@ public class User implements TelegramObject {
   static final String LANGUAGE_CODE_FIELD = "language_code";
   static final String IS_BOT_FIELD = "is_bot";
   
-  private static final String NAME_SEPARATOR = " ";
-  
   /**
    * Unique identifier for this user or bot.
    */
@@ -47,10 +45,10 @@ public class User implements TelegramObject {
   private String username;
   
   /**
-   * IETF language tag of the user's language.
+   * User's locale.
    */
   @SerializedName(LANGUAGE_CODE_FIELD)
-  private String languageCode;
+  private Locale locale;
   
   /**
    * <code>true</code> if this user is a bot, <code>false</code> otherwise.
@@ -63,13 +61,13 @@ public class User implements TelegramObject {
               String firstName,
               String lastName,
               String username,
-              String languageCode,
+              Locale locale,
               boolean isBot) {
     this.id = id;
     this.firstName = Objects.requireNonNull(firstName);
     this.lastName = lastName;
     this.username = username;
-    this.languageCode = languageCode;
+    this.locale = locale;
     this.isBot = isBot;
   }
   
@@ -107,7 +105,7 @@ public class User implements TelegramObject {
    * @return the first and last name of the user
    */
   public String getName() {
-    return lastName == null ? firstName : firstName + NAME_SEPARATOR + lastName;
+    return lastName == null ? firstName : firstName + " " + lastName;
   }
   
   /**
@@ -126,7 +124,7 @@ public class User implements TelegramObject {
    * @return the locale of the user
    */
   public Locale getLocale() {
-    return Locale.forLanguageTag(languageCode == null ? "" : languageCode);
+    return locale != null ? locale : Locale.ROOT;
   }
   
   /**

@@ -2,7 +2,7 @@
 A simple to use library to create Telegram Bots in Java.
 
 ## Example
-This program prints the updates received from the bot.
+This program re-sends messages.
 ```java
   package test;
   
