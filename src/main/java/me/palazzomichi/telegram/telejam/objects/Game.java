@@ -1,9 +1,10 @@
 package me.palazzomichi.telegram.telejam.objects;
 
 import com.google.gson.annotations.SerializedName;
-import me.palazzomichi.telegram.telejam.util.text.Text;
+import me.palazzomichi.telegram.telejam.text.Text;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -52,7 +53,7 @@ public class Game implements TelegramObject {
    * Special entities that appear in text, such as usernames, URLs, bot commands, etc.
    */
   @SerializedName(TEXT_ENTITIES_FIELD)
-  private MessageEntity[] textEntities;
+  private List<MessageEntity> textEntities;
 
   /**
    * Animation that will be displayed in the game message in chats.
@@ -64,14 +65,13 @@ public class Game implements TelegramObject {
   public Game(String title,
               String description,
               PhotoSize[] photo,
-              String text,
-              MessageEntity[] textEntities,
+              Text text,
               Animation animation) {
     this.title = Objects.requireNonNull(title);
     this.description = Objects.requireNonNull(description);
     this.photo = Objects.requireNonNull(photo);
-    this.text = text;
-    this.textEntities = textEntities;
+    this.text = text.toString();
+    this.textEntities = text.getEntities();
     this.animation = animation;
   }
 
@@ -115,13 +115,7 @@ public class Game implements TelegramObject {
    * @return the optional text of the message
    */
   public Optional<Text> getText() {
-    if (text == null) {
-      return Optional.empty();
-    }
-    
-    return Optional.of(
-        new Text(text, textEntities == null ? new MessageEntity[0] : textEntities)
-    );
+    return Optional.ofNullable(text).map(caption -> new Text(caption, textEntities));
   }
 
   /**
@@ -148,7 +142,7 @@ public class Game implements TelegramObject {
         description.equals(game.getDescription()) &&
         Arrays.equals(photo, game.getPhoto()) &&
         Objects.equals(text, game.text) &&
-        Arrays.equals(textEntities, game.textEntities) &&
+        Objects.equals(textEntities, game.textEntities) &&
         Objects.equals(animation, game.animation);
   }
   
@@ -159,7 +153,7 @@ public class Game implements TelegramObject {
     result = 37 * result + description.hashCode();
     result = 37 * result + Arrays.hashCode(photo);
     result = 37 * result + Objects.hashCode(text);
-    result = 37 * result + Arrays.hashCode(textEntities);
+    result = 37 * result + Objects.hashCode(textEntities);
     result = 37 * result + animation.hashCode();
     return result;
   }

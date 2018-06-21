@@ -39,7 +39,7 @@ public class ChatMember implements TelegramObject {
    * Can be "creator", "administrator", "member",  "restricted", "left" or "kicked".
    */
   @SerializedName(STATUS_FIELD)
-  private String status;
+  private Status status;
 
   /**
    * if member is restricted or kicked , date when restrictions will
@@ -133,7 +133,7 @@ public class ChatMember implements TelegramObject {
 
 
   public ChatMember(User user,
-                    String status,
+                    Status status,
                     long untilDate,
                     boolean canBeEdited,
                     boolean canChangeInformation,
@@ -166,7 +166,7 @@ public class ChatMember implements TelegramObject {
     this.canAddWebPagePreviews = canAddWebPagePreviews;
   }
 
-  public ChatMember(User user, String status) {
+  public ChatMember(User user, Status status) {
     this.user = user;
     this.status = status;
   }
@@ -187,7 +187,7 @@ public class ChatMember implements TelegramObject {
    * @return value for property {@link #status}
    */
   public Status getStatus() {
-    return Status.get(status);
+    return status;
   }
 
   /**
@@ -335,34 +335,13 @@ public class ChatMember implements TelegramObject {
     return user.hashCode();
   }
   
-
   public enum Status {
-    CREATOR("creator"),
-    ADMINISTRATOR("administrator"),
-    MEMBER("member"),
-    RESTRICTED("restricted"),
-    LEFT("left"),
-    KICKED("kicked");
-
-    private String toString;
-
-    static Status get(String status) {
-      for (Status value : values()) {
-        if (value.toString().equals(status)) {
-          return value;
-        }
-      }
-      return null;
-    }
-
-    Status(String toString) {
-      this.toString = toString;
-    }
-
-    @Override
-    public String toString() {
-      return toString;
-    }
+    @SerializedName("creator") CREATOR,
+    @SerializedName("administrator") ADMINISTRATOR,
+    @SerializedName("member") MEMBER,
+    @SerializedName("restricted") RESTRICTED,
+    @SerializedName("left") LEFT,
+    @SerializedName("kicked") KICKED
   }
 
 }

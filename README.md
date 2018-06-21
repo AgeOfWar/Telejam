@@ -7,16 +7,25 @@ This program prints the updates received from the bot.
   package test;
   
   import me.palazzomichi.telegram.telejam.Bot;
-  import me.palazzomichi.telegram.telejam.BotThread;
+  import me.palazzomichi.telegram.telejam.LongPollingBot;
   
   import java.io.IOException;
   
-  public class ExampleBot {
+  public class ExampleBot extends LongPollingBot {
+    
     public static void main(String... args) throws IOException {
-      Bot bot = new Bot("<token>");
-      BotThread thread = new BotThread(bot);
-      thread.getUpdateHandlers().add(update -> System.out.println(update.toJson()));
-      thread.run();
+      Bot bot = Bot.fromToken(args[0]);
+      new ExampleBot(bot).run();
     }
+    
+    public ExampleBot(Bot bot) {
+      super(bot);
+    }
+    
+    @Override
+    public void onTextMessage(TextMessage message) throws IOException {
+      bot.sendMessage(message, message.getText());
+    }
+    
   }
 ```

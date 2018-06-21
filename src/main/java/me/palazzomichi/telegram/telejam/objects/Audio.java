@@ -51,7 +51,7 @@ public class Audio implements TelegramObject {
   private String mimeType;
 
   /**
-   * File size.
+   * InputFile size.
    */
   @SerializedName(SIZE_FIELD)
   private Integer size;

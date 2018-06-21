@@ -37,7 +37,7 @@ public class Voice implements TelegramObject {
   private String mimeType;
 
   /**
-   * File size.
+   * InputFile size.
    */
   @SerializedName(SIZE_FIELD)
   private Integer size;

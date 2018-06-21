@@ -1,8 +1,6 @@
 package me.palazzomichi.telegram.telejam;
 
 import me.palazzomichi.telegram.telejam.objects.ResponseParameters;
-import me.palazzomichi.telegram.telejam.objects.Result;
-import me.palazzomichi.telegram.telejam.objects.TelegramObject;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -13,7 +11,7 @@ import java.util.Optional;
  *
  * @author Michi Palazzo
  */
-public class TelegramException extends IOException implements TelegramObject {
+public class TelegramException extends IOException {
 
   /**
    * Int representation of the error.
@@ -35,12 +33,7 @@ public class TelegramException extends IOException implements TelegramObject {
   public TelegramException(int errorCode, String description) {
     this(errorCode, description, null);
   }
-
-
-  @Override
-  public String toJson() {
-    return new Result<>(this).toJson();
-  }
+  
 
   /**
    * Getter for property {@link #errorCode}.

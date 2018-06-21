@@ -20,7 +20,7 @@ public class MaskPosition implements TelegramObject {
    * One of "forehead", "eyes", "mouth", or "chin".
    */
   @SerializedName(POINT_FIELD)
-  private String point;
+  private Point point;
 
   /**
    * Shift by X-axis measured in widths of the mask scaled to the face size,
@@ -46,7 +46,7 @@ public class MaskPosition implements TelegramObject {
 
 
   public MaskPosition(Point point, float xShift, float yShift, float scale) {
-    this.point = point.toString();
+    this.point = point;
     this.xShift = xShift;
     this.yShift = yShift;
     this.scale = scale;
@@ -59,7 +59,7 @@ public class MaskPosition implements TelegramObject {
    * @return value for property {@link #point}
    */
   public Point getPoint() {
-    return Point.get(point);
+    return point;
   }
 
   /**
@@ -100,10 +100,10 @@ public class MaskPosition implements TelegramObject {
     }
     
     MaskPosition maskPosition = (MaskPosition) obj;
-    return point.equals(maskPosition.point) &&
-        xShift == maskPosition.getShiftX() &&
-        yShift == maskPosition.getShiftY() &&
-        scale == maskPosition.getScale();
+    return point == maskPosition.point &&
+        xShift == maskPosition.xShift &&
+        yShift == maskPosition.yShift &&
+        scale == maskPosition.scale;
   }
   
   @Override
@@ -116,32 +116,11 @@ public class MaskPosition implements TelegramObject {
     return result;
   }
   
-  
   public enum Point {
-    FOREHEAD("forehead"),
-    EYES("eyes"),
-    MOUTH("mouth"),
-    CHIN("chin");
-
-    private String toString;
-
-    static Point get(String point) {
-      for (Point value : values()) {
-        if (value.toString().equals(point)) {
-          return value;
-        }
-      }
-      return null;
-    }
-
-    Point(String toString) {
-      this.toString = toString;
-    }
-
-    @Override
-    public String toString() {
-      return toString;
-    }
+    @SerializedName("forehead") FOREHEAD,
+    @SerializedName("eyes") EYES,
+    @SerializedName("mouth") MOUTH,
+    @SerializedName("chin") CHIN
   }
 
 }

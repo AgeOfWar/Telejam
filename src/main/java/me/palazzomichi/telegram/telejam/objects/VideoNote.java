@@ -44,7 +44,7 @@ public class VideoNote implements TelegramObject {
   private PhotoSize thumbnail;
 
   /**
-   * File size.
+   * InputFile size.
    */
   @SerializedName(SIZE_FIELD)
   private Integer size;

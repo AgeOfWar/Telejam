@@ -1,7 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
 import com.google.gson.annotations.SerializedName;
-import me.palazzomichi.telegram.telejam.util.text.TextEntity;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -20,18 +19,6 @@ public class MessageEntity implements TelegramObject {
   private static final String URL_FIELD = "url";
   private static final String USER_FIELD = "user";
 
-  public static final String BOLD = "bold";
-  public static final String ITALIC = "italic";
-  public static final String CODE = "code";
-  public static final String CODE_BLOCK = "pre";
-  public static final String LINK = "text_link";
-  public static final String MENTION = "mention";
-  public static final String TEXT_MENTION = "text_mention";
-  public static final String HASHTAG = "hashtag";
-  public static final String BOT_COMMAND = "bot_command";
-  public static final String URL = "url";
-  public static final String EMAIL = "email";
-
   /**
    * Type of the entity.
    * Can be mention (@username), hashtag, bot_command, url, email, bold (bold text),
@@ -39,7 +26,7 @@ public class MessageEntity implements TelegramObject {
    * text_link (for clickable text URLs), text_mention (for users without usernames).
    */
   @SerializedName(TYPE_FIELD)
-  private String type;
+  private Type type;
 
   /**
    * Offset in UTF-16 code units to the start of the entity.
@@ -54,54 +41,55 @@ public class MessageEntity implements TelegramObject {
   private int length;
 
   /**
-   * For "text_link" type only, url that will be opened after user taps on the text
+   * For "text_link" type only, url that will be opened after user taps on the text.
    */
   @SerializedName(URL_FIELD)
   private String url;
 
   /**
-   * For "text_mention" type only, the mentioned user
+   * For "text_mention" type only, the mentioned user.
    */
   @SerializedName(USER_FIELD)
   private User user;
+  
 
-
-  public MessageEntity(TextEntity type, int offset, int length, String url, User user) {
-    this.type = type.getName();
-    this.offset = offset;
-    this.length = length;
-    this.url = url;
-    this.user = user;
-  }
-
-  public MessageEntity(TextEntity type, int offset, int length, String url) {
-    this.type = type.getName();
+  public MessageEntity(String url, int offset, int length) {
+    this.type = Type.LINK;
     this.offset = offset;
     this.length = length;
     this.url = url;
   }
 
-  public MessageEntity(TextEntity type, int offset, int length, User user) {
-    this.type = type.getName();
+  public MessageEntity(User user, int offset, int length) {
+    this.type = Type.TEXT_MENTION;
     this.offset = offset;
     this.length = length;
     this.user = user;
   }
 
-  public MessageEntity(TextEntity type, int offset, int length) {
-    this.type = type.getName();
+  public MessageEntity(Type type, int offset, int length) {
+    this.type = type;
     this.offset = offset;
     this.length = length;
   }
-
+  
+  public MessageEntity move(int offset, int length) {
+    if (url != null) {
+      return new MessageEntity(url, offset, length);
+    }
+    if (user != null) {
+      return new MessageEntity(user, offset, length);
+    }
+    return new MessageEntity(type, offset, length);
+  }
 
   /**
    * Getter for property {@link #type}.
    *
    * @return value for property {@link #type}
    */
-  public TextEntity getType() {
-    return TextEntity.valueOf(type);
+  public Type getType() {
+    return type;
   }
 
   /**
@@ -167,6 +155,20 @@ public class MessageEntity implements TelegramObject {
     result = 37 * result + Objects.hashCode(url);
     result = 37 * result + Objects.hashCode(user);
     return result;
+  }
+  
+  public enum Type {
+    @SerializedName("bold") BOLD,
+    @SerializedName("italic") ITALIC,
+    @SerializedName("code") CODE,
+    @SerializedName("pre") CODE_BLOCK,
+    @SerializedName("text_link") LINK,
+    @SerializedName("mention") MENTION,
+    @SerializedName("text_mention") TEXT_MENTION,
+    @SerializedName("hashtag") HASHTAG,
+    @SerializedName("bot_command") BOT_COMMAND,
+    @SerializedName("url") URL,
+    @SerializedName("email") EMAIL
   }
 
 }
