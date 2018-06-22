@@ -4,7 +4,7 @@ import me.palazzomichi.telegram.telejam.objects.*;
 import me.palazzomichi.telegram.telejam.text.Text;
 
 /**
- * Interface that handles Telegram updates.
+ * Abstract class that handles Telegram updates.
  */
 public abstract class TelegramBot {
   
