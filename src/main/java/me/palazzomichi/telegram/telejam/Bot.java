@@ -37,6 +37,11 @@ public class Bot {
   private static final String API_FILE_URL = "https://api.telegram.org/file/bot";
   
   /**
+   * The bot username.
+   */
+  private final String username;
+  
+  /**
    * Telegram API url.
    */
   private final String apiUrl;
@@ -64,25 +69,21 @@ public class Bot {
    * Constructs and returns a Telegram Bot with the API url
    * and ensures that it is a valid bot.
    *
-   * @param apiUrl the API url
+   * @param apiUrl     the API url
+   * @param apiFileUrl the API file url
    * @return the created bot
    * @throws IOException       if an I/O Exception occurs
    * @throws TelegramException if the token is invalid
    */
   public static Bot fromApiUrl(String apiUrl, String apiFileUrl) throws IOException {
-    Bot bot = new Bot(apiUrl, apiFileUrl);
-    bot.getMe();
-    return bot;
+    return new Bot(apiUrl, apiFileUrl);
   }
   
-  /**
-   * Constructs a Telegram Connection with an API url.
-   *
-   * @param apiUrl the API url
-   */
-  private Bot(String apiUrl, String apiFileUrl) {
+  
+  private Bot(String apiUrl, String apiFileUrl) throws IOException {
     this.apiUrl = apiUrl;
     this.apiFileUrl = apiFileUrl;
+    username = getMe().getUsername().orElseThrow(AssertionError::new);
   }
   
   
@@ -95,7 +96,7 @@ public class Bot {
    * @param returnType the return type of the method
    * @param <T>        the return type of the method
    * @return the result of the method invocation
-   * @throws IOException if an I/O error occurs
+   * @throws IOException       if an I/O error occurs
    * @throws TelegramException if the method invocation returns an error
    */
   public <T extends Serializable> T execute(
@@ -127,7 +128,7 @@ public class Bot {
    * @param returnType the return type of the method
    * @param <T>        the return type of the method
    * @return the result of the method invocation
-   * @throws IOException if an I/O error occurs
+   * @throws IOException       if an I/O error occurs
    * @throws TelegramException if the method invocation returns an error
    */
   public <T extends Serializable> T execute(
@@ -152,7 +153,7 @@ public class Bot {
    * @param returnType the return type of the method
    * @param <T>        the return type of the method
    * @return the result of the method invocation
-   * @throws IOException if an I/O error occurs
+   * @throws IOException       if an I/O error occurs
    * @throws TelegramException if the method invocation returns an error
    */
   public <T extends Serializable> T execute(String method, Type returnType) throws IOException {
@@ -198,6 +199,13 @@ public class Bot {
     Objects.requireNonNull(filePath, "file cannot be null!");
     URL url = new URL(apiFileUrl + '/' + filePath);
     return url.openStream();
+  }
+  
+  /**
+   * Returns the username of the bot.
+   */
+  public String getUsername() {
+    return username;
   }
   
   /* API methods */
@@ -342,7 +350,8 @@ public class Bot {
         "message_id", toJson(message.getId()),
         "disable_notification", toJson(disableNotification)
     );
-    return execute("forwardMessage", parameters, new TypeToken<Forward<T>>() {}.getType());
+    return execute("forwardMessage", parameters, new TypeToken<Forward<T>>() {
+    }.getType());
   }
   
   public <T extends Message> Forward<T> forwardMessage(T message, Chat chat)
@@ -1471,9 +1480,9 @@ public class Bot {
   }
   
   public TextMessage editMessageText(TextMessage message,
-                                      Text text,
-                                      InlineKeyboardMarkup replyMarkup,
-                                      boolean disableWebPagePreview) throws IOException {
+                                     Text text,
+                                     InlineKeyboardMarkup replyMarkup,
+                                     boolean disableWebPagePreview) throws IOException {
     Map<String, String> parameters = mapOf(
         "chat_id", toJson(message.getChat().getId()),
         "message_id", toJson(message.getId()),
