@@ -6,14 +6,23 @@ import me.palazzomichi.telegram.telejam.text.Text;
 /**
  * Interface that handles Telegram updates.
  */
-public interface TelegramBot {
+public abstract class TelegramBot {
+  
+  /**
+   * Bot that receives updates.
+   */
+  protected final Bot bot;
+  
+  public TelegramBot(Bot bot) {
+    this.bot = bot;
+  }
   
   /**
    * Handles an incoming update from the bot.
    *
    * @param update new incoming update
    */
-  default void onUpdate(Update update) throws Throwable {
+  public void onUpdate(Update update) throws Throwable {
     if (update instanceof MessageUpdate) {
       Message message = ((MessageUpdate) update).getMessage();
       onMessage(message);
@@ -56,37 +65,37 @@ public interface TelegramBot {
     }
   }
   
-  default void onMessage(Message message) throws Throwable {
+  public void onMessage(Message message) throws Throwable {
   }
   
-  default void onTextMessage(TextMessage message) throws Throwable {
+  public void onTextMessage(TextMessage message) throws Throwable {
   }
   
-  default void onCommand(String command, String[] args, TextMessage message) throws Throwable {
+  public void onCommand(String command, String[] args, TextMessage message) throws Throwable {
   }
   
-  default void onMessageEdit(Message message, long editDate) throws Throwable {
+  public void onMessageEdit(Message message, long editDate) throws Throwable {
   }
   
-  default void onChannelPost(Message message) throws Throwable {
+  public void onChannelPost(Message message) throws Throwable {
   }
   
-  default void onChannelPostEdit(Message message, long editDate) throws Throwable {
+  public void onChannelPostEdit(Message message, long editDate) throws Throwable {
   }
   
-  default void onInlineQuery(InlineQuery inlineQuery) throws Throwable {
+  public void onInlineQuery(InlineQuery inlineQuery) throws Throwable {
   }
   
-  default void onChosenInlineResult(ChosenInlineResult chosenInlineResult) throws Throwable {
+  public void onChosenInlineResult(ChosenInlineResult chosenInlineResult) throws Throwable {
   }
   
-  default void onCallbackQuery(CallbackQuery callbackQuery) throws Throwable {
+  public void onCallbackQuery(CallbackQuery callbackQuery) throws Throwable {
   }
   
-  default void onShippingQuery(ShippingQuery shippingQuery) throws Throwable {
+  public void onShippingQuery(ShippingQuery shippingQuery) throws Throwable {
   }
   
-  default void onPreCheckoutQuery(PreCheckoutQuery preCheckoutQuery) throws Throwable {
+  public void onPreCheckoutQuery(PreCheckoutQuery preCheckoutQuery) throws Throwable {
   }
   
   /**
@@ -94,7 +103,7 @@ public interface TelegramBot {
    *
    * @param t the exception to handle
    */
-  default void onError(Throwable t) {
+  public void onError(Throwable t) {
     t.printStackTrace();
   }
   

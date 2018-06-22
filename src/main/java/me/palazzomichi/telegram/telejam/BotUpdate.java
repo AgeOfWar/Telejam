@@ -11,9 +11,7 @@ import java.io.IOException;
  *
  * @author Michi Palazzo
  */
-public abstract class BotUpdate implements TelegramBot, Runnable {
-  
-  protected final Bot bot;
+public abstract class BotUpdate extends TelegramBot implements Runnable {
   
   private final UpdateReader updateReader;
   
@@ -23,7 +21,7 @@ public abstract class BotUpdate implements TelegramBot, Runnable {
    * @param bot the update receiver
    */
   public BotUpdate(Bot bot) {
-    this.bot = bot;
+    super(bot);
     updateReader = new UpdateReader(bot);
   }
   

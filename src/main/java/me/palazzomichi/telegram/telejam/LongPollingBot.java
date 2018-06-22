@@ -10,9 +10,7 @@ import java.util.function.LongUnaryOperator;
  *
  * @author Michi Palazzo
  */
-public abstract class LongPollingBot implements TelegramBot, Runnable {
-  
-  protected final Bot bot;
+public abstract class LongPollingBot extends TelegramBot implements Runnable {
   
   private final UpdateReader updateReader;
   private boolean running = false;
@@ -24,7 +22,7 @@ public abstract class LongPollingBot implements TelegramBot, Runnable {
    * @param backOff      back off to be used when long polling fails
    */
   public LongPollingBot(Bot bot, LongUnaryOperator backOff) {
-    this.bot = bot;
+    super(bot);
     updateReader = new UpdateReader(bot, backOff);
   }
   
