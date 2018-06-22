@@ -1,6 +1,6 @@
 package me.palazzomichi.telegram.telejam.connection;
 
-import me.palazzomichi.telegram.telejam.UploadFile;
+import me.palazzomichi.telegram.telejam.objects.UploadFile;
 
 import java.io.*;
 import java.net.HttpURLConnection;

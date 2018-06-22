@@ -1,4 +1,4 @@
-package me.palazzomichi.telegram.telejam.stream;
+package me.palazzomichi.telegram.telejam.util;
 
 import me.palazzomichi.telegram.telejam.Bot;
 import me.palazzomichi.telegram.telejam.objects.Update;
@@ -58,7 +58,7 @@ public final class UpdateReader {
   }
 
   /**
-   * Tells whether this stream is ready to be read.
+   * Tells whether this util is ready to be read.
    *
    * @return <code>true</code> if the next read() is guaranteed not to block for input,
    * <code>false</code> otherwise.  Note that returning false does not guarantee that the
@@ -69,7 +69,7 @@ public final class UpdateReader {
   }
 
   /**
-   * Reads one update from the stream.
+   * Reads one update from the util.
    *
    * @return the read update
    * @throws IOException          if an I/O Exception occurs

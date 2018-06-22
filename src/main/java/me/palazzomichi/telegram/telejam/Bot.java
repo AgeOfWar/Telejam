@@ -172,10 +172,10 @@ public class Bot {
   }
   
   /**
-   * Returns the stream of the file in the specified path.
+   * Returns the util of the file in the specified path.
    *
    * @param fileId the id of the file to download
-   * @return the stream of the file
+   * @return the util of the file
    * @throws IOException when an I/O Exception occurs
    */
   public InputStream downloadFile(String fileId) throws IOException {
@@ -183,10 +183,10 @@ public class Bot {
   }
   
   /**
-   * Returns the stream of a file if is possible.
+   * Returns the util of a file if is possible.
    *
    * @param file the file
-   * @return teh stream of the file
+   * @return teh util of the file
    * @throws IOException when an I/O Exception occurs
    */
   private InputStream downloadFile(InputFile file) throws IOException {

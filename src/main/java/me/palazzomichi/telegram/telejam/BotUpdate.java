@@ -1,7 +1,7 @@
 package me.palazzomichi.telegram.telejam;
 
 import me.palazzomichi.telegram.telejam.objects.Update;
-import me.palazzomichi.telegram.telejam.stream.UpdateReader;
+import me.palazzomichi.telegram.telejam.util.UpdateReader;
 
 import java.io.IOException;
 

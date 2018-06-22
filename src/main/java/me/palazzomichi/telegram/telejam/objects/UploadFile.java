@@ -1,4 +1,4 @@
-package me.palazzomichi.telegram.telejam;
+package me.palazzomichi.telegram.telejam.objects;
 
 import java.io.*;
 

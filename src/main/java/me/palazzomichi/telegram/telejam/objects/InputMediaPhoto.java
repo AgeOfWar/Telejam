@@ -1,7 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
 import com.google.gson.annotations.SerializedName;
-import me.palazzomichi.telegram.telejam.UploadFile;
 import me.palazzomichi.telegram.telejam.text.Text;
 
 /**
