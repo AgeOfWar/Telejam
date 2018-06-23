@@ -75,4 +75,11 @@ public final class CommandRegistry {
     commands.remove(name);
   }
   
+  /**
+   * Unregisters a command.
+   */
+  public void unregisterCommand(CommandHandler command) {
+    commands.values().remove(command);
+  }
+  
 }
