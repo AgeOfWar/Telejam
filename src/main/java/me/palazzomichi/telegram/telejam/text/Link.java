@@ -23,6 +23,8 @@ public class Link {
   
   /**
    * Returns the text of the link.
+   *
+   * @return the text of the link
    */
   public String getText() {
     return text;
@@ -30,6 +32,8 @@ public class Link {
   
   /**
    * Returns the url of the link.
+   *
+   * @return the url of the link
    */
   public String getUrl() {
     return url;

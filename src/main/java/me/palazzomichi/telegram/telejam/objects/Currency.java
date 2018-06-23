@@ -134,6 +134,7 @@ public class Currency implements TelegramObject {
    * Returns the currency with the specified code.
    *
    * @param code the code
+   * @return the currency with the specified code
    */
   public static Currency fromCode(String code) {
     if (currencies == null) {

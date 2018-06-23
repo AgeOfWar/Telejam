@@ -30,6 +30,7 @@ public final class CommandRegistry {
    * @param command the command name
    * @param args    the command args
    * @param message the command message
+   * @throws Throwable if a throwable is thrown
    */
   public void onCommand(String command, String args[], TextMessage message) throws Throwable {
     CommandHandler handler = getCommand(command);
@@ -39,7 +40,10 @@ public final class CommandRegistry {
   }
   
   /**
-   * Returns the command with ne given name or alias, otherwise <code>null</code> is returned.
+   * Returns the command with ne given name or alias, otherwise <code>null</code>.
+   *
+   * @param name the name of the command
+   * @return the command with ne given name or alias, otherwise <code>null</code>
    */
   public CommandHandler getCommand(String name) {
     return commands.get(removeSuffix(name, "@" + bot.getUsername()));
@@ -77,6 +81,8 @@ public final class CommandRegistry {
   
   /**
    * Unregisters a command.
+   *
+   * @param command the command to unregister
    */
   public void unregisterCommand(CommandHandler command) {
     commands.values().remove(command);

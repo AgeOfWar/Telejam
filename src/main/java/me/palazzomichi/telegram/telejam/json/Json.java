@@ -251,6 +251,8 @@ public final class Json {
   /**
    * Returns a new parameterized type, applying {@code typeArguments} to {@code rawType}.
    *
+   * @param rawType       the raw type
+   * @param typeArguments type arguments
    * @return a parameterized type.
    */
   public static Type genericTypeOf(Class<?> rawType, Type... typeArguments) {

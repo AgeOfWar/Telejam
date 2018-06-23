@@ -16,6 +16,7 @@ public abstract class CallbackInlineKeyboardButton extends CallbackDataInlineKey
    * Returns the button with the specified data.
    *
    * @param data the data
+   * @return the button with the specified data
    */
   public static CallbackInlineKeyboardButton fromData(String data) {
     return buttons.get(data);
@@ -33,7 +34,10 @@ public abstract class CallbackInlineKeyboardButton extends CallbackDataInlineKey
   
   /**
    * Called when the button is clicked.
+   *
+   * @param callbackQuery the callback query
+   * @throws Throwable if a throwable is thrown
    */
-  public abstract void onClick() throws Throwable;
+  public abstract void onClick(CallbackQuery callbackQuery) throws Throwable;
   
 }

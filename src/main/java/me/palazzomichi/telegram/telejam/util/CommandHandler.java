@@ -23,6 +23,7 @@ public abstract class CommandHandler {
    * @param command the command name
    * @param args    the command args
    * @param message the command message
+   * @throws Throwable if a throwable is thrown
    */
   public abstract void onCommand(String command, String[] args, TextMessage message) throws Throwable;
   

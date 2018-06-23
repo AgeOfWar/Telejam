@@ -32,6 +32,8 @@ public class InputLocationMessageContent implements InputMessageContent {
   
   /**
    * Returns the location of the input location message content.
+   *
+   * @return the location of the input location message content
    */
   public Location getLocation() {
     return new Location(latitude, longitude);

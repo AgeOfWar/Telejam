@@ -24,6 +24,8 @@ public class Mention {
   
   /**
    * Returns the text of the mention.
+   *
+   * @return the text of the mention
    */
   public String getText() {
     return text;
@@ -31,6 +33,8 @@ public class Mention {
   
   /**
    * Returns the mentioned user.
+   *
+   * @return the mentioned user
    */
   public User getUser() {
     return user;

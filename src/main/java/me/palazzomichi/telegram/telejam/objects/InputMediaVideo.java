@@ -80,12 +80,14 @@ public class InputMediaVideo extends InputMedia {
    * @param width    video width
    * @param height   video height
    * @param duration video duration
+   * @param supportsStreaming if the uploaded video is suitable for streaming
    */
   public InputMediaVideo(UploadFile media, Text caption, int width, int height, int duration, boolean supportsStreaming) {
     super(media, caption);
     this.width = width;
     this.height = height;
     this.duration = duration;
+    this.supportsStreaming = supportsStreaming;
   }
   
   /**
@@ -131,7 +133,7 @@ public class InputMediaVideo extends InputMedia {
    *
    * @return optional value for property {@link #supportsStreaming}
    */
-  public boolean getSupportsStreaming() {
+  public boolean supportsStreaming() {
     return supportsStreaming;
   }
   

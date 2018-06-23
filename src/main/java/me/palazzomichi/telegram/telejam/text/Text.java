@@ -28,8 +28,8 @@ public final class Text implements CharSequence {
    * Converts an HTML String into a Text.
    * The following tags are currently supported:
    * <pre>
-   * &lt;b>bold&lt;/b&gt;, &lt;strong&gt;bold&lt;/strong&gt;
-   * &lt;i>italic&lt;/i&gt;, &lt;em&gt;italic&lt;/em&gt;
+   * &lt;b&gt;bold&lt;/b&gt;, &lt;strong&gt;bold&lt;/strong&gt;
+   * &lt;i&gt;italic&lt;/i&gt;, &lt;em&gt;italic&lt;/em&gt;
    * &lt;a href="http://www.example.com/"&gt;inline URL&lt;/a&gt;
    * &lt;a href="tg://user?id=123456789"&gt;inline mention of a user&lt;/a&gt;
    * &lt;code&gt;inline fixed-width code&lt;/code&gt;
@@ -51,6 +51,8 @@ public final class Text implements CharSequence {
   /**
    * Constructs a text.
    *
+   * @param text     the text
+   * @param entities text entities
    * @see TextBuilder
    */
   public Text(String text, List<MessageEntity> entities) {
@@ -61,6 +63,7 @@ public final class Text implements CharSequence {
   /**
    * Constructs a text.
    *
+   * @param text the text
    * @see TextBuilder
    */
   public Text(String text) {
@@ -257,6 +260,8 @@ public final class Text implements CharSequence {
   
   /**
    * Returns the text entities.
+   *
+   * @return the text entities
    */
   public List<MessageEntity> getEntities() {
     return entities;

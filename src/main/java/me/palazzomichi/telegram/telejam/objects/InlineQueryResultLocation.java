@@ -101,6 +101,8 @@ public class InlineQueryResultLocation extends InlineQueryResult {
   
   /**
    * Returns the location of the inline query result location.
+   *
+   * @return the location of the inline query result location
    */
   public Location getLocation() {
     return new Location(latitude, longitude);

@@ -203,6 +203,8 @@ public class Bot {
   
   /**
    * Returns the username of the bot.
+   *
+   * @return the username of the bot
    */
   public String getUsername() {
     return username;
