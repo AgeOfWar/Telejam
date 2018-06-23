@@ -16,7 +16,7 @@ public abstract class LongPollingBot extends TelegramBot implements Runnable {
   private boolean running = false;
   
   /**
-   * Constructs a bot thread.
+   * Constructs a long polling bot.
    *
    * @param bot          the bot used by the reader
    * @param backOff      back off to be used when long polling fails
@@ -51,11 +51,12 @@ public abstract class LongPollingBot extends TelegramBot implements Runnable {
         Update update = updateReader.read();
         onUpdate(update);
       } catch (InterruptedException e) {
-        running = false;
+        stop();
       } catch (Throwable e) {
         onError(e);
       }
     }
+    running = false;
   }
   
 }
