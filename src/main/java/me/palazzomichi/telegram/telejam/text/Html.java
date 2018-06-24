@@ -190,7 +190,7 @@ final class Html {
       endEntity(entity, writer);
       offset = entity.getOffset() + entity.getLength();
     }
-    writer.write(s.substring(offset));
+    writer.write(escape(s.substring(offset)));
   }
   
   public static String toString(Text text) {
