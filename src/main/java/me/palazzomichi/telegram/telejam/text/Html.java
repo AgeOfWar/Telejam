@@ -184,7 +184,7 @@ final class Html {
     String s = text.toString();
     int offset = 0;
     for (MessageEntity entity : text.getEntities()) {
-      writer.write(s.substring(offset, entity.getOffset()));
+      writer.write(escape(s.substring(offset, entity.getOffset())));
       beginEntity(entity, writer);
       writer.write(escape(s.substring(entity.getOffset(), entity.getOffset() + entity.getLength())));
       endEntity(entity, writer);
