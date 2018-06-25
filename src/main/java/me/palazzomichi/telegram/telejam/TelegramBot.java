@@ -1,15 +1,14 @@
 package me.palazzomichi.telegram.telejam;
 
 import me.palazzomichi.telegram.telejam.objects.*;
-import me.palazzomichi.telegram.telejam.text.Text;
 import me.palazzomichi.telegram.telejam.util.*;
 
 /**
  * Abstract class that handles Telegram updates.
  */
 public abstract class TelegramBot implements
+    UpdateHandler,
     MessageHandler,
-    TextMessageHandler,
     CommandHandler,
     MessageEditHandler,
     InlineQueryHandler,
@@ -31,20 +30,10 @@ public abstract class TelegramBot implements
    * @param update new incoming update
    * @throws Throwable if a throwable is thrown
    */
+  @Override
   public void onUpdate(Update update) throws Throwable {
     if (update instanceof MessageUpdate) {
-      Message message = ((MessageUpdate) update).getMessage();
-      onMessage(message);
-      if (message instanceof TextMessage) {
-        TextMessage textMessage = (TextMessage) message;
-        onTextMessage(textMessage);
-        if (textMessage.isCommand()) {
-          Text text = textMessage.getText();
-          String command = text.getBotCommands().get(0);
-          String[] args = text.toString().substring(command.length() + 1).trim().split("\\s+");
-          onCommand(command, args, textMessage);
-        }
-      }
+      onMessage(((MessageUpdate) update).getMessage());
     } else if (update instanceof EditedMessageUpdate) {
       Message message = ((EditedMessageUpdate) update).getMessage();
       onMessageEdit(message, message.getEditDate().getAsLong());
@@ -76,11 +65,6 @@ public abstract class TelegramBot implements
   
   @Override
   public void onMessage(Message message) throws Throwable {
-  }
-  
-  
-  @Override
-  public void onTextMessage(TextMessage message) throws Throwable {
   }
   
   @Override
