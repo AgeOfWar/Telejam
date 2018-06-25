@@ -1,7 +1,9 @@
 package me.palazzomichi.telegram.telejam.util;
 
 import me.palazzomichi.telegram.telejam.Bot;
+import me.palazzomichi.telegram.telejam.objects.Message;
 import me.palazzomichi.telegram.telejam.objects.TextMessage;
+import me.palazzomichi.telegram.telejam.text.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +11,7 @@ import java.util.Map;
 /**
  * Utility class that handles commands.
  */
-public final class CommandRegistry {
+public final class CommandRegistry implements MessageHandler, CommandHandler {
   
   private final Bot bot;
   private Map<String, CommandHandler> commands;
@@ -32,10 +34,24 @@ public final class CommandRegistry {
    * @param message the command message
    * @throws Throwable if a throwable is thrown
    */
+  @Override
   public void onCommand(String command, String args[], TextMessage message) throws Throwable {
     CommandHandler handler = getCommand(command);
     if (handler != null) {
       handler.onCommand(command, args, message);
+    }
+  }
+  
+  @Override
+  public void onMessage(Message message) throws Throwable {
+    if (message instanceof TextMessage) {
+      TextMessage textMessage = (TextMessage) message;
+      if (textMessage.isCommand()) {
+        Text text = textMessage.getText();
+        String command = text.getBotCommands().get(0);
+        String[] args = text.toString().substring(command.length() + 1).trim().split("\\s+");
+        onCommand(command, args, textMessage);
+      }
     }
   }
   
