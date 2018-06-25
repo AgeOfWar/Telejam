@@ -49,7 +49,12 @@ public class CommandRegistry implements MessageHandler, CommandHandler {
       if (textMessage.isCommand()) {
         Text text = textMessage.getText();
         String command = text.getBotCommands().get(0);
-        String[] args = text.toString().substring(command.length() + 1).trim().split("\\s+");
+        String[] args;
+        if (text.length() == command.length() + 1) {
+          args = new String[0];
+        } else {
+          args = text.toString().substring(command.length() + 1).trim().split("\\s+");
+        }
         onCommand(command, args, textMessage);
       }
     }
