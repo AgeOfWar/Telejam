@@ -9,7 +9,6 @@ import me.palazzomichi.telegram.telejam.util.*;
 public abstract class TelegramBot implements
     UpdateHandler,
     MessageHandler,
-    CommandHandler,
     MessageEditHandler,
     InlineQueryHandler,
     CallbackQueryHandler,
@@ -65,10 +64,6 @@ public abstract class TelegramBot implements
   
   @Override
   public void onMessage(Message message) throws Throwable {
-  }
-  
-  @Override
-  public void onCommand(String command, String[] args, TextMessage message) throws Throwable {
   }
   
   @Override
