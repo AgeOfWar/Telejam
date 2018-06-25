@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Utility class that handles commands.
  */
-public final class CommandRegistry implements MessageHandler, CommandHandler {
+public class CommandRegistry implements MessageHandler, CommandHandler {
   
   private final Bot bot;
   private Map<String, CommandHandler> commands;
@@ -35,7 +35,7 @@ public final class CommandRegistry implements MessageHandler, CommandHandler {
    * @throws Throwable if a throwable is thrown
    */
   @Override
-  public void onCommand(String command, String args[], TextMessage message) throws Throwable {
+  public final void onCommand(String command, String args[], TextMessage message) throws Throwable {
     CommandHandler handler = getCommand(command);
     if (handler != null) {
       handler.onCommand(command, args, message);
@@ -61,7 +61,7 @@ public final class CommandRegistry implements MessageHandler, CommandHandler {
    * @param name the name of the command
    * @return the command with ne given name or alias, otherwise <code>null</code>
    */
-  public CommandHandler getCommand(String name) {
+  public final CommandHandler getCommand(String name) {
     return commands.get(removeSuffix(name, "@" + bot.getUsername()));
   }
   
@@ -79,7 +79,7 @@ public final class CommandRegistry implements MessageHandler, CommandHandler {
    * @param name    the name of the command
    * @param aliases the aliases of the command
    */
-  public void registerCommand(CommandHandler command, String name, String... aliases) {
+  public final void registerCommand(CommandHandler command, String name, String... aliases) {
     commands.put(name, command);
     for (String alias : aliases) {
       commands.put(alias, command);
@@ -91,7 +91,7 @@ public final class CommandRegistry implements MessageHandler, CommandHandler {
    *
    * @param name the command name or alias
    */
-  public void unregisterCommand(String name) {
+  public final void unregisterCommand(String name) {
     commands.remove(name);
   }
   
@@ -100,7 +100,7 @@ public final class CommandRegistry implements MessageHandler, CommandHandler {
    *
    * @param command the command to unregister
    */
-  public void unregisterCommand(CommandHandler command) {
+  public final void unregisterCommand(CommandHandler command) {
     commands.values().remove(command);
   }
   
