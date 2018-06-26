@@ -144,18 +144,51 @@ public class TextBuilder {
   /**
    * Appends a mention to this TextBuilder.
    *
+   * @param text the username to mention, without <code>@</code>
+   * @return this instance
+   */
+  public TextBuilder appendMention(String text) {
+    return append("@" + text, MessageEntity.Type.MENTION, false);
+  }
+  
+  /**
+   * Appends a mention to this TextBuilder, or a text mention
+   * if the username is not available.
+   *
+   * @param mention mentioned user
+   * @return this instance
+   */
+  public TextBuilder appendMention(User mention) {
+    return mention.getUsername()
+        .map(this::appendMention)
+        .orElseGet(() -> appendTextMention(mention));
+  }
+  
+  /**
+   * Appends a text mention to this TextBuilder.
+   *
    * @param text    the text of the mention
    * @param mention the mention
    * @return this instance
    */
-  public TextBuilder appendMention(String text, User mention) {
+  public TextBuilder appendTextMention(String text, User mention) {
     return append(text, mention, true);
+  }
+  
+  /**
+   * Appends a text mention to this TextBuilder.
+   *
+   * @param mention the mentioned user
+   * @return this instance
+   */
+  public TextBuilder appendTextMention(User mention) {
+    return append(mention.getName(), mention, true);
   }
   
   /**
    * Appends an hashtag to this TextBuilder.
    *
-   * @param hashtag the hashtag to append
+   * @param hashtag the hashtag to append, without <code>#</code>
    * @return this instance
    */
   public TextBuilder appendHashtag(String hashtag) {
@@ -165,7 +198,7 @@ public class TextBuilder {
   /**
    * Appends a bot command to this TextBuilder.
    *
-   * @param botCommand the bot command to append
+   * @param botCommand the bot command to append, without <code>/</code>
    * @return this instance
    */
   public TextBuilder appendBotCommand(String botCommand) {
