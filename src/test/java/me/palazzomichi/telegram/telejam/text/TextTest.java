@@ -107,14 +107,14 @@ public class TextTest {
   
   @Test
   public void getTextMentions() {
-    User ageOfWar = new User(12344L, "AgeOfWar", null, "AgeOfWar", Locale.ITALIAN, false);
+    User ageOfWar = new User(12344L, "AgeOfWar", null, null, Locale.ITALIAN, false);
     assertEquals(
         asList(new Mention("AgeOfWar", ageOfWar), new Mention("pallinopix", ageOfWar)),
         new TextBuilder()
             .append("Contact ")
-            .appendMention("AgeOfWar", ageOfWar)
+            .appendTextMention(ageOfWar)
             .append(" or ")
-            .appendMention("pallinopix", ageOfWar)
+            .appendTextMention("pallinopix", ageOfWar)
             .append(" for more details.")
             .build()
             .getTextMentions()
