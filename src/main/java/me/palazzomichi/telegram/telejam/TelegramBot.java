@@ -46,15 +46,7 @@ public abstract class TelegramBot implements
     } else if (update instanceof ChosenInlineResultUpdate) {
       onChosenInlineResult(((ChosenInlineResultUpdate) update).getChosenInlineResult());
     } else if (update instanceof CallbackQueryUpdate) {
-      CallbackQuery callbackQuery = ((CallbackQueryUpdate) update).getCallbackQuery();
-      onCallbackQuery(callbackQuery);
-      if (callbackQuery.getData().isPresent()) {
-        String data = callbackQuery.getData().get();
-        CallbackInlineKeyboardButton button = CallbackInlineKeyboardButton.fromData(data);
-        if (button != null) {
-          button.onClick(callbackQuery);
-        }
-      }
+      onCallbackQuery(((CallbackQueryUpdate) update).getCallbackQuery());
     } else if (update instanceof ShippingQueryUpdate) {
       onShippingQuery(((ShippingQueryUpdate) update).getShippingQuery());
     } else if (update instanceof PreCheckoutQueryUpdate) {
