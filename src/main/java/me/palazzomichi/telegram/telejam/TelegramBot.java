@@ -10,6 +10,8 @@ public abstract class TelegramBot implements
     UpdateHandler,
     MessageHandler,
     MessageEditHandler,
+    ChannelPostHandler,
+    ChannelPostEditHandler,
     InlineQueryHandler,
     CallbackQueryHandler,
     ShippingQueryHandler {
@@ -62,22 +64,11 @@ public abstract class TelegramBot implements
   public void onMessageEdit(Message message, long editDate) throws Throwable {
   }
   
-  /**
-   * Handles an incoming channel post from the bot.
-   *
-   * @param message new incoming channel post
-   * @throws Throwable if a throwable is thrown
-   */
+  @Override
   public void onChannelPost(Message message) throws Throwable {
   }
   
-  /**
-   * Handles an incoming channel post edit from the bot.
-   *
-   * @param message  new incoming edit
-   * @param editDate the edit date
-   * @throws Throwable if a throwable is thrown
-   */
+  @Override
   public void onChannelPostEdit(Message message, long editDate) throws Throwable {
   }
   
