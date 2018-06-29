@@ -204,7 +204,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canBeEdited}
    */
-  public boolean getCanBeEdited() {
+  public boolean canBeEdited() {
     return canBeEdited;
   }
 
@@ -213,7 +213,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canChangeInformation}
    */
-  public boolean getCanChangeInformation() {
+  public boolean canChangeInformation() {
     return canChangeInformation;
   }
 
@@ -222,7 +222,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canPostMessages}
    */
-  public boolean getCanPostMessages() {
+  public boolean canPostMessages() {
     return canPostMessages;
   }
 
@@ -231,7 +231,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canEditMessages}
    */
-  public boolean getCanEditMessages() {
+  public boolean canEditMessages() {
     return canEditMessages;
   }
 
@@ -240,7 +240,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canDeleteMessages}
    */
-  public boolean getCanDeleteMessages() {
+  public boolean canDeleteMessages() {
     return canDeleteMessages;
   }
 
@@ -249,7 +249,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canInviteUsers}
    */
-  public boolean getCanInviteUsers() {
+  public boolean canInviteUsers() {
     return canInviteUsers;
   }
 
@@ -258,7 +258,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canRestrictUsers}
    */
-  public boolean getCanRestrictUsers() {
+  public boolean canRestrictUsers() {
     return canRestrictUsers;
   }
 
@@ -267,7 +267,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canPinMessages}
    */
-  public boolean getCanPinMessages() {
+  public boolean canPinMessages() {
     return canPinMessages;
   }
 
@@ -276,7 +276,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canPromoteMembers}
    */
-  public boolean getCanPromoteMembers() {
+  public boolean canPromoteMembers() {
     return canPromoteMembers;
   }
 
@@ -285,7 +285,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canSendMessages}
    */
-  public boolean getCanSendMessages() {
+  public boolean canSendMessages() {
     return canSendMessages;
   }
 
@@ -294,7 +294,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canSendMediaMessages}
    */
-  public boolean getCanSendMediaMessages() {
+  public boolean canSendMediaMessages() {
     return canSendMediaMessages;
   }
 
@@ -303,7 +303,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canSendOtherMessages}
    */
-  public boolean getCanSendOtherMessages() {
+  public boolean canSendOtherMessages() {
     return canSendOtherMessages;
   }
 
@@ -312,7 +312,7 @@ public class ChatMember implements TelegramObject {
    *
    * @return value for property {@link #canAddWebPagePreviews}
    */
-  public boolean getCanAddWebPagePreviews() {
+  public boolean canAddWebPagePreviews() {
     return canAddWebPagePreviews;
   }
   
