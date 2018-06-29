@@ -81,6 +81,21 @@ public final class Text implements CharSequence {
   }
   
   /**
+   * Concatenates the specified text to the end of this text.
+   *
+   * @param other the text that is concatenated to the end of this text.
+   * @return a text that represents the concatenation of this object to the other.
+   */
+  public Text concat(Text other) {
+    if (other.isEmpty()) return this;
+    if (this.isEmpty()) return other;
+    return new TextBuilder()
+        .append(this)
+        .append(other)
+        .build();
+  }
+  
+  /**
    * Returns a list containing all the bold strings in this text.
    *
    * @return a list containing all the bold strings in this text
