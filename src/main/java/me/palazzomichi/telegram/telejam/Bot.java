@@ -1621,7 +1621,7 @@ public class Bot {
         "disable_web_page_preview", toJson(disableWebPagePreview),
         "reply_markup", toJson(replyMarkup)
     );
-    execute("editMessageText", parameters, Boolean.class);
+    execute("editMessageText", parameters, callbackQuery.getInlineMessageId().isPresent() ? Boolean.class : TextMessage.class);
   }
   
   public TextMessage editMessageText(TextMessage message,
@@ -1648,7 +1648,7 @@ public class Bot {
         "parse_mode", "HTML",
         "reply_markup", toJson(replyMarkup)
     );
-    execute("editMessageText", parameters, Boolean.class);
+    execute("editMessageText", parameters, callbackQuery.getInlineMessageId().isPresent() ? Boolean.class : TextMessage.class);
   }
   
   public Message editMessageCaption(Message message,
@@ -1685,7 +1685,7 @@ public class Bot {
         "parse_mode", "HTML",
         "reply_markup", toJson(replyMarkup)
     );
-    execute("editMessageCaption", parameters, Boolean.class);
+    execute("editMessageCaption", parameters, callbackQuery.getInlineMessageId().isPresent() ? Boolean.class : Message.class);
   }
   
   public void editMessageCaption(CallbackQuery callbackQuery, Text caption) throws IOException {
@@ -1696,7 +1696,7 @@ public class Bot {
         "caption", toJson(caption),
         "parse_mode", "HTML"
     );
-    execute("editMessageCaption", parameters, Boolean.class);
+    execute("editMessageCaption", parameters, callbackQuery.getInlineMessageId().isPresent() ? Boolean.class : Message.class);
   }
   
   public Message editMessageReplyMarkup(Message message, InlineKeyboardMarkup replyMarkup)
@@ -1717,7 +1717,7 @@ public class Bot {
         "inline_message_id", callbackQuery.getInlineMessageId().orElse(null),
         "reply_markup", toJson(replyMarkup)
     );
-    execute("editMessageReplyMarkup", parameters, Boolean.class);
+    execute("editMessageReplyMarkup", parameters, callbackQuery.getInlineMessageId().isPresent() ? Boolean.class : Message.class);
   }
   
   public void deleteMessage(Message message) throws IOException {
@@ -2403,7 +2403,7 @@ public class Bot {
         "message_id", toJson(callbackQuery.getMessage().map(Message::getId).orElse(null)),
         "inline_message_id", callbackQuery.getInlineMessageId().orElse(null)
     );
-    execute("setGameScore", parameters, Boolean.class);
+    execute("setGameScore", parameters, callbackQuery.getInlineMessageId().isPresent() ? Boolean.class : GameMessage.class);
   }
   
   public GameMessage setGameScore(User user, int score, Message message) throws IOException {
