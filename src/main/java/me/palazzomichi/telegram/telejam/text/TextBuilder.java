@@ -53,16 +53,14 @@ public class TextBuilder {
    * @return this instance
    */
   public TextBuilder append(Text text) {
-    int offset = builder.length();
     for (MessageEntity entity : text.getEntities()) {
       append(
-          entity.move(offset, entity.getLength()),
+          entity.move(entity.getOffset() + length(), entity.getLength()),
           entity.getType() != MessageEntity.Type.BOT_COMMAND &&
               entity.getType() != MessageEntity.Type.URL &&
               entity.getType() != MessageEntity.Type.HASHTAG &&
               entity.getType() != MessageEntity.Type.EMAIL
       );
-      offset += entity.getLength();
     }
     builder.append(text.toString());
     return this;
@@ -75,16 +73,14 @@ public class TextBuilder {
    * @return this instance
    */
   public TextBuilder append(TextBuilder builder) {
-    int offset = builder.length();
     for (MessageEntity entity : builder.entities) {
       append(
-          entity.move(offset, entity.getLength()),
+          entity.move(entity.getOffset() + length(), entity.getLength()),
           entity.getType() != MessageEntity.Type.BOT_COMMAND &&
               entity.getType() != MessageEntity.Type.URL &&
               entity.getType() != MessageEntity.Type.HASHTAG &&
               entity.getType() != MessageEntity.Type.EMAIL
       );
-      offset += entity.getLength();
     }
     builder.append(builder.builder.toString());
     return this;
