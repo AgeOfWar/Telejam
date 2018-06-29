@@ -121,4 +121,27 @@ public class TextTest {
     );
   }
   
+  @Test
+  public void concat() {
+    Text text1 = new TextBuilder()
+        .appendBold("Hello")
+        .append(" ")
+        .appendLink("Jimmy", "t.me/Jimmy")
+        .build();
+    Text text2 = new TextBuilder()
+        .appendItalic("!")
+        .append("\n\n")
+        .appendHashtag("hi")
+        .build();
+    Text text3 = new TextBuilder()
+        .appendBold("Hello")
+        .append(" ")
+        .appendLink("Jimmy", "t.me/Jimmy")
+        .appendItalic("!")
+        .append("\n\n")
+        .appendHashtag("hi")
+        .build();
+    assertEquals(text3, text1.concat(text2));
+  }
+  
 }
