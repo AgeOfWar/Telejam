@@ -37,6 +37,11 @@ public class Bot {
   private static final String API_FILE_URL = "https://api.telegram.org/file/bot";
   
   /**
+   * The unique identifier of the bot.
+   */
+  private final long id;
+  
+  /**
    * The bot username.
    */
   private final String username;
@@ -83,7 +88,9 @@ public class Bot {
   private Bot(String apiUrl, String apiFileUrl) throws IOException {
     this.apiUrl = apiUrl;
     this.apiFileUrl = apiFileUrl;
-    username = getMe().getUsername().orElseThrow(AssertionError::new);
+    User thisBot = getMe();
+    username = thisBot.getUsername().orElseThrow(AssertionError::new);
+    id = thisBot.getId();
   }
   
   
@@ -208,6 +215,15 @@ public class Bot {
    */
   public String getUsername() {
     return username;
+  }
+  
+  /**
+   * Returns the id of the bot.
+   *
+   * @return the id of the bot
+   */
+  public long getId() {
+    return id;
   }
   
   /* API methods */
@@ -1200,6 +1216,38 @@ public class Bot {
     execute("restrictChatMember", parameters, Boolean.class);
   }
   
+  public boolean memberCanSendMessages(SuperGroup chat, User user) throws IOException {
+    return getChatMember(chat, user).canSendMessages();
+  }
+  
+  public boolean canSendMessages(SuperGroup chat) throws IOException {
+    return getChatMember(chat, id).canSendMessages();
+  }
+  
+  public boolean memberCanSendMediaMessages(SuperGroup chat, User user) throws IOException {
+    return getChatMember(chat, user).canSendMediaMessages();
+  }
+  
+  public boolean canSendMediaMessages(SuperGroup chat) throws IOException {
+    return getChatMember(chat, id).canSendMediaMessages();
+  }
+  
+  public boolean memberCanSendOtherMessages(SuperGroup chat, User user) throws IOException {
+    return getChatMember(chat, user).canSendOtherMessages();
+  }
+  
+  public boolean canSendOtherMessages(SuperGroup chat) throws IOException {
+    return getChatMember(chat, id).canSendOtherMessages();
+  }
+  
+  public boolean memberCanAddWebPagePreviews(SuperGroup chat, User user) throws IOException {
+    return getChatMember(chat, user).canAddWebPagePreviews();
+  }
+  
+  public boolean canAddWebPagePreviews(SuperGroup chat) throws IOException {
+    return getChatMember(chat, id).canAddWebPagePreviews();
+  }
+  
   public void promoteChatMember(Chat chat,
                                 User user,
                                 boolean canChangeInfo,
@@ -1253,13 +1301,29 @@ public class Bot {
     execute("promoteChatMember", parameters, Boolean.class);
   }
   
-  public void memberCanPostMessages(Chat chat, User user, boolean canPostMessages) throws IOException {
+  public boolean memberCanChangeInfo(Chat chat, User user) throws IOException {
+    return getChatMember(chat, user).canChangeInformation();
+  }
+  
+  public boolean canChangeInfo(Chat chat) throws IOException {
+    return getChatMember(chat, id).canChangeInformation();
+  }
+  
+  public void memberCanPostMessages(Channel chat, User user, boolean canPostMessages) throws IOException {
     Map<String, String> parameters = mapOf(
         "user_id", toJson(user.getId()),
         "chat_id", toJson(chat.getId()),
         "can_post_messages", toJson(canPostMessages)
     );
     execute("promoteChatMember", parameters, Boolean.class);
+  }
+  
+  public boolean memberCanPostMessages(Channel chat, User user) throws IOException {
+    return getChatMember(chat, user).canPostMessages();
+  }
+  
+  public boolean canPostMessages(Channel chat) throws IOException {
+    return getChatMember(chat, id).canPostMessages();
   }
   
   public void memberCanDeleteMessages(Chat chat, User user, boolean canDeleteMessages) throws IOException {
@@ -1271,6 +1335,14 @@ public class Bot {
     execute("promoteChatMember", parameters, Boolean.class);
   }
   
+  public boolean memberCanDeleteMessages(Chat chat, User user) throws IOException {
+    return getChatMember(chat, user).canDeleteMessages();
+  }
+  
+  public boolean canDeleteMessages(Chat chat) throws IOException {
+    return getChatMember(chat, id).canDeleteMessages();
+  }
+  
   public void memberCanInviteUsers(Chat chat, User user, boolean canInviteUsers) throws IOException {
     Map<String, String> parameters = mapOf(
         "user_id", toJson(user.getId()),
@@ -1278,6 +1350,14 @@ public class Bot {
         "can_invite_users", toJson(canInviteUsers)
     );
     execute("promoteChatMember", parameters, Boolean.class);
+  }
+  
+  public boolean memberCanInviteUsers(Chat chat, User user) throws IOException {
+    return getChatMember(chat, user).canInviteUsers();
+  }
+  
+  public boolean canInviteUsers(Chat chat) throws IOException {
+    return getChatMember(chat, id).canInviteUsers();
   }
   
   public void memberCanRestrictMembers(Chat chat, User user, boolean canRestrictMembers) throws IOException {
@@ -1289,6 +1369,14 @@ public class Bot {
     execute("promoteChatMember", parameters, Boolean.class);
   }
   
+  public boolean memberCanRestrictMembers(Chat chat, User user) throws IOException {
+    return getChatMember(chat, user).canRestrictUsers();
+  }
+  
+  public boolean canRestrictMembers(Chat chat) throws IOException {
+    return getChatMember(chat, id).canRestrictUsers();
+  }
+  
   public void memberCanPinMessages(Chat chat, User user, boolean canPinMessages) throws IOException {
     Map<String, String> parameters = mapOf(
         "user_id", toJson(user.getId()),
@@ -1298,6 +1386,14 @@ public class Bot {
     execute("promoteChatMember", parameters, Boolean.class);
   }
   
+  public boolean memberCanPinMessages(Chat chat, User user) throws IOException {
+    return getChatMember(chat, user).canPinMessages();
+  }
+  
+  public boolean canPinMessages(Chat chat) throws IOException {
+    return getChatMember(chat, id).canPinMessages();
+  }
+  
   public void memberCanPromoteMembers(Chat chat, User user, boolean canPromoteMembers) throws IOException {
     Map<String, String> parameters = mapOf(
         "user_id", toJson(user.getId()),
@@ -1305,6 +1401,14 @@ public class Bot {
         "can_promote_members", toJson(canPromoteMembers)
     );
     execute("promoteChatMember", parameters, Boolean.class);
+  }
+  
+  public boolean memberCanPromoteMembers(Chat chat, User user) throws IOException {
+    return getChatMember(chat, user).canPromoteMembers();
+  }
+  
+  public boolean canPromoteMembers(Chat chat) throws IOException {
+    return getChatMember(chat, id).canPromoteMembers();
   }
   
   public String exportChatInviteLink(Chat chat) throws IOException {
@@ -1417,6 +1521,14 @@ public class Bot {
     return execute("getChatMember", parameters, ChatMember.class);
   }
   
+  public ChatMember getChatMember(Chat chat, long userId) throws IOException {
+    Map<String, String> parameters = mapOf(
+        "chat_id", toJson(chat.getId()),
+        "user_id", toJson(userId)
+    );
+    return execute("getChatMember", parameters, ChatMember.class);
+  }
+  
   public void setChatStickerSet(Chat chat, StickerSet stickerSet) throws IOException {
     Map<String, String> parameters = mapOf(
         "chat_id", toJson(chat.getId()),
@@ -1496,12 +1608,14 @@ public class Bot {
     return execute("editMessageText", parameters, TextMessage.class);
   }
   
-  public void editMessageText(String inlineMessageId,
+  public void editMessageText(CallbackQuery callbackQuery,
                               Text text,
                               InlineKeyboardMarkup replyMarkup,
                               boolean disableWebPagePreview) throws IOException {
     Map<String, String> parameters = mapOf(
-        "inline_message_id", inlineMessageId,
+        "chat_id", toJson(callbackQuery.getMessage().map(Message::getChat).map(Chat::getId).orElse(null)),
+        "message_id", toJson(callbackQuery.getMessage().map(Message::getId).orElse(null)),
+        "inline_message_id", callbackQuery.getInlineMessageId().orElse(null),
         "text", toJson(text),
         "parse_mode", "HTML",
         "disable_web_page_preview", toJson(disableWebPagePreview),
@@ -1523,11 +1637,13 @@ public class Bot {
     return execute("editMessageText", parameters, TextMessage.class);
   }
   
-  public void editMessageText(String inlineMessageId,
+  public void editMessageText(CallbackQuery callbackQuery,
                               Text text,
                               InlineKeyboardMarkup replyMarkup) throws IOException {
     Map<String, String> parameters = mapOf(
-        "inline_message_id", inlineMessageId,
+        "chat_id", toJson(callbackQuery.getMessage().map(Message::getChat).map(Chat::getId).orElse(null)),
+        "message_id", toJson(callbackQuery.getMessage().map(Message::getId).orElse(null)),
+        "inline_message_id", callbackQuery.getInlineMessageId().orElse(null),
         "text", toJson(text),
         "parse_mode", "HTML",
         "reply_markup", toJson(replyMarkup)
@@ -1558,11 +1674,13 @@ public class Bot {
     return execute("editMessageCaption", parameters, Message.class);
   }
   
-  public void editMessageCaption(String inlineMessageId,
+  public void editMessageCaption(CallbackQuery callbackQuery,
                                  Text caption,
                                  InlineKeyboardMarkup replyMarkup) throws IOException {
     Map<String, String> parameters = mapOf(
-        "inline_message_id", inlineMessageId,
+        "chat_id", toJson(callbackQuery.getMessage().map(Message::getChat).map(Chat::getId).orElse(null)),
+        "message_id", toJson(callbackQuery.getMessage().map(Message::getId).orElse(null)),
+        "inline_message_id", callbackQuery.getInlineMessageId().orElse(null),
         "caption", toJson(caption),
         "parse_mode", "HTML",
         "reply_markup", toJson(replyMarkup)
@@ -1570,9 +1688,11 @@ public class Bot {
     execute("editMessageCaption", parameters, Boolean.class);
   }
   
-  public void editMessageCaption(String inlineMessageId, Text caption) throws IOException {
+  public void editMessageCaption(CallbackQuery callbackQuery, Text caption) throws IOException {
     Map<String, String> parameters = mapOf(
-        "inline_message_id", inlineMessageId,
+        "chat_id", toJson(callbackQuery.getMessage().map(Message::getChat).map(Chat::getId).orElse(null)),
+        "message_id", toJson(callbackQuery.getMessage().map(Message::getId).orElse(null)),
+        "inline_message_id", callbackQuery.getInlineMessageId().orElse(null),
         "caption", toJson(caption),
         "parse_mode", "HTML"
     );
@@ -1589,10 +1709,12 @@ public class Bot {
     return execute("editMessageReplyMarkup", parameters, Message.class);
   }
   
-  public void editMessageReplyMarkup(String inlineMessageId, InlineKeyboardMarkup replyMarkup)
+  public void editMessageReplyMarkup(CallbackQuery callbackQuery, InlineKeyboardMarkup replyMarkup)
       throws IOException {
     Map<String, String> parameters = mapOf(
-        "inline_message_id", inlineMessageId,
+        "chat_id", toJson(callbackQuery.getMessage().map(Message::getChat).map(Chat::getId).orElse(null)),
+        "message_id", toJson(callbackQuery.getMessage().map(Message::getId).orElse(null)),
+        "inline_message_id", callbackQuery.getInlineMessageId().orElse(null),
         "reply_markup", toJson(replyMarkup)
     );
     execute("editMessageReplyMarkup", parameters, Boolean.class);
@@ -2271,13 +2393,15 @@ public class Bot {
                            int score,
                            boolean force,
                            boolean disableEditMessage,
-                           String inlineMessageId) throws IOException {
+                           CallbackQuery callbackQuery) throws IOException {
     Map<String, String> parameters = mapOf(
         "user_id", toJson(user.getId()),
         "score", toJson(score),
         "force", toJson(force),
         "disable_edit_message", toJson(disableEditMessage),
-        "inline_message_id", inlineMessageId
+        "chat_id", toJson(callbackQuery.getMessage().map(Message::getChat).map(Chat::getId).orElse(null)),
+        "message_id", toJson(callbackQuery.getMessage().map(Message::getId).orElse(null)),
+        "inline_message_id", callbackQuery.getInlineMessageId().orElse(null)
     );
     execute("setGameScore", parameters, Boolean.class);
   }
