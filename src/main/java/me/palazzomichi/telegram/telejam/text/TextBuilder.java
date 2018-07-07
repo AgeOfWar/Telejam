@@ -129,12 +129,22 @@ public class TextBuilder {
   /**
    * Appends a link to this TextBuilder.
    *
-   * @param text the text of the link
-   * @param link the url of the link
+   * @param link the link to append
    * @return this instance
    */
-  public TextBuilder appendLink(String text, String link) {
-    return append(text, link, true);
+  public TextBuilder appendLink(Link link) {
+    return append(link.getText(), link.getUrl(), true);
+  }
+  
+  /**
+   * Appends a link to this TextBuilder.
+   *
+   * @param text the text of the link
+   * @param url the url of the link
+   * @return this instance
+   */
+  public TextBuilder appendLink(String text, String url) {
+    return append(text, url, true);
   }
   
   /**
@@ -158,6 +168,16 @@ public class TextBuilder {
     return mention.getUsername()
         .map(this::appendMention)
         .orElseGet(() -> appendTextMention(mention));
+  }
+  
+  /**
+   * Appends a text mention to this TextBuilder.
+   *
+   * @param mention the mentioned to append
+   * @return this instance
+   */
+  public TextBuilder appendTextMention(Mention mention) {
+    return append(mention.getText(), mention.getUser(), true);
   }
   
   /**

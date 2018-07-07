@@ -1,6 +1,7 @@
 package me.palazzomichi.telegram.telejam.text;
 
 import me.palazzomichi.telegram.telejam.objects.MessageEntity;
+import me.palazzomichi.telegram.telejam.objects.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,157 @@ public final class Text implements CharSequence {
     return Html.parseText(text);
   }
   
+  /**
+   * Creates a bold text.
+   *
+   * @param text the bold text
+   * @return the created text
+   */
+  public static Text bold(String text) {
+    return new TextBuilder().appendBold(text).build();
+  }
+  
+  /**
+   * Creates an italic text.
+   *
+   * @param text the italic text
+   * @return the created text
+   */
+  public static Text italic(String text) {
+    return new TextBuilder().appendItalic(text).build();
+  }
+  
+  /**
+   * Creates a code.
+   *
+   * @param text the code
+   * @return the created text
+   */
+  public static Text code(String text) {
+    return new TextBuilder().appendCode(text).build();
+  }
+  
+  /**
+   * Creates a code block.
+   *
+   * @param text the code block
+   * @return the created text
+   */
+  public static Text codeBlock(String text) {
+    return new TextBuilder().appendCodeBlock(text).build();
+  }
+  
+  /**
+   * Creates a link.
+   *
+   * @param link the link
+   * @return the created text
+   */
+  public static Text link(Link link) {
+    return new TextBuilder().appendLink(link).build();
+  }
+  
+  /**
+   * Creates a link.
+   *
+   * @param text the text of the link
+   * @param url  the url of the link
+   * @return the created text
+   */
+  public static Text link(String text, String url) {
+    return new TextBuilder().appendLink(text, url).build();
+  }
+  
+  /**
+   * Creates an url.
+   *
+   * @param url the url
+   * @return the created text
+   */
+  public static Text url(String url) {
+    return new TextBuilder().appendUrl(url).build();
+  }
+  
+  /**
+   * Creates an email.
+   *
+   * @param email the email
+   * @return the created text
+   */
+  public static Text email(String email) {
+    return new TextBuilder().appendEmail(email).build();
+  }
+  
+  /**
+   * Creates an hashtag.
+   *
+   * @param hashtag the hashtag
+   * @return the created text
+   */
+  public static Text hashtag(String hashtag) {
+    return new TextBuilder().appendHashtag(hashtag).build();
+  }
+  
+  /**
+   * Creates a mention.
+   *
+   * @param mention the mentioned user
+   * @return the created text
+   */
+  public static Text mention(User mention) {
+    return new TextBuilder().appendMention(mention).build();
+  }
+  
+  /**
+   * Creates a mention.
+   *
+   * @param mention the mentioned username
+   * @return the created text
+   */
+  public static Text mention(String mention) {
+    return new TextBuilder().appendMention(mention).build();
+  }
+  
+  /**
+   * Creates a text mention.
+   *
+   * @param mention the mention
+   * @return the created text
+   */
+  public static Text textMention(Mention mention) {
+    return new TextBuilder().appendTextMention(mention).build();
+  }
+  
+  /**
+   * Creates a text mention.
+   *
+   * @param text    the text of the mention
+   * @param mention the mentioned user
+   * @return the created text
+   */
+  public static Text textMention(String text, User mention) {
+    return new TextBuilder().appendTextMention(text, mention).build();
+  }
+  
+  /**
+   * Creates a text mention.
+   *
+   * @param mention the mentioned user
+   * @return the created text
+   */
+  public static Text textMention(User mention) {
+    return new TextBuilder().appendTextMention(mention).build();
+  }
+  
+  /**
+   * Creates a bot command.
+   *
+   * @param botCommand the bot command
+   * @return the created text
+   */
+  public static Text botCommand(String botCommand) {
+    return new TextBuilder().appendBotCommand(botCommand).build();
+  }
   
   /**
    * Constructs a text.
