@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.text.Text;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * This object represents a text message.
@@ -17,7 +16,7 @@ public class TextMessage extends Message {
   static final String ENTITIES_FIELD = "entities";
 
   /**
-   * The actual UTF-8 text of the message, 0-4096 characters.
+   * The actual text of the message, 0-4096 characters.
    */
   @SerializedName(TEXT_FIELD)
   private String text;
@@ -37,11 +36,10 @@ public class TextMessage extends Message {
                      Message replyToMessage,
                      Long editDate,
                      String authorSignature,
-                     String text,
-                     List<MessageEntity> entities) {
+                     Text text) {
     super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
-    this.text = Objects.requireNonNull(text);
-    this.entities = entities;
+    this.text = text.toString();
+    this.entities = text.getEntities();
   }
 
 
