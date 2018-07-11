@@ -4,6 +4,7 @@ import me.palazzomichi.telegram.telejam.objects.MessageEntity;
 import me.palazzomichi.telegram.telejam.objects.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -384,6 +385,20 @@ public final class Text implements CharSequence {
     return Html.toString(this);
   }
   
+  public Text trim() {
+    int len = length();
+    int start = 0, end = len - 1;
+    for (; start < len; start++) {
+      if (charAt(start) != ' ') break;
+    }
+    if (start < len) {
+      for (; end >= 0; end--) {
+        if (charAt(end) != ' ') break;
+      }
+    }
+    return subSequence(start, end + 1);
+  }
+  
   @Override
   public int length() {
     return text.length();
@@ -404,20 +419,22 @@ public final class Text implements CharSequence {
     
     List<MessageEntity> entities = new ArrayList<>();
     for (MessageEntity entity : this.entities) {
-      if (entity.getOffset() >= end) {
+      int offset = entity.getOffset();
+      int length = entity.getLength();
+      if (offset >= end) {
         break;
-      } else if (entity.getOffset() < start && entity.getOffset() + entity.getLength() > end) {
-        entities.add(entity.move(0, end - start));
-        break;
-      } else if (entity.getOffset() < start && entity.getOffset() + entity.getLength() >= start) {
-        entities.add(entity.move(0, entity.getLength() - start));
-      } else if (entity.getOffset() >= start && entity.getOffset() + entity.getLength() <= end) {
-        entities.add(entity.move(entity.getOffset() - start, entity.getLength()));
-      } else if (entity.getOffset() >= start && entity.getOffset() + entity.getLength() > end) {
-        entities.add(entity.move(entity.getOffset() - start, end - entity.getOffset()));
-      } else break;
+      } else if (offset + length > start) {
+        int oldEnd = offset + length;
+        int newOffset = offset > start ? offset - start : 0;
+        int newEnd = oldEnd < end ? oldEnd - start : end - start;
+        entities.add(entity.move(newOffset, newEnd - newOffset));
+      }
     }
     return new Text(text, entities);
+  }
+  
+  public Text subSequence(int start) {
+    return subSequence(start, length());
   }
   
   @Override
@@ -431,7 +448,7 @@ public final class Text implements CharSequence {
    * @return the text entities
    */
   public List<MessageEntity> getEntities() {
-    return entities;
+    return Collections.unmodifiableList(entities);
   }
   
   @Override

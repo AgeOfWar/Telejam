@@ -49,7 +49,15 @@ public class TextTest {
         Text.parseHtml("<b>lo</b> <a href=www.example.com>Wor</a>"),
         HELLO_WORLD.subSequence(3, 9)
     );
-    assertEquals(Text.parseHtml("<b>ell</b>"), HELLO_WORLD.subSequence(1, 4));
+  
+    assertEquals(Text.bold("ell"), HELLO_WORLD.subSequence(1, 4));
+  
+    Text text = new TextBuilder()
+        .append("         ")
+        .appendBold(" Hello world")
+        .appendItalic("  ")
+        .build();
+    assertEquals(Text.bold("Hello world"), text.subSequence(10, 21));
   }
   
   @Test
@@ -142,6 +150,26 @@ public class TextTest {
         .appendHashtag("hi")
         .build();
     assertEquals(text3, text1.concat(text2));
+  }
+  
+  @Test
+  public void trim() {
+    Text text = new TextBuilder()
+        .append("         ")
+        .appendBold(" Hello world")
+        .appendItalic("  ")
+        .build();
+    assertEquals(Text.bold("Hello world"), text.trim());
+  }
+  
+  @Test
+  public void trim_emptyString() {
+    assertEquals(Text.EMPTY, Text.EMPTY.trim());
+  }
+  
+  @Test
+  public void trim_noSpaces() {
+    assertEquals(new Text("hi"), new Text("hi").trim());
   }
   
 }
