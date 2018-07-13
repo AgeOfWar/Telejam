@@ -30,6 +30,24 @@ public class InlineKeyboardMarkup implements ReplyMarkup {
   public InlineKeyboardMarkup(InlineKeyboardButton[][] inlineKeyboard) {
     this.inlineKeyboard = Objects.requireNonNull(inlineKeyboard);
   }
+  
+  /**
+   * Constructs an InlineKeyboardMarkup
+   *
+   * @param inlineKeyboard the keyboard
+   */
+  public InlineKeyboardMarkup(InlineKeyboardButton[] inlineKeyboard) {
+    this(new InlineKeyboardButton[][]{ inlineKeyboard });
+  }
+  
+  /**
+   * Constructs an InlineKeyboardMarkup
+   *
+   * @param inlineButton the keyboard
+   */
+  public InlineKeyboardMarkup(InlineKeyboardButton inlineButton) {
+    this(new InlineKeyboardButton[]{ inlineButton });
+  }
 
 
   /**
