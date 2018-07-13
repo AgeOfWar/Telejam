@@ -10,10 +10,12 @@ import java.util.Map;
 
 /**
  * Utility class that handles commands.
+ * Override the {@link #getCommand(TextMessage)} method to change the
+ * syntax of commands or to perform checks before the command execution.
  */
 public class CommandRegistry implements MessageHandler, CommandHandler {
   
-  private final Bot bot;
+  protected final Bot bot;
   private Map<String, CommandHandler> commands;
   
   /**
@@ -26,38 +28,30 @@ public class CommandRegistry implements MessageHandler, CommandHandler {
     commands = new HashMap<>();
   }
   
-  /**
-   * Handles updates received from the bot.
-   *
-   * @param command the command name
-   * @param args    the command args
-   * @param message the command message
-   * @throws Throwable if a throwable is thrown
-   */
   @Override
-  public final void onCommand(String command, String args[], TextMessage message) throws Throwable {
-    CommandHandler handler = getCommand(command);
+  public final void onCommand(Command command, TextMessage message) throws Throwable {
+    CommandHandler handler = getCommandHandler(command.getName());
     if (handler != null) {
-      handler.onCommand(command, args, message);
+      handler.onCommand(command, message);
     }
   }
   
   @Override
-  public void onMessage(Message message) throws Throwable {
+  public final void onMessage(Message message) throws Throwable {
     if (message instanceof TextMessage) {
       TextMessage textMessage = (TextMessage) message;
-      if (textMessage.isCommand()) {
-        Text text = textMessage.getText();
-        String command = text.getBotCommands().get(0);
-        String[] args;
-        if (text.length() == command.length() + 1) {
-          args = new String[0];
-        } else {
-          args = text.toString().substring(command.length() + 1).trim().split("\\s+");
-        }
-        onCommand(command, args, textMessage);
-      }
+      onCommand(getCommand(textMessage), textMessage);
     }
+  }
+  
+  protected Command getCommand(TextMessage message) {
+    if (!message.isCommand()) {
+      return null;
+    }
+    Text text = message.getText();
+    String name = text.getBotCommands().get(0);
+    Text args = text.subSequence(name.length() + 1).trim();
+    return new Command(name, args);
   }
   
   /**
@@ -66,8 +60,8 @@ public class CommandRegistry implements MessageHandler, CommandHandler {
    * @param name the name of the command
    * @return the command with ne given name or alias, otherwise <code>null</code>
    */
-  public final CommandHandler getCommand(String name) {
-    return commands.get(removeSuffix(name, "@" + bot.getUsername()));
+  public final CommandHandler getCommandHandler(String name) {
+    return commands.get(removeSuffix(name, "@" + bot.getUsername()).toLowerCase());
   }
   
   private String removeSuffix(String s, String suffix) {
@@ -82,12 +76,22 @@ public class CommandRegistry implements MessageHandler, CommandHandler {
    *
    * @param command the command to register
    * @param name    the name of the command
+   */
+  public final void registerCommand(CommandHandler command, String name) {
+    commands.put(name.toLowerCase(), command);
+  }
+  
+  /**
+   * Registers a command.
+   *
+   * @param command the command to register
+   * @param name    the name of the command
    * @param aliases the aliases of the command
    */
   public final void registerCommand(CommandHandler command, String name, String... aliases) {
-    commands.put(name, command);
+    registerCommand(command, name);
     for (String alias : aliases) {
-      commands.put(alias, command);
+      registerCommand(command, alias);
     }
   }
   
@@ -97,7 +101,7 @@ public class CommandRegistry implements MessageHandler, CommandHandler {
    * @param name the command name or alias
    */
   public final void unregisterCommand(String name) {
-    commands.remove(name);
+    commands.remove(name.toLowerCase());
   }
   
   /**
