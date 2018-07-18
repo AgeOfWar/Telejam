@@ -1,6 +1,7 @@
 package me.palazzomichi.telegram.telejam.util;
 
 import me.palazzomichi.telegram.telejam.Bot;
+import me.palazzomichi.telegram.telejam.methods.GetUpdates;
 import me.palazzomichi.telegram.telejam.objects.Update;
 
 import java.io.IOException;
@@ -105,7 +106,10 @@ public final class UpdateReader {
    * @throws IOException if an I/O Exception occurs
    */
   public int getUpdates() throws IOException {
-    Update[] newUpdates = bot.getUpdates(lastUpdateId + 1);
+    GetUpdates getUpdates = new GetUpdates()
+        .offset(lastUpdateId + 1);
+        //.allowedUpdates();
+    Update[] newUpdates = bot.execute(getUpdates);
     Collections.addAll(updates, newUpdates);
     if (newUpdates.length > 0) {
       lastUpdateId = newUpdates[newUpdates.length - 1].getId();
@@ -119,9 +123,12 @@ public final class UpdateReader {
    * @throws IOException if an I/O Exception occurs
    */
   public void reset() throws IOException {
-    Update[] update = bot.getUpdates(-1L);
-    if (update.length == 1) {
-      lastUpdateId = update[0].getId();
+    GetUpdates getUpdates = new GetUpdates()
+        .offset(lastUpdateId)
+        .allowedUpdates();
+    Update[] newUpdates = bot.execute(getUpdates);
+    if (newUpdates.length == 1) {
+      lastUpdateId = newUpdates[0].getId();
     }
     updates.clear();
   }
