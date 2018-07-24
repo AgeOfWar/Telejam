@@ -67,7 +67,7 @@ public abstract class InputMedia implements TelegramObject {
    */
   public InputMedia(UploadFile media, Text caption) {
     this.media = ATTACH_PREFIX + media.getFileName();
-    this.caption = caption.toHtmlString();
+    this.caption = caption != null ? caption.toHtmlString() : null;
     this.file = media.getInputStream();
     this.fileAttachName = media.getFileName();
   }
