@@ -1,8 +1,8 @@
 package me.palazzomichi.telegram.telejam;
 
-import me.palazzomichi.telegram.telejam.objects.Update;
 import me.palazzomichi.telegram.telejam.util.UpdateReader;
 
+import java.io.IOException;
 import java.util.function.LongUnaryOperator;
 
 /**
@@ -10,16 +10,15 @@ import java.util.function.LongUnaryOperator;
  *
  * @author Michi Palazzo
  */
-public abstract class LongPollingBot extends TelegramBot implements Runnable {
+public abstract class LongPollingBot extends TelegramBot implements Runnable, AutoCloseable {
   
   private final UpdateReader updateReader;
-  private boolean running = false;
   
   /**
    * Constructs a long polling bot.
    *
-   * @param bot          the bot used by the reader
-   * @param backOff      back off to be used when long polling fails
+   * @param bot     the bot used by the reader
+   * @param backOff back off to be used when long polling fails
    */
   public LongPollingBot(Bot bot, LongUnaryOperator backOff) {
     super(bot);
@@ -35,28 +34,26 @@ public abstract class LongPollingBot extends TelegramBot implements Runnable {
     this(bot, a -> 500L);
   }
   
-  /**
-   * Stops the long polling bot.
-   * Call again {@link #run()} to resume the long polling bot.
-   */
-  public void stop() {
-    running = false;
-  }
-  
   @Override
   public void run() {
-    running = true;
-    while (!Thread.interrupted() && running) {
+    while (!Thread.interrupted()) {
       try {
-        Update update = updateReader.read();
-        onUpdate(update);
+        onUpdate(updateReader.read());
       } catch (InterruptedException e) {
-        stop();
+        break;
       } catch (Throwable e) {
         onError(e);
       }
     }
-    running = false;
+  }
+  
+  @Override
+  public void close() throws IOException {
+    try {
+      updateReader.close();
+    } catch (IOException e) {
+      throw new IOException("Unable to close LongPollingBot", e);
+    }
   }
   
 }

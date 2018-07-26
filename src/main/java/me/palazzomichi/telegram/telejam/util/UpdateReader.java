@@ -15,7 +15,7 @@ import java.util.function.LongUnaryOperator;
  *
  * @author Michi Palazzo
  */
-public final class UpdateReader {
+public final class UpdateReader implements AutoCloseable {
 
   private final Bot bot;
   private final ConcurrentLinkedQueue<Update> updates;
@@ -59,7 +59,7 @@ public final class UpdateReader {
   }
 
   /**
-   * Tells whether this util is ready to be read.
+   * Tells whether this stream is ready to be read.
    *
    * @return <code>true</code> if the next read() is guaranteed not to block for input,
    * <code>false</code> otherwise.  Note that returning false does not guarantee that the
@@ -70,7 +70,7 @@ public final class UpdateReader {
   }
 
   /**
-   * Reads one update from the util.
+   * Reads one update from the stream.
    *
    * @return the read update
    * @throws IOException          if an I/O Exception occurs
@@ -79,26 +79,13 @@ public final class UpdateReader {
    */
   public Update read() throws IOException, InterruptedException {
     if (!ready()) {
-      long attempts = 1;
-      while (getUpdates() == 0) {
+      for (long attempts = 0; getUpdates() == 0; attempts++) {
         Thread.sleep(backOff.applyAsLong(attempts));
-        if (attempts < Long.MAX_VALUE) attempts++;
       }
     }
     return updates.remove();
   }
   
-  /**
-   * Returns all the updates in the buffer.
-   *
-   * @return all the updates in the buffer.
-   */
-  public Update[] readAll() {
-    Update[] updates = this.updates.toArray(new Update[0]);
-    this.updates.clear();
-    return updates;
-  }
-
   /**
    * Retrieves new updates received from the bot.
    *
@@ -106,10 +93,7 @@ public final class UpdateReader {
    * @throws IOException if an I/O Exception occurs
    */
   public int getUpdates() throws IOException {
-    GetUpdates getUpdates = new GetUpdates()
-        .offset(lastUpdateId + 1);
-        //.allowedUpdates();
-    Update[] newUpdates = bot.execute(getUpdates);
+    Update[] newUpdates = getUpdates(lastUpdateId + 1);
     Collections.addAll(updates, newUpdates);
     if (newUpdates.length > 0) {
       lastUpdateId = newUpdates[newUpdates.length - 1].getId();
@@ -122,15 +106,31 @@ public final class UpdateReader {
    *
    * @throws IOException if an I/O Exception occurs
    */
-  public void reset() throws IOException {
-    GetUpdates getUpdates = new GetUpdates()
-        .offset(lastUpdateId)
-        .allowedUpdates();
-    Update[] newUpdates = bot.execute(getUpdates);
-    if (newUpdates.length == 1) {
-      lastUpdateId = newUpdates[0].getId();
+  public void discardAll() throws IOException {
+    Update[] newUpdate = getUpdates(-1);
+    if (newUpdate.length == 1) {
+      lastUpdateId = newUpdate[0].getId();
     }
     updates.clear();
+  }
+  
+  private Update[] getUpdates(long offset) throws IOException {
+    GetUpdates getUpdates = new GetUpdates()
+        .offset(offset)
+        .allowedUpdates();
+    return bot.execute(getUpdates);
+  }
+  
+  @Override
+  public void close() throws IOException {
+    try {
+      Update nextUpdate = updates.peek();
+      getUpdates(nextUpdate != null ? nextUpdate.getId() : lastUpdateId + 1);
+      lastUpdateId = -1;
+      updates.clear();
+    } catch (IOException e) {
+      throw new IOException("Unable to close update reader", e);
+    }
   }
   
 }
