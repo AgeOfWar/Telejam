@@ -3,7 +3,6 @@ package me.palazzomichi.telegram.telejam.objects;
 import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.text.Text;
 
-import java.io.InputStream;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,13 +18,13 @@ public abstract class InputMedia implements TelegramObject {
   static final String CAPTION_FIELD = "caption";
   static final String PARSE_MODE_FIELD = "parse_mode";
   
-  private static final String ATTACH_PREFIX = "attach://";
+  static final String ATTACH_PREFIX = "attach://";
   
   @SerializedName(PARSE_MODE_FIELD)
   private static final String PARSE_MODE = "HTML";
   
   /**
-   * InputFile to send. Pass a file_id to send a file that exists on the Telegram servers (recommended),
+   * Media to send. Pass a file_id to send a file that exists on the Telegram servers (recommended),
    * pass an HTTP URL for Telegram to get a file from the Internet, or pass a file.
    */
   @SerializedName(MEDIA_FIELD)
@@ -38,21 +37,16 @@ public abstract class InputMedia implements TelegramObject {
   private String caption;
   
   /**
-   * InputFile not present in Telegram servers.
+   * Media not present in Telegram servers.
    */
-  private InputStream file;
-  
-  /**
-   * Unique name for this media.
-   */
-  private String fileAttachName;
+  private UploadFile newMedia;
   
   
   /**
    * Constructs an input media.
    *
-   * @param media   file to send
-   * @param caption caption of the file to be sent, 0-200 characters
+   * @param media   newMedia to send
+   * @param caption caption of the newMedia to be sent, 0-200 characters
    */
   public InputMedia(String media, Text caption) {
     this.media = Objects.requireNonNull(media);
@@ -62,14 +56,13 @@ public abstract class InputMedia implements TelegramObject {
   /**
    * Constructs an input media.
    *
-   * @param media   file to send
-   * @param caption caption of the file to be sent, 0-200 characters
+   * @param media   newMedia to send
+   * @param caption caption of the newMedia to be sent, 0-200 characters
    */
   public InputMedia(UploadFile media, Text caption) {
     this.media = ATTACH_PREFIX + media.getFileName();
     this.caption = caption != null ? caption.toHtmlString() : null;
-    this.file = media.getInputStream();
-    this.fileAttachName = media.getFileName();
+    this.newMedia = media;
   }
   
   
@@ -92,12 +85,12 @@ public abstract class InputMedia implements TelegramObject {
   }
   
   /**
-   * Getter for property {@link #file}.
+   * Getter for property {@link #newMedia}.
    *
-   * @return optional value for property {@link #file}
+   * @return optional value for property {@link #newMedia}
    */
   public Optional<UploadFile> getFile() {
-    return Optional.ofNullable(file).map(file -> new UploadFile(fileAttachName, file));
+    return Optional.ofNullable(newMedia);
   }
   
 }
