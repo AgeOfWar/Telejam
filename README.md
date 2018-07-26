@@ -14,8 +14,14 @@ This program re-sends messages.
   public class ExampleBot extends LongPollingBot {
     
     public static void main(String... args) throws IOException {
+      if (args.length != 1) {
+        System.err.println("Pass the bot token as unique program argument");
+        System.exit(1);
+      }
       Bot bot = Bot.fromToken(args[0]);
-      new ExampleBot(bot).run();
+      try (ExampleBot exampleBot = new ExampleBot(bot)) {
+        exampleBot.run();
+      }
     }
     
     public ExampleBot(Bot bot) {
@@ -23,8 +29,13 @@ This program re-sends messages.
     }
     
     @Override
-    public void onTextMessage(TextMessage message) throws IOException {
-      bot.sendMessage(message, message.getText());
+    public void onMessage(Message message) throws IOException {
+      if (message instanceof TextMessage) {
+        SendMessage sendMessage = new SendMessage()
+          .replyToMessage(message)
+          .text(((TextMessage) message).getText());
+        bot.execute(sendMessage);
+      }
     }
     
   }
