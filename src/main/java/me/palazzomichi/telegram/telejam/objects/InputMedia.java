@@ -56,7 +56,7 @@ public abstract class InputMedia implements TelegramObject {
    */
   public InputMedia(String media, Text caption) {
     this.media = Objects.requireNonNull(media);
-    this.caption = caption.toHtmlString();
+    this.caption = caption != null ? caption.toHtmlString() : null;
   }
   
   /**
