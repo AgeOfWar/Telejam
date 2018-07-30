@@ -47,30 +47,12 @@ public class Location implements TelegramObject {
   }
 
   /**
-   * Setter for property {@link #latitude}.
-   *
-   * @param latitude value for property {@link #latitude}
-   */
-  public void setLatitude(float latitude) {
-    this.latitude = latitude;
-  }
-
-  /**
    * Getter for property {@link #longitude}.
    *
    * @return value for property {@link #longitude}
    */
   public float getLongitude() {
     return longitude;
-  }
-
-  /**
-   * Setter for property {@link #longitude}.
-   *
-   * @param longitude value for property {@link #longitude}
-   */
-  public void setLongitude(float longitude) {
-    this.longitude = longitude;
   }
   
   @Override

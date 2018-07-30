@@ -21,7 +21,7 @@ public class InputMediaPhoto extends InputMedia {
    * @param caption caption of the file to be sent, 0-200 characters
    */
   public InputMediaPhoto(String media, Text caption) {
-    super(media, caption);
+    super(media, null, caption);
   }
   
   /**
@@ -31,7 +31,7 @@ public class InputMediaPhoto extends InputMedia {
    * @param caption caption of the file to be sent, 0-200 characters
    */
   public InputMediaPhoto(UploadFile media, Text caption) {
-    super(media, caption);
+    super(media, null, caption);
   }
   
 }

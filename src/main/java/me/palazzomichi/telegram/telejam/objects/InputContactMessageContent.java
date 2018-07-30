@@ -15,6 +15,7 @@ public class InputContactMessageContent implements InputMessageContent {
   static final String PHONE_NUMBER_FIELD = "phone_number";
   static final String FIRST_NAME_FIELD = "first_name";
   static final String LAST_NAME_FIELD = "last_name";
+  static final String VCARD_FIELD = "vcard";
 
   /**
    * Contact's phone number.
@@ -33,16 +34,23 @@ public class InputContactMessageContent implements InputMessageContent {
    */
   @SerializedName(LAST_NAME_FIELD)
   private String lastName;
+  
+  /**
+   * Additional data about the contact in the form of a vCard.
+   */
+  @SerializedName(VCARD_FIELD)
+  private String vCard;
+  
 
-
-  public InputContactMessageContent(String phoneNumber, String firstName, String lastName) {
+  public InputContactMessageContent(String phoneNumber, String firstName, String lastName, String vCard) {
     this.phoneNumber = Objects.requireNonNull(phoneNumber);
     this.firstName = Objects.requireNonNull(firstName);
     this.lastName = lastName;
+    this.vCard = vCard;
   }
 
   public InputContactMessageContent(String phoneNumber, String firstName) {
-    this(phoneNumber, firstName, null);
+    this(phoneNumber, firstName, null, null);
   }
 
 
@@ -71,6 +79,15 @@ public class InputContactMessageContent implements InputMessageContent {
    */
   public Optional<String> getLastName() {
     return Optional.ofNullable(lastName);
+  }
+  
+  /**
+   * Getter for property {@link #vCard}.
+   *
+   * @return optional value for property {@link #vCard}
+   */
+  public Optional<String> getVCard() {
+    return Optional.ofNullable(vCard);
   }
 
 }

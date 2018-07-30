@@ -142,7 +142,7 @@ public class SendPhoto implements TelegramMethod<PhotoMessage> {
         DISABLE_NOTIFICATION_FIELD, disableNotification,
         REPLY_TO_MESSAGE_ID_FIELD, replyToMessageId,
         REPLY_MARKUP_FIELD, replyMarkup,
-        CAPTION_FIELD, caption.toHtmlString(),
+        CAPTION_FIELD, caption != null ? caption.toHtmlString() : null,
         PARSE_MODE_FIELD, "HTML",
         PHOTO_FIELD, photo
     );

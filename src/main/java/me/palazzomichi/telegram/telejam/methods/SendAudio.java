@@ -184,7 +184,7 @@ public class SendAudio implements TelegramMethod<AudioMessage> {
         REPLY_TO_MESSAGE_ID_FIELD, replyToMessageId,
         REPLY_MARKUP_FIELD, replyMarkup,
         AUDIO_FIELD, audio,
-        CAPTION_FIELD, caption.toHtmlString(),
+        CAPTION_FIELD, caption != null ? caption.toHtmlString() : null,
         PARSE_MODE_FIELD, "HTML",
         DURATION_FIELD, duration,
         PERFORMER_FIELD, performer,

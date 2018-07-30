@@ -16,6 +16,7 @@ public class Venue implements TelegramObject {
   static final String TITLE_FIELD = "title";
   static final String ADDRESS_FIELD = "address";
   static final String FOURSQUARE_ID_FIELD = "foursquare_id";
+  static final String FOURSQUARE_TYPE_FIELD = "foursquare_type";
 
   /**
    * Venue location.
@@ -40,13 +41,20 @@ public class Venue implements TelegramObject {
    */
   @SerializedName(FOURSQUARE_ID_FIELD)
   private String foursquareId;
+  
+  /**
+   * Foursquare type of the venue.
+   */
+  @SerializedName(FOURSQUARE_TYPE_FIELD)
+  private String foursquareType;
+  
 
-
-  public Venue(Location location, String title, String address, String foursquareId) {
+  public Venue(Location location, String title, String address, String foursquareId, String foursquareType) {
     this.location = Objects.requireNonNull(location);
     this.title = Objects.requireNonNull(title);
     this.address = Objects.requireNonNull(address);
     this.foursquareId = foursquareId;
+    this.foursquareType = foursquareType;
   }
 
 
@@ -76,7 +84,7 @@ public class Venue implements TelegramObject {
   public String getAddress() {
     return address;
   }
-
+  
   /**
    * Getter for property {@link #foursquareId}.
    *
@@ -84,6 +92,15 @@ public class Venue implements TelegramObject {
    */
   public Optional<String> getFoursquareId() {
     return Optional.ofNullable(foursquareId);
+  }
+  
+  /**
+   * Getter for property {@link #foursquareType}.
+   *
+   * @return optional value for property {@link #foursquareType}
+   */
+  public Optional<String> getFoursquareType() {
+    return Optional.ofNullable(foursquareType);
   }
   
   @Override

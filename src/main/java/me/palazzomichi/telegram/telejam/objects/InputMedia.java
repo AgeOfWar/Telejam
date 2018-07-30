@@ -15,10 +15,11 @@ public abstract class InputMedia implements TelegramObject {
   
   static final String TYPE_FIELD = "type";
   static final String MEDIA_FIELD = "media";
+  static final String THUMBNAIL_FIELD = "thumb";
   static final String CAPTION_FIELD = "caption";
   static final String PARSE_MODE_FIELD = "parse_mode";
   
-  static final String ATTACH_PREFIX = "attach://";
+  private static final String ATTACH_PREFIX = "attach://";
   
   @SerializedName(PARSE_MODE_FIELD)
   private static final String PARSE_MODE = "HTML";
@@ -31,6 +32,14 @@ public abstract class InputMedia implements TelegramObject {
   private String media;
   
   /**
+   * Thumbnail of the file sent. The thumbnail should be in JPEG
+   * format and less than 200 kB in size. A thumbnail‘s width
+   * and height should not exceed 90.
+   */
+  @SerializedName(THUMBNAIL_FIELD)
+  private String thumbnail;
+  
+  /**
    * Caption of the file to be sent, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
@@ -41,28 +50,39 @@ public abstract class InputMedia implements TelegramObject {
    */
   private UploadFile newMedia;
   
+  /**
+   * Thumbnail not present in Telegram servers.
+   */
+  private UploadFile newThumbnail;
+  
   
   /**
    * Constructs an input media.
    *
-   * @param media   newMedia to send
-   * @param caption caption of the newMedia to be sent, 0-200 characters
+   * @param media     media to send
+   * @param thumbnail thumbnail of the file sent
+   * @param caption   caption of the newMedia to be sent, 0-200 characters
    */
-  public InputMedia(String media, Text caption) {
+  public InputMedia(String media, UploadFile thumbnail, Text caption) {
     this.media = Objects.requireNonNull(media);
+    this.thumbnail = thumbnail != null ? ATTACH_PREFIX + thumbnail.getFileName() : null;
     this.caption = caption != null ? caption.toHtmlString() : null;
+    this.newThumbnail = thumbnail;
   }
   
   /**
    * Constructs an input media.
    *
-   * @param media   newMedia to send
-   * @param caption caption of the newMedia to be sent, 0-200 characters
+   * @param media     media to send
+   * @param thumbnail thumbnail of the file sent
+   * @param caption   caption of the newMedia to be sent, 0-200 characters
    */
-  public InputMedia(UploadFile media, Text caption) {
+  public InputMedia(UploadFile media, UploadFile thumbnail, Text caption) {
     this.media = ATTACH_PREFIX + media.getFileName();
+    this.thumbnail = thumbnail != null ? ATTACH_PREFIX + thumbnail.getFileName() : null;
     this.caption = caption != null ? caption.toHtmlString() : null;
     this.newMedia = media;
+    this.newThumbnail = thumbnail;
   }
   
   
@@ -91,6 +111,15 @@ public abstract class InputMedia implements TelegramObject {
    */
   public Optional<UploadFile> getFile() {
     return Optional.ofNullable(newMedia);
+  }
+  
+  /**
+   * Getter for property {@link #newThumbnail}.
+   *
+   * @return optional value for property {@link #newThumbnail}
+   */
+  public Optional<UploadFile> getThumbnail() {
+    return Optional.ofNullable(newThumbnail);
   }
   
 }

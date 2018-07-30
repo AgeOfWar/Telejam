@@ -202,6 +202,27 @@ public final class Text implements CharSequence {
   }
   
   /**
+   * Creates a phone number.
+   *
+   * @param phoneNumber the phone number
+   * @return the created text
+   */
+  public static Text phoneNumber(String phoneNumber) {
+    return new TextBuilder().appendPhoneNumber(phoneNumber).build();
+  }
+  
+  /**
+   * Creates a cashtag.
+   *
+   * @param cashtag the cashtag
+   * @return the created text
+   */
+  public static Text cashtag(String cashtag) {
+    return new TextBuilder().appendCashtag(cashtag).build();
+  }
+  
+  
+  /**
    * Constructs a text.
    *
    * @param text     the text
@@ -358,6 +379,27 @@ public final class Text implements CharSequence {
   public List<String> getBotCommands() {
     return getEntities(
         MessageEntity.Type.BOT_COMMAND,
+        entity -> text.substring(entity.getOffset() + 1, entity.getOffset() + entity.getLength())
+    );
+  }
+  
+  /**
+   * Returns a list containing all the phone numbers in this text.
+   *
+   * @return a list containing all the phone numbers in this text
+   */
+  public List<String> getPhoneNumbers() {
+    return getEntities(MessageEntity.Type.PHONE_NUMBER);
+  }
+  
+  /**
+   * Returns a list containing all the cashtags in this text.
+   *
+   * @return a list containing all the cashtags in this text
+   */
+  public List<String> getCashtags() {
+    return getEntities(
+        MessageEntity.Type.CASHTAG,
         entity -> text.substring(entity.getOffset() + 1, entity.getOffset() + entity.getLength())
     );
   }

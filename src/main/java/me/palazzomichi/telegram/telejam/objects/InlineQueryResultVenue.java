@@ -2,7 +2,6 @@ package me.palazzomichi.telegram.telejam.objects;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalInt;
 
@@ -20,6 +19,7 @@ public class InlineQueryResultVenue extends InlineQueryResult {
   static final String TITLE_FIELD = "title";
   static final String ADDRESS_FIELD = "address";
   static final String FOURSQUARE_ID_FIELD = "foursquare_id";
+  static final String FOURSQUARE_TYPE_FIELD = "foursquare_type";
   static final String REPLY_MARKUP_FIELD = "reply_markup";
   static final String INPUT_MESSAGE_CONTENT_FIELD = "input_message_content";
   static final String THUMB_URL_FIELD = "thumb_url";
@@ -58,6 +58,12 @@ public class InlineQueryResultVenue extends InlineQueryResult {
    */
   @SerializedName(FOURSQUARE_ID_FIELD)
   private String foursquareId;
+  
+  /**
+   * Foursquare type of the venue.
+   */
+  @SerializedName(FOURSQUARE_TYPE_FIELD)
+  private String foursquareType;
 
   /**
    * Inline keyboard attached to the message.
@@ -100,9 +106,10 @@ public class InlineQueryResultVenue extends InlineQueryResult {
     super(id);
     this.latitude = venue.getLocation().getLatitude();
     this.longitude = venue.getLocation().getLongitude();
-    this.title = Objects.requireNonNull(title);
+    this.title = venue.getTitle();
     this.address = venue.getAddress();
     this.foursquareId = venue.getFoursquareId().orElse(null);
+    this.foursquareType = venue.getFoursquareType().orElse(null);
     this.replyMarkup = replyMarkup;
     this.inputMessageContent = inputMessageContent;
     this.thumbUrl = thumbUrl;
@@ -159,7 +166,16 @@ public class InlineQueryResultVenue extends InlineQueryResult {
   public Optional<String> getFoursquareId() {
     return Optional.ofNullable(foursquareId);
   }
-
+  
+  /**
+   * Getter for property {@link #foursquareType}.
+   *
+   * @return optional value for property {@link #foursquareType}
+   */
+  public Optional<String> getFoursquareType() {
+    return Optional.ofNullable(foursquareType);
+  }
+  
   /**
    * Getter for property {@link #replyMarkup}.
    *

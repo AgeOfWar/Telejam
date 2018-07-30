@@ -163,7 +163,7 @@ public class SendVoice implements TelegramMethod<VoiceMessage> {
         REPLY_TO_MESSAGE_ID_FIELD, replyToMessageId,
         REPLY_MARKUP_FIELD, replyMarkup,
         VOICE_FIELD, voice,
-        CAPTION_FIELD, caption.toHtmlString(),
+        CAPTION_FIELD, caption != null ? caption.toHtmlString() : null,
         PARSE_MODE_FIELD, "HTML",
         DURATION_FIELD, duration
     );

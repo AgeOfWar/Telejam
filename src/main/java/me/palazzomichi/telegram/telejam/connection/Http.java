@@ -36,18 +36,20 @@ public class Http {
       final String boundary = generateBoundary();
       connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
       try (PrintWriter output = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), CHARSET))) {
-        parameters.forEach((key, value) -> {
+        for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+          String key = entry.getKey();
+          Object value = entry.getValue();
           output.append("--").append(boundary);
           output.append("\r\n");
           output.append("Content-Disposition: form-data; name=\"").append(key).append('"');
           output.append("\r\n");
-          output.append("Content-Type: text/plain; charset=").append(CHARSET);
+          output.append("Content-Type: application/json; charset=").append(CHARSET);
           output.append("\r\n");
           output.append("\r\n");
-          output.append(toJson(value));
+          output.append(value instanceof String ? (String) value : toJson(value));
           output.append("\r\n");
           output.flush();
-        });
+        }
         for (Map.Entry<String, UploadFile> entry : files.entrySet()) {
           String key = entry.getKey();
           UploadFile value = entry.getValue();
@@ -56,8 +58,11 @@ public class Http {
           output.append("Content-Disposition: form-data; name=\"").append(key).append("\"; ");
           output.append("filename=\"").append(value.getFileName()).append(String.valueOf('"'));
           output.append("\r\n");
-          output.append("Content-Type: ").append(guessContentTypeFromStream(value.getInputStream()));
-          output.append("\r\n");
+          String contentType = guessContentTypeFromStream(value.getInputStream());
+          if (contentType != null) {
+            output.append("Content-Type: ").append(contentType);
+            output.append("\r\n");
+          }
           output.append("Content-Transfer-Encoding: binary");
           output.append("\r\n");
           output.append("\r\n");

@@ -49,8 +49,8 @@ public class DocumentMessage extends Message {
                          Text caption) {
     super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.document = Objects.requireNonNull(document);
-    this.caption = caption.toString();
-    this.captionEntities = caption.getEntities();
+    this.caption = caption != null ? caption.toString() : null;
+    this.captionEntities = caption != null ? caption.getEntities() : null;
   }
 
 

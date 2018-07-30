@@ -42,7 +42,7 @@ public class InputMediaVideo extends InputMedia {
    * Whether or not the uploaded video is suitable for streaming.
    */
   @SerializedName(SUPPORTS_STREAMING_FIELD)
-  private boolean supportsStreaming;
+  private Boolean supportsStreaming;
   
   /**
    * Constructs an input media video.
@@ -54,8 +54,14 @@ public class InputMediaVideo extends InputMedia {
    * @param duration          video duration
    * @param supportsStreaming if the uploaded video is suitable for streaming
    */
-  public InputMediaVideo(String media, Text caption, int width, int height, int duration, boolean supportsStreaming) {
-    super(media, caption);
+  public InputMediaVideo(String media,
+                         UploadFile thumbnail,
+                         Text caption,
+                         Integer width,
+                         Integer height,
+                         Integer duration,
+                         Boolean supportsStreaming) {
+    super(media, thumbnail, caption);
     this.width = width;
     this.height = height;
     this.duration = duration;
@@ -65,25 +71,33 @@ public class InputMediaVideo extends InputMedia {
   /**
    * Constructs an input media video.
    *
-   * @param media   file to send
-   * @param caption caption of the file to be sent, 0-200 characters
+   * @param media     file to send
+   * @param thumbnail thumbnail of the file sent
+   * @param caption   caption of the file to be sent, 0-200 characters
    */
-  public InputMediaVideo(String media, Text caption) {
-    super(media, caption);
+  public InputMediaVideo(String media, UploadFile thumbnail, Text caption) {
+    super(media, thumbnail, caption);
   }
   
   /**
    * Constructs an input media.
    *
-   * @param media    file to send
-   * @param caption  caption of the file to be sent, 0-200 characters
-   * @param width    video width
-   * @param height   video height
-   * @param duration video duration
+   * @param media             file to send
+   * @param thumbnail         thumbnail of the file sent
+   * @param caption           caption of the file to be sent, 0-200 characters
+   * @param width             video width
+   * @param height            video height
+   * @param duration          video duration
    * @param supportsStreaming if the uploaded video is suitable for streaming
    */
-  public InputMediaVideo(UploadFile media, Text caption, int width, int height, int duration, boolean supportsStreaming) {
-    super(media, caption);
+  public InputMediaVideo(UploadFile media,
+                         UploadFile thumbnail,
+                         Text caption,
+                         Integer width,
+                         Integer height,
+                         Integer duration,
+                         Boolean supportsStreaming) {
+    super(media, thumbnail, caption);
     this.width = width;
     this.height = height;
     this.duration = duration;
@@ -93,11 +107,12 @@ public class InputMediaVideo extends InputMedia {
   /**
    * Constructs an input media.
    *
-   * @param media   file to send
-   * @param caption caption of the file to be sent, 0-200 characters
+   * @param media     file to send
+   * @param thumbnail thumbnail of the file sent
+   * @param caption   caption of the file to be sent, 0-200 characters
    */
-  public InputMediaVideo(UploadFile media, Text caption) {
-    super(media, caption);
+  public InputMediaVideo(UploadFile media, UploadFile thumbnail, Text caption) {
+    super(media, thumbnail, caption);
   }
   
   
@@ -133,7 +148,7 @@ public class InputMediaVideo extends InputMedia {
    *
    * @return optional value for property {@link #supportsStreaming}
    */
-  public boolean supportsStreaming() {
+  public Boolean supportsStreaming() {
     return supportsStreaming;
   }
   

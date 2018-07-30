@@ -27,7 +27,7 @@ public class JsonTest {
         null,
         null,
         null,
-        new Audio("AwGDJSHSshhdhShSHSHhhshshSHHSHshSshHS-N0C", 10, null, "Hello", null, null),
+        new Audio("AwGDJSHSshhdhShSHSHhhshshSHHSHshSshHS-N0C", 10, null, "Hello", null, null, null),
         Text.parseHtml("<b>Hello</b>\n<a href=www.google.it>World</a>!")
     );
     JsonObject jsonUser = new JsonObject();

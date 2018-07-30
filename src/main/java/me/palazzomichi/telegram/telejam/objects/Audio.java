@@ -19,6 +19,7 @@ public class Audio implements TelegramObject {
   static final String TITLE_FIELD = "title";
   static final String MIME_TYPE_FIELD = "mime_type";
   static final String SIZE_FIELD = "file_size";
+  static final String THUMBNAIL_FIELD = "thumb";
 
   /**
    * Unique identifier for this file.
@@ -55,15 +56,28 @@ public class Audio implements TelegramObject {
    */
   @SerializedName(SIZE_FIELD)
   private Integer size;
+  
+  /**
+   * Thumbnail of the album cover to which the music file belongs.
+   */
+  @SerializedName(THUMBNAIL_FIELD)
+  private PhotoSize thumbnail;
 
-
-  public Audio(String id, int duration, String performer, String title, String mimeType, Integer size) {
+  
+  public Audio(String id,
+               int duration,
+               String performer,
+               String title,
+               String mimeType,
+               Integer size,
+               PhotoSize thumbnail) {
     this.id = Objects.requireNonNull(id);
     this.duration = duration;
     this.performer = performer;
     this.title = title;
     this.mimeType = mimeType;
     this.size = size;
+    this.thumbnail = thumbnail;
   }
 
   public Audio(String id, int duration) {
@@ -124,6 +138,15 @@ public class Audio implements TelegramObject {
    */
   public OptionalInt getSize() {
     return size == null ? OptionalInt.empty() : OptionalInt.of(size);
+  }
+  
+  /**
+   * Getter for property {@link #thumbnail}.
+   *
+   * @return optional value for property {@link #thumbnail}
+   */
+  public Optional<PhotoSize> getThumbnail() {
+    return Optional.ofNullable(thumbnail);
   }
   
   @Override

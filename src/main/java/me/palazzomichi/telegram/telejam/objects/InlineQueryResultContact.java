@@ -23,6 +23,7 @@ public class InlineQueryResultContact extends InlineQueryResult {
   static final String THUMB_URL_FIELD = "thumb_url";
   static final String THUMB_WIDTH_FIELD = "thumb_width";
   static final String THUMB_HEIGHT_FIELD = "thumb_height";
+  static final String VCARD_FIELD = "vcard";
 
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "contact";
@@ -74,8 +75,14 @@ public class InlineQueryResultContact extends InlineQueryResult {
    */
   @SerializedName(THUMB_HEIGHT_FIELD)
   private Integer thumbHeight;
+  
+  /**
+   * Additional data about the contact in the form of a vCard.
+   */
+  @SerializedName(VCARD_FIELD)
+  private String vCard;
 
-
+  
   public InlineQueryResultContact(String id,
                                   String phoneNumber,
                                   String firstName,
@@ -84,7 +91,8 @@ public class InlineQueryResultContact extends InlineQueryResult {
                                   InputMessageContent inputMessageContent,
                                   String thumbUrl,
                                   Integer thumbWidth,
-                                  Integer thumbHeight) {
+                                  Integer thumbHeight,
+                                  String vCard) {
     super(id);
     this.phoneNumber = Objects.requireNonNull(phoneNumber);
     this.firstName = Objects.requireNonNull(firstName);
@@ -94,10 +102,11 @@ public class InlineQueryResultContact extends InlineQueryResult {
     this.thumbUrl = thumbUrl;
     this.thumbWidth = thumbWidth;
     this.thumbHeight = thumbHeight;
+    this.vCard = vCard;
   }
 
   public InlineQueryResultContact(String id, String phoneNumber, String firstName) {
-    this(id, phoneNumber, firstName, null, null, null, null, null, null);
+    this(id, phoneNumber, firstName, null, null, null, null, null, null, null);
   }
 
 
@@ -111,30 +120,12 @@ public class InlineQueryResultContact extends InlineQueryResult {
   }
 
   /**
-   * Setter for property {@link #phoneNumber}.
-   *
-   * @param phoneNumber value for property {@link #phoneNumber}
-   */
-  public void setPhoneNumber(String phoneNumber) {
-    this.phoneNumber = Objects.requireNonNull(phoneNumber);
-  }
-
-  /**
    * Getter for property {@link #firstName}.
    *
    * @return value for property {@link #firstName}
    */
   public String getFirstName() {
     return firstName;
-  }
-
-  /**
-   * Setter for property {@link #firstName}.
-   *
-   * @param firstName value for property {@link #firstName}
-   */
-  public void setFirstName(String firstName) {
-    this.firstName = Objects.requireNonNull(firstName);
   }
 
   /**
@@ -147,30 +138,12 @@ public class InlineQueryResultContact extends InlineQueryResult {
   }
 
   /**
-   * Setter for property {@link #lastName}.
-   *
-   * @param lastName value for property {@link #lastName}
-   */
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
-  /**
    * Getter for property {@link #replyMarkup}.
    *
    * @return optional value for property {@link #replyMarkup}
    */
   public Optional<InlineKeyboardMarkup> getReplyMarkup() {
     return Optional.ofNullable(replyMarkup);
-  }
-
-  /**
-   * Setter for property {@link #replyMarkup}.
-   *
-   * @param replyMarkup value for property {@link #replyMarkup}
-   */
-  public void setReplyMarkup(InlineKeyboardMarkup replyMarkup) {
-    this.replyMarkup = replyMarkup;
   }
 
   /**
@@ -183,30 +156,12 @@ public class InlineQueryResultContact extends InlineQueryResult {
   }
 
   /**
-   * Setter for property {@link #inputMessageContent}.
-   *
-   * @param inputMessageContent value for property {@link #inputMessageContent}
-   */
-  public void setInputMessageContent(InputMessageContent inputMessageContent) {
-    this.inputMessageContent = inputMessageContent;
-  }
-
-  /**
    * Getter for property {@link #thumbUrl}.
    *
    * @return optional value for property {@link #thumbUrl}
    */
   public Optional<String> getThumbUrl() {
     return Optional.ofNullable(thumbUrl);
-  }
-
-  /**
-   * Setter for property {@link #thumbUrl}.
-   *
-   * @param thumbUrl value for property {@link #thumbUrl}
-   */
-  public void setThumbUrl(String thumbUrl) {
-    this.thumbUrl = thumbUrl;
   }
 
   /**
@@ -217,16 +172,7 @@ public class InlineQueryResultContact extends InlineQueryResult {
   public OptionalInt getThumbWidth() {
     return thumbWidth == null ? OptionalInt.empty() : OptionalInt.of(thumbWidth);
   }
-
-  /**
-   * Setter for property {@link #thumbWidth}.
-   *
-   * @param thumbWidth value for property {@link #thumbWidth}
-   */
-  public void setThumbWidth(Integer thumbWidth) {
-    this.thumbWidth = thumbWidth;
-  }
-
+  
   /**
    * Getter for property {@link #thumbHeight}.
    *
@@ -235,14 +181,14 @@ public class InlineQueryResultContact extends InlineQueryResult {
   public OptionalInt getThumbHeight() {
     return thumbHeight == null ? OptionalInt.empty() : OptionalInt.of(thumbHeight);
   }
-
+  
   /**
-   * Setter for property {@link #thumbHeight}.
+   * Getter for property {@link #vCard}.
    *
-   * @param thumbHeight value for property {@link #thumbHeight}
+   * @return optional value for property {@link #vCard}
    */
-  public void setThumbHeight(Integer thumbHeight) {
-    this.thumbHeight = thumbHeight;
+  public Optional<String> getVCard() {
+    return Optional.ofNullable(vCard);
   }
 
 }

@@ -25,6 +25,12 @@ public class InputMediaAdapter implements JsonDeserializer<InputMedia>, JsonSeri
         return context.deserialize(src, InputMediaPhoto.class);
       case InputMediaVideo.TYPE:
         return context.deserialize(src, InputMediaVideo.class);
+      case InputMediaAnimation.TYPE:
+        return context.deserialize(src, InputMediaAnimation.class);
+      case InputMediaAudio.TYPE:
+        return context.deserialize(src, InputMediaAudio.class);
+      case InputMediaDocument.TYPE:
+        return context.deserialize(src, InputMediaDocument.class);
       default:
         throw new JsonParseException("Unknown input media: " + src);
     }

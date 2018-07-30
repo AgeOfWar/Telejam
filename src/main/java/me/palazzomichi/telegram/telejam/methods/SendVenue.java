@@ -25,6 +25,7 @@ public class SendVenue implements TelegramMethod<VenueMessage> {
   static final String TITLE_FIELD = "title";
   static final String ADDRESS_FIELD = "address";
   static final String FOURSQUARE_ID_FIELD = "foursquare_id";
+  static final String FOURSQUARE_TYPE_FIELD = "foursquare_type";
   
   /**
    * Unique identifier for the target chat.
@@ -75,6 +76,11 @@ public class SendVenue implements TelegramMethod<VenueMessage> {
    * Foursquare identifier of the venue.
    */
   private String foursquareId;
+  
+  /**
+   * Foursquare type of the venue.
+   */
+  private String foursquareType;
   
   
   public SendVenue chat(String chatUsername) {
@@ -153,12 +159,18 @@ public class SendVenue implements TelegramMethod<VenueMessage> {
     return this;
   }
   
+  public SendVenue foursquareType(String foursquareType) {
+    this.foursquareType = foursquareType;
+    return this;
+  }
+  
   public SendVenue venue(Venue venue) {
     this.latitude = venue.getLocation().getLatitude();
     this.longitude = venue.getLocation().getLongitude();
     this.title = venue.getTitle();
     this.address = venue.getAddress();
     this.foursquareId = venue.getFoursquareId().orElse(null);
+    this.foursquareType = venue.getFoursquareType().orElse(null);
     return this;
   }
 
@@ -178,7 +190,8 @@ public class SendVenue implements TelegramMethod<VenueMessage> {
         LONGITUDE_FIELD, longitude,
         TITLE_FIELD, title,
         ADDRESS_FIELD, address,
-        FOURSQUARE_ID_FIELD, foursquareId
+        FOURSQUARE_ID_FIELD, foursquareId,
+        FOURSQUARE_TYPE_FIELD, foursquareType
     );
   }
   

@@ -14,7 +14,8 @@ public class InputVenueMessageContent extends InputLocationMessageContent {
   static final String TITLE_FIELD = "title";
   static final String ADDRESS_FIELD = "address";
   static final String FOURSQUARE_ID_FIELD = "foursquare_id";
-
+  static final String FOURSQUARE_TYPE_FIELD = "foursquare_type";
+  
   /**
    * Name of the venue.
    */
@@ -32,13 +33,20 @@ public class InputVenueMessageContent extends InputLocationMessageContent {
    */
   @SerializedName(FOURSQUARE_ID_FIELD)
   private String foursquareId;
-
+  
+  /**
+   * Foursquare type of the venue.
+   */
+  @SerializedName(FOURSQUARE_TYPE_FIELD)
+  private String foursquareType;
+  
 
   public InputVenueMessageContent(Venue venue) {
     super(venue.getLocation());
     this.title = venue.getTitle();
     this.address = venue.getAddress();
     this.foursquareId = venue.getFoursquareId().orElse(null);
+    this.foursquareType = venue.getFoursquareType().orElse(null);
   }
 
 
@@ -68,5 +76,14 @@ public class InputVenueMessageContent extends InputLocationMessageContent {
   public Optional<String> getFoursquareId() {
     return Optional.ofNullable(foursquareId);
   }
-
+  
+  /**
+   * Getter for property {@link #foursquareType}.
+   *
+   * @return optional value for property {@link #foursquareType}
+   */
+  public Optional<String> getFoursquareType() {
+    return Optional.ofNullable(foursquareType);
+  }
+  
 }

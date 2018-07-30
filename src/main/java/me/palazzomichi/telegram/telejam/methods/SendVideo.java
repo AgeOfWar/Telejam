@@ -190,7 +190,7 @@ public class SendVideo implements TelegramMethod<VideoMessage> {
         VIDEO_FIELD, video,
         WIDTH_FIELD, width,
         HEIGHT_FIELD, height,
-        CAPTION_FIELD, caption.toHtmlString(),
+        CAPTION_FIELD, caption != null ? caption.toHtmlString() : null,
         PARSE_MODE_FIELD, "HTML",
         DURATION_FIELD, duration
     );

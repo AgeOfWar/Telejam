@@ -148,7 +148,7 @@ public class SendDocument implements TelegramMethod<DocumentMessage> {
         REPLY_TO_MESSAGE_ID_FIELD, replyToMessageId,
         REPLY_MARKUP_FIELD, replyMarkup,
         FILE_FIELD, file,
-        CAPTION_FIELD, caption.toHtmlString(),
+        CAPTION_FIELD, caption != null ? caption.toHtmlString() : null,
         PARSE_MODE_FIELD, "HTML"
     );
   }

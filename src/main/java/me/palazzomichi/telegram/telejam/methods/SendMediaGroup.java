@@ -1,9 +1,6 @@
 package me.palazzomichi.telegram.telejam.methods;
 
-import me.palazzomichi.telegram.telejam.objects.Chat;
-import me.palazzomichi.telegram.telejam.objects.InputMedia;
-import me.palazzomichi.telegram.telejam.objects.Message;
-import me.palazzomichi.telegram.telejam.objects.UploadFile;
+import me.palazzomichi.telegram.telejam.objects.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -116,6 +113,7 @@ public class SendMediaGroup implements TelegramMethod<Message[]> {
     Map<String, UploadFile> files = new HashMap<>();
     for (InputMedia media : media) {
       media.getFile().ifPresent(file -> files.put(file.getFileName(), file));
+      media.getThumbnail().ifPresent(thumb -> files.put(thumb.getFileName(), thumb));
     }
     return files;
   }

@@ -168,7 +168,9 @@ public class MessageEntity implements TelegramObject {
     @SerializedName("hashtag") HASHTAG,
     @SerializedName("bot_command") BOT_COMMAND,
     @SerializedName("url") URL,
-    @SerializedName("email") EMAIL
+    @SerializedName("email") EMAIL,
+    @SerializedName("cashtag") CASHTAG,
+    @SerializedName("phone_number") PHONE_NUMBER
   }
 
 }

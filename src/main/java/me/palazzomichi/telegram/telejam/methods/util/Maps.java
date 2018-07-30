@@ -11,7 +11,11 @@ public class Maps {
   }
   
   public static <K, V> Map<K, V> mapOf(K key, V value) {
-    return Collections.singletonMap(key, value);
+    if (value != null) {
+      return Collections.singletonMap(key, value);
+    } else {
+      return Collections.emptyMap();
+    }
   }
   
   public static <K, V> Map<K, V> mapOf(K key1, V value1,

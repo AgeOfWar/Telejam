@@ -117,15 +117,6 @@ public class ReplyKeyboardMarkup implements ReplyMarkup {
   }
 
   /**
-   * Setter for property {@link #keyboard}.
-   *
-   * @param keyboard value for property {@link #keyboard}
-   */
-  public void setKeyboard(KeyboardButton[][] keyboard) {
-    this.keyboard = Objects.requireNonNull(keyboard);
-  }
-
-  /**
    * Getter for property {@link #resizeKeyboard}.
    *
    * @return value for property {@link #resizeKeyboard}

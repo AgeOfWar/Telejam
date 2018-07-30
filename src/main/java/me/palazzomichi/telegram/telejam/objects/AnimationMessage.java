@@ -8,24 +8,22 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * This object represents a voice message.
- *
- * @author Michi Palazzo
+ * This object represents a message.
  */
-public class VoiceMessage extends Message {
-
-  static final String VOICE_FIELD = "voice";
+public class AnimationMessage extends Message {
+  
+  static final String ANIMATION_FIELD = "animation";
   static final String CAPTION_FIELD = "caption";
   static final String CAPTION_ENTITIES = "caption_entities";
-
+  
   /**
-   * Information about the voice.
+   * Animation of the message.
    */
-  @SerializedName(VOICE_FIELD)
-  private Voice voice;
-
+  @SerializedName(ANIMATION_FIELD)
+  private Animation animation;
+  
   /**
-   * Caption for the voice, 0-200 characters.
+   * Caption for the video, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
   private String caption;
@@ -36,31 +34,31 @@ public class VoiceMessage extends Message {
    */
   @SerializedName(CAPTION_ENTITIES)
   private List<MessageEntity> captionEntities;
-
-
-  public VoiceMessage(long id,
-                      User sender,
-                      long date,
-                      Chat chat,
-                      Message replyToMessage,
-                      Long editDate,
-                      String authorSignature,
-                      Voice voice,
-                      Text caption) {
+  
+  
+  public AnimationMessage(long id,
+                          User sender,
+                          long date,
+                          Chat chat,
+                          Message replyToMessage,
+                          Long editDate,
+                          String authorSignature,
+                          Animation animation,
+                          Text caption) {
     super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
-    this.voice = Objects.requireNonNull(voice);
+    this.animation = Objects.requireNonNull(animation);
     this.caption = caption != null ? caption.toString() : null;
     this.captionEntities = caption != null ? caption.getEntities() : null;
   }
-
-
+  
+  
   /**
-   * Getter for property {@link #voice}.
+   * Getter for property {@link #animation}.
    *
-   * @return value for property {@link #voice}
+   * @return value for property {@link #animation}
    */
-  public Voice getVoice() {
-    return voice;
+  public Animation getAnimation() {
+    return animation;
   }
   
   /**
@@ -71,5 +69,5 @@ public class VoiceMessage extends Message {
   public Optional<Text> getCaption() {
     return Optional.ofNullable(caption).map(caption -> new Text(caption, captionEntities));
   }
-
+  
 }

@@ -47,12 +47,11 @@ public class PhotoMessage extends Message {
                       Long editDate,
                       String authorSignature,
                       PhotoSize[] photo,
-                      String caption,
-                      List<MessageEntity> captionEntities) {
+                      Text caption) {
     super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.photo = Objects.requireNonNull(photo);
-    this.caption = caption;
-    this.captionEntities = captionEntities;
+    this.caption = caption != null ? caption.toString() : null;
+    this.captionEntities = caption != null ? caption.getEntities() : null;
   }
 
 
@@ -71,13 +70,7 @@ public class PhotoMessage extends Message {
    * @return text of the optional caption
    */
   public Optional<Text> getCaption() {
-    if (caption == null) {
-      return Optional.empty();
-    }
-    
-    return Optional.of(
-        captionEntities == null ? new Text(caption) : new Text(caption, captionEntities)
-    );
+    return Optional.ofNullable(caption).map(caption -> new Text(caption, captionEntities));
   }
 
 }

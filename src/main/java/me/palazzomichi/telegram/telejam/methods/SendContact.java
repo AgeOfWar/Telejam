@@ -23,6 +23,7 @@ public class SendContact implements TelegramMethod<ContactMessage> {
   static final String PHONE_NUMBER_FIELD = "phone_number";
   static final String FIRST_NAME_FIELD = "first_name";
   static final String LAST_NAME_FIELD = "last_name";
+  static final String VCARD_FIELD = "vcard";
   
   /**
    * Unique identifier for the target chat.
@@ -63,6 +64,11 @@ public class SendContact implements TelegramMethod<ContactMessage> {
    * Contact's last name.
    */
   private String lastName;
+  
+  /**
+   * Additional data about the contact in the form of a vCard.
+   */
+  private String vCard;
   
   
   public SendContact chat(String chatUsername) {
@@ -131,10 +137,16 @@ public class SendContact implements TelegramMethod<ContactMessage> {
     return this;
   }
   
+  public SendContact vCard(String vCard) {
+    this.vCard = vCard;
+    return this;
+  }
+  
   public SendContact contact(Contact contact) {
     this.firstName = contact.getFirstName();
     this.lastName = contact.getLastName().orElse(null);
     this.phoneNumber = contact.getPhoneNumber();
+    this.vCard = contact.getVCard().orElse(null);
     return this;
   }
 
@@ -152,7 +164,8 @@ public class SendContact implements TelegramMethod<ContactMessage> {
         REPLY_MARKUP_FIELD, replyMarkup,
         PHONE_NUMBER_FIELD, phoneNumber,
         FIRST_NAME_FIELD, firstName,
-        LAST_NAME_FIELD, lastName
+        LAST_NAME_FIELD, lastName,
+        VCARD_FIELD, vCard
     );
   }
   

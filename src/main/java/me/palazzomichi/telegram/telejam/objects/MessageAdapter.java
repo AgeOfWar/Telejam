@@ -25,6 +25,8 @@ public class MessageAdapter implements JsonDeserializer<Message>, JsonSerializer
       return context.deserialize(src, TextMessage.class);
     } else if (object.has(AudioMessage.AUDIO_FIELD)) {
       return context.deserialize(src, AudioMessage.class);
+    } else if (object.has(AnimationMessage.ANIMATION_FIELD)) {
+      return context.deserialize(src, AnimationMessage.class);
     } else if (object.has(DocumentMessage.DOCUMENT_FIELD)) {
       return context.deserialize(src, DocumentMessage.class);
     } else if (object.has(GameMessage.GAME_FIELD)) {

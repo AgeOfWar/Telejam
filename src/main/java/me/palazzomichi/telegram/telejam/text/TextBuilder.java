@@ -242,6 +242,26 @@ public class TextBuilder {
   }
   
   /**
+   * Appends a phone number to this TextBuilder.
+   *
+   * @param phoneNumber the phone number to append
+   * @return this instance
+   */
+  public TextBuilder appendPhoneNumber(String phoneNumber) {
+    return append(phoneNumber, MessageEntity.Type.PHONE_NUMBER, false);
+  }
+  
+  /**
+   * Appends a cashtag to this TextBuilder.
+   *
+   * @param cashtag the cashtag to append
+   * @return this instance
+   */
+  public TextBuilder appendCashtag(String cashtag) {
+    return append("$" + cashtag.toUpperCase(), MessageEntity.Type.CASHTAG, false);
+  }
+  
+  /**
    * Appends a mention to this TextBuilder.
    *
    * @param text    the text of the mention

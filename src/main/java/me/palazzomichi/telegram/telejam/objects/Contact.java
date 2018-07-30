@@ -17,6 +17,7 @@ public class Contact implements TelegramObject {
   static final String FIRST_NAME_FIELD = "first_name";
   static final String LAST_NAME_FIELD = "last_name";
   static final String USER_ID = "user_id";
+  static final String VCARD_FIELD = "vcard";
 
   private static final String NAME_SEPARATOR = " ";
 
@@ -43,13 +44,20 @@ public class Contact implements TelegramObject {
    */
   @SerializedName(USER_ID)
   private Long userId;
-
-
-  public Contact(String phoneNumber, String firstName, String lastName, Long userId) {
+  
+  /**
+   * Additional data about the contact in the form of a vCard.
+   */
+  @SerializedName(VCARD_FIELD)
+  private String vCard;
+  
+  
+  public Contact(String phoneNumber, String firstName, String lastName, Long userId, String vCard) {
     this.phoneNumber = Objects.requireNonNull(phoneNumber);
     this.firstName = Objects.requireNonNull(firstName);
     this.lastName = lastName;
     this.userId = userId;
+    this.vCard = vCard;
   }
 
   public Contact(String phoneNumber, String firstName) {
@@ -101,6 +109,15 @@ public class Contact implements TelegramObject {
    */
   public OptionalLong getUserId() {
     return userId == null ? OptionalLong.empty() : OptionalLong.of(userId);
+  }
+  
+  /**
+   * Getter for property {@link #vCard}.
+   *
+   * @return optional value for property {@link #vCard}
+   */
+  public Optional<String> getVCard() {
+    return Optional.ofNullable(vCard);
   }
   
   @Override
