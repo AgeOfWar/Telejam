@@ -44,7 +44,7 @@ public class CommandRegistry implements MessageHandler, CommandHandler {
     }
   }
   
-  protected Command getCommand(TextMessage message) {
+  public Command getCommand(TextMessage message) {
     if (!message.isCommand()) {
       return null;
     }
