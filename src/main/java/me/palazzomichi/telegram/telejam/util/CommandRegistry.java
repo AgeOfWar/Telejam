@@ -44,6 +44,14 @@ public class CommandRegistry implements MessageHandler, CommandHandler {
     }
   }
   
+  /**
+   * Returns the {@link Command} contained in the specified message,
+   * or <code>null</code> if the message is not a command.
+   *
+   * @param message the message
+   * @return the command contained in the specified message,
+   * or <code>null</code> if the message is not a command.
+   */
   public Command getCommand(TextMessage message) {
     if (!message.isCommand()) {
       return null;
