@@ -48,6 +48,7 @@ public class InputMediaVideo extends InputMedia {
    * Constructs an input media video.
    *
    * @param media             file to send
+   * @param thumbnail thumbnail of the file sent
    * @param caption           caption of the file to be sent, 0-200 characters
    * @param width             video width
    * @param height            video height
