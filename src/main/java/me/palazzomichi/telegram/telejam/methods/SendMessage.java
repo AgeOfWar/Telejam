@@ -142,6 +142,7 @@ public class SendMessage implements TelegramMethod<TextMessage> {
         PARSE_MODE_FIELD, "HTML",
         DISABLE_NOTIFICATION_FIELD, disableNotification,
         REPLY_TO_MESSAGE_ID_FIELD, replyToMessageId,
+        REPLY_MARKUP_FIELD, replyMarkup,
         DISABLE_WEB_PAGE_PREVIEW_FIELD, disableWebPagePreview
     );
   }
