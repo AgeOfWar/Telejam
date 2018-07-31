@@ -51,8 +51,9 @@ public class CommandRegistry implements MessageHandler, CommandHandler {
    * @param message the message
    * @return the command contained in the specified message,
    * or <code>null</code> if the message is not a command.
+   * @throws Throwable if an error occurs
    */
-  public Command getCommand(TextMessage message) {
+  public Command getCommand(TextMessage message) throws Throwable {
     if (!message.isCommand()) {
       return null;
     }
