@@ -40,7 +40,10 @@ public class CommandRegistry implements MessageHandler, CommandHandler {
   public final void onMessage(Message message) throws Throwable {
     if (message instanceof TextMessage) {
       TextMessage textMessage = (TextMessage) message;
-      onCommand(getCommand(textMessage), textMessage);
+      Command command = getCommand(textMessage);
+      if (command != null) {
+        onCommand(command, textMessage);
+      }
     }
   }
   
