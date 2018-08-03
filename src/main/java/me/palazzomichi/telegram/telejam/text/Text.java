@@ -37,6 +37,9 @@ public final class Text implements CharSequence {
    * &lt;code&gt;inline fixed-width code&lt;/code&gt;
    * &lt;pre&gt;pre-formatted fixed-width code block&lt;/pre&gt;
    * </pre>
+   * All &lt;, &gt; and &amp; symbols that are not a part of a tag or an HTML
+   * entity must be replaced with the corresponding HTML entities
+   * (&lt; with &amp;lt;, &gt; with &amp;gt; and &amp; with &amp;amp;)
    *
    * @param text the string to convert
    * @return the parsed text
@@ -47,6 +50,32 @@ public final class Text implements CharSequence {
       return null;
     }
     return Html.parseText(text);
+  }
+  
+  /**
+   * Converts an Markdown String into a Text.
+   * Use the following syntax in your message:
+   * <pre>
+   * *bold text*
+   * _italic text_
+   * [inline URL](http://www.example.com/)
+   * [inline mention of a user](tg://user?id=123456789)
+   * `inline fixed-width code`
+   * `pre-formatted fixed-width
+   * code block`
+   * </pre>
+   * All Markdown symbols that are not a part of a Markdown
+   * entity must be escaped with the <code>\</code> character.
+   *
+   * @param text the string to convert
+   * @return the parsed text
+   * @throws TextParseException if an error occurs when parsing the string
+   */
+  public static Text parseMarkdown(String text) throws TextParseException {
+    if (text == null) {
+      return null;
+    }
+    return Markdown.parseText(text);
   }
   
   /**
@@ -425,6 +454,15 @@ public final class Text implements CharSequence {
    */
   public String toHtmlString() {
     return Html.toString(this);
+  }
+  
+  /**
+   * Return this text in Markdown format.
+   *
+   * @return this text in Markdown format
+   */
+  public String toMarkdownString() {
+    return Markdown.toString(this);
   }
   
   public Text trim() {

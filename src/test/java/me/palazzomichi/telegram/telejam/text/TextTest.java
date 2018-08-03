@@ -76,6 +76,20 @@ public class TextTest {
   }
   
   @Test
+  public void parseMarkdown() {
+    Text text = new TextBuilder()
+        .append("hello")
+        .append(" world!\n")
+        .appendBold("I'm ")
+        .appendBold("*17*")
+        .appendItalic(" years")
+        .appendCode(" ol")
+        .appendLink("d", "www.google.it")
+        .build();
+    assertEquals(text, Text.parseMarkdown("hello world!\n*I'm \\*17\\**_ years_` ol`[d](www.google.it)"));
+  }
+  
+  @Test
   public void toHtmlString() {
     assertEquals(
         "hello world!\n<b>I'm &lt;17&gt;</b><i> years</i><code> ol</code><a href=\"www.google.it\">d</a>",
@@ -89,6 +103,23 @@ public class TextTest {
             .appendLink("d", "www.google.it")
             .build()
             .toHtmlString()
+    );
+  }
+  
+  @Test
+  public void toMarkdownString() {
+    assertEquals(
+        "hello world!\n*I'm \\*17\\**_ years_` ol`[d](www.google.it)",
+        new TextBuilder()
+            .append("hello")
+            .append(" world!\n")
+            .appendBold("I'm ")
+            .appendBold("*17*")
+            .appendItalic(" years")
+            .appendCode(" ol")
+            .appendLink("d", "www.google.it")
+            .build()
+            .toMarkdownString()
     );
   }
   
