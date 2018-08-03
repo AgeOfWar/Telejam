@@ -17,7 +17,7 @@ import static me.palazzomichi.telegram.telejam.methods.util.Maps.mapOf;
  */
 public class EditMessageMedia implements TelegramMethod<Serializable> {
   
-  public static final String NAME = "editMessageCaption";
+  public static final String NAME = "editMessageMedia";
   
   static final String CHAT_ID_FIELD = "chat_id";
   static final String MESSAGE_ID_FIELD = "message_id";
