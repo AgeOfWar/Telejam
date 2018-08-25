@@ -36,6 +36,12 @@ public abstract class LongPollingBot extends TelegramBot implements Runnable, Au
   
   @Override
   public void run() {
+    try {
+      updateReader.discardAll();
+    } catch (IOException e) {
+      onError(e);
+    }
+
     while (!Thread.interrupted()) {
       try {
         onUpdate(updateReader.read());
