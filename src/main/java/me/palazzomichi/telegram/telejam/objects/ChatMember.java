@@ -170,7 +170,16 @@ public class ChatMember implements TelegramObject {
     this.user = user;
     this.status = status;
   }
-
+  
+  
+  /**
+   * Returns whether or not this member is an administrator or a creator.
+   *
+   * @return <code>true</code> if this member is an administrator, <code>false</code> otherwise
+   */
+  public boolean isAdmin() {
+    return status == Status.CREATOR || status == Status.ADMINISTRATOR;
+  }
 
   /**
    * Getter for property {@link #user}.
