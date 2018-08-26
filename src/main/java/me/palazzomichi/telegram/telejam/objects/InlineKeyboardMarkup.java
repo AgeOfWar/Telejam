@@ -22,8 +22,16 @@ public class InlineKeyboardMarkup implements ReplyMarkup {
    */
   @SerializedName(INLINE_KEYBOARD_FIELD)
   private InlineKeyboardButton[][] inlineKeyboard;
-
   
+  
+  /**
+   * Returns a InlineKeyboardMarkup given the buttons and the
+   * maximum number of columns in a row.
+   *
+   * @param columns the maximum number of columns in a row
+   * @param buttons the buttons of the keyboard
+   * @return the created keyboard
+   */
   public static InlineKeyboardMarkup fromColumns(int columns, InlineKeyboardButton... buttons) {
     int rows = buttons.length / columns;
     int len = rows * columns == buttons.length ? rows : rows + 1;
@@ -40,6 +48,14 @@ public class InlineKeyboardMarkup implements ReplyMarkup {
     return new InlineKeyboardMarkup(keyboard);
   }
   
+  /**
+   * Returns a InlineKeyboardMarkup given the buttons and the
+   * maximum number of columns in a row.
+   *
+   * @param columns the maximum number of columns in a row
+   * @param buttons the buttons of the keyboard
+   * @return the created keyboard
+   */
   public static InlineKeyboardMarkup fromColumns(int columns, List<InlineKeyboardButton> buttons) {
     return fromColumns(columns, buttons.toArray(new InlineKeyboardButton[0]));
   }

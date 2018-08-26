@@ -59,6 +59,14 @@ public class ReplyKeyboardMarkup implements ReplyMarkup {
   private boolean selective;
   
   
+  /**
+   * Returns a ReplyKeyboardMarkup given the buttons and the
+   * maximum number of columns in a row.
+   *
+   * @param columns the maximum number of columns in a row
+   * @param buttons the buttons of the keyboard
+   * @return the created keyboard
+   */
   public static ReplyKeyboardMarkup fromColumns(int columns, KeyboardButton... buttons) {
     int rows = buttons.length / columns;
     int len = rows * columns == buttons.length ? rows : rows + 1;
@@ -75,6 +83,14 @@ public class ReplyKeyboardMarkup implements ReplyMarkup {
     return new ReplyKeyboardMarkup(keyboard);
   }
   
+  /**
+   * Returns a ReplyKeyboardMarkup given the buttons and the
+   * maximum number of columns in a row.
+   *
+   * @param columns the maximum number of columns in a row
+   * @param buttons the buttons of the keyboard
+   * @return the created keyboard
+   */
   public static ReplyKeyboardMarkup fromColumns(int columns, List<KeyboardButton> buttons) {
     return fromColumns(columns, buttons.toArray(new KeyboardButton[0]));
   }
