@@ -64,10 +64,19 @@ public class ReplyKeyboardMarkup implements ReplyMarkup {
    * maximum number of columns in a row.
    *
    * @param columns the maximum number of columns in a row
+   * @param resizeKeyboard if true resize vertically the keyboard
+   * @param oneTimeKeyboard if true requests clients to hide the
+   *                        keyboard as soon as it's been used
+   * @param selective set to <code>true</code> if you want to
+   *                  show the keyboard to specific users only
    * @param buttons the buttons of the keyboard
    * @return the created keyboard
    */
-  public static ReplyKeyboardMarkup fromColumns(int columns, KeyboardButton... buttons) {
+  public static ReplyKeyboardMarkup fromColumns(int columns,
+                                                boolean resizeKeyboard,
+                                                boolean oneTimeKeyboard,
+                                                boolean selective,
+                                                KeyboardButton... buttons) {
     int rows = buttons.length / columns;
     int len = rows * columns == buttons.length ? rows : rows + 1;
     KeyboardButton[][] keyboard = new KeyboardButton[len][];
@@ -80,7 +89,42 @@ public class ReplyKeyboardMarkup implements ReplyMarkup {
       keyboard[rows] = new KeyboardButton[remained];
       System.arraycopy(buttons, rows * columns, keyboard[rows], 0, remained);
     }
-    return new ReplyKeyboardMarkup(keyboard);
+    return new ReplyKeyboardMarkup(keyboard, resizeKeyboard, oneTimeKeyboard, selective);
+  }
+  
+  /**
+   * Returns a ReplyKeyboardMarkup given the buttons and the
+   * maximum number of columns in a row.
+   *
+   * @param columns the maximum number of columns in a row
+   * @param buttons the buttons of the keyboard
+   * @return the created keyboard
+   */
+  public static ReplyKeyboardMarkup fromColumns(int columns, KeyboardButton... buttons) {
+    return fromColumns(columns, false, false, false, buttons);
+  }
+  
+  /**
+   * Returns a ReplyKeyboardMarkup given the buttons and the
+   * maximum number of columns in a row.
+   *
+   * @param columns the maximum number of columns in a row
+   * @param resizeKeyboard if true resize vertically the keyboard
+   * @param oneTimeKeyboard if true requests clients to hide the
+   *                        keyboard as soon as it's been used
+   * @param selective set to <code>true</code> if you want to
+   *                  show the keyboard to specific users only
+   * @param buttons the buttons of the keyboard
+   * @return the created keyboard
+   */
+  public static ReplyKeyboardMarkup fromColumns(int columns,
+                                                boolean resizeKeyboard,
+                                                boolean oneTimeKeyboard,
+                                                boolean selective,
+                                                List<KeyboardButton> buttons) {
+    return fromColumns(
+        columns, resizeKeyboard, oneTimeKeyboard, selective, buttons.toArray(new KeyboardButton[0])
+    );
   }
   
   /**
