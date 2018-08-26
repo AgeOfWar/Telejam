@@ -59,7 +59,7 @@ public class ReplyKeyboardMarkup implements ReplyMarkup {
   private boolean selective;
   
   
-  public static ReplyKeyboardMarkup ofColumns(int columns, KeyboardButton... buttons) {
+  public static ReplyKeyboardMarkup fromColumns(int columns, KeyboardButton... buttons) {
     int rows = buttons.length / columns;
     int len = rows * columns == buttons.length ? rows : rows + 1;
     KeyboardButton[][] keyboard = new KeyboardButton[len][];
@@ -75,8 +75,8 @@ public class ReplyKeyboardMarkup implements ReplyMarkup {
     return new ReplyKeyboardMarkup(keyboard);
   }
   
-  public static ReplyKeyboardMarkup ofColumns(int columns, List<KeyboardButton> buttons) {
-    return ofColumns(columns, buttons.toArray(new KeyboardButton[0]));
+  public static ReplyKeyboardMarkup fromColumns(int columns, List<KeyboardButton> buttons) {
+    return fromColumns(columns, buttons.toArray(new KeyboardButton[0]));
   }
   
 

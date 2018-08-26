@@ -24,7 +24,7 @@ public class InlineKeyboardMarkup implements ReplyMarkup {
   private InlineKeyboardButton[][] inlineKeyboard;
 
   
-  public static InlineKeyboardMarkup ofColumns(int columns, InlineKeyboardButton... buttons) {
+  public static InlineKeyboardMarkup fromColumns(int columns, InlineKeyboardButton... buttons) {
     int rows = buttons.length / columns;
     int len = rows * columns == buttons.length ? rows : rows + 1;
     InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[len][];
@@ -40,8 +40,8 @@ public class InlineKeyboardMarkup implements ReplyMarkup {
     return new InlineKeyboardMarkup(keyboard);
   }
   
-  public static InlineKeyboardMarkup ofColumns(int columns, List<InlineKeyboardButton> buttons) {
-    return ofColumns(columns, buttons.toArray(new InlineKeyboardButton[0]));
+  public static InlineKeyboardMarkup fromColumns(int columns, List<InlineKeyboardButton> buttons) {
+    return fromColumns(columns, buttons.toArray(new InlineKeyboardButton[0]));
   }
   
 
