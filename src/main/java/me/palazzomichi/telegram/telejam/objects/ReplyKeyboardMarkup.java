@@ -156,7 +156,7 @@ public class ReplyKeyboardMarkup implements ReplyMarkup {
   
   @Override
   public int hashCode() {
-    return Objects.hash(keyboard, resizeKeyboard, oneTimeKeyboard, selective);
+    return Objects.hash(Arrays.deepHashCode(keyboard), resizeKeyboard, oneTimeKeyboard, selective);
   }
   
 }
