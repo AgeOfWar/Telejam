@@ -2,6 +2,8 @@ package me.palazzomichi.telegram.telejam.objects;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,6 +23,27 @@ public class InlineKeyboardMarkup implements ReplyMarkup {
   @SerializedName(INLINE_KEYBOARD_FIELD)
   private InlineKeyboardButton[][] inlineKeyboard;
 
+  
+  public static InlineKeyboardMarkup ofColumns(int columns, InlineKeyboardButton... buttons) {
+    int rows = buttons.length / columns;
+    int len = rows * columns == buttons.length ? rows : rows + 1;
+    InlineKeyboardButton[][] keyboard = new InlineKeyboardButton[len][];
+    for (int row = 0;row < rows;row++) {
+      keyboard[row] = new InlineKeyboardButton[columns];
+      System.arraycopy(buttons, row * columns, keyboard[row], 0, columns);
+    }
+    int remained = buttons.length - rows * columns;
+    if (remained > 0) {
+      keyboard[rows] = new InlineKeyboardButton[remained];
+      System.arraycopy(buttons, rows * columns, keyboard[rows], 0, remained);
+    }
+    return new InlineKeyboardMarkup(keyboard);
+  }
+  
+  public static InlineKeyboardMarkup ofColumns(int columns, List<InlineKeyboardButton> buttons) {
+    return ofColumns(columns, buttons.toArray(new InlineKeyboardButton[0]));
+  }
+  
 
   /**
    * Constructs an InlineKeyboardMarkup
@@ -57,6 +80,18 @@ public class InlineKeyboardMarkup implements ReplyMarkup {
    */
   public InlineKeyboardButton[][] getInlineKeyboard() {
     return inlineKeyboard;
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (!(obj instanceof InlineKeyboardMarkup)) return false;
+    return Arrays.deepEquals(inlineKeyboard, ((InlineKeyboardMarkup) obj).inlineKeyboard);
+  }
+  
+  @Override
+  public int hashCode() {
+    return Arrays.deepHashCode(inlineKeyboard);
   }
   
 }
