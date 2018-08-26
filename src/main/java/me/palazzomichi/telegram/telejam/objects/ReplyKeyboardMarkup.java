@@ -3,6 +3,7 @@ package me.palazzomichi.telegram.telejam.objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -56,7 +57,28 @@ public class ReplyKeyboardMarkup implements ReplyMarkup {
    */
   @SerializedName(SELECTIVE_FIELD)
   private boolean selective;
-
+  
+  
+  public static ReplyKeyboardMarkup ofColumns(int columns, KeyboardButton... buttons) {
+    int rows = buttons.length / columns;
+    int len = rows * columns == buttons.length ? rows : rows + 1;
+    KeyboardButton[][] keyboard = new KeyboardButton[len][];
+    for (int row = 0;row < rows;row++) {
+      keyboard[row] = new KeyboardButton[columns];
+      System.arraycopy(buttons, row * columns, keyboard[row], 0, columns);
+    }
+    int remained = buttons.length - rows * columns;
+    if (remained > 0) {
+      keyboard[rows] = new KeyboardButton[remained];
+      System.arraycopy(buttons, rows * columns, keyboard[rows], 0, remained);
+    }
+    return new ReplyKeyboardMarkup(keyboard);
+  }
+  
+  public static ReplyKeyboardMarkup ofColumns(int columns, List<KeyboardButton> buttons) {
+    return ofColumns(columns, buttons.toArray(new KeyboardButton[0]));
+  }
+  
 
   /**
    * Constructs a ReplyKeyboardMarkup.
