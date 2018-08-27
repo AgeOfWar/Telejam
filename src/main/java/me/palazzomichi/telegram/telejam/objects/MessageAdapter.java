@@ -49,8 +49,6 @@ public class MessageAdapter implements JsonDeserializer<Message>, JsonSerializer
       return context.deserialize(src, LocationMessage.class);
     } else if (object.has(VenueMessage.VENUE_FIELD)) {
       return context.deserialize(src, VenueMessage.class);
-    } else if (object.has(NewChatMemberMessage.NEW_CHAT_MEMBER_FIELD)) {
-      return context.deserialize(src, NewChatMemberMessage.class);
     } else if (object.has(LeftChatMemberMessage.LEFT_CHAT_MEMBER_FIELD)) {
       return context.deserialize(src, LeftChatMemberMessage.class);
     } else if (object.has(NewChatTitleMessage.NEW_CHAT_TITLE_FIELD)) {
