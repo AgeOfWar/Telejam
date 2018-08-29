@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.text.Text;
 
@@ -10,6 +11,7 @@ import me.palazzomichi.telegram.telejam.text.Text;
  */
 public class InputMediaPhoto extends InputMedia {
   
+  @Expose
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "photo";
   

@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.text.Text;
 
@@ -17,6 +18,7 @@ public class InputMediaVideo extends InputMedia {
   static final String DURATION_FIELD = "duration";
   static final String SUPPORTS_STREAMING_FIELD = "supports_streaming";
   
+  @Expose
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "video";
   

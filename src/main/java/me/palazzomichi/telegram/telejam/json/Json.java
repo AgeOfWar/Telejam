@@ -1,8 +1,7 @@
 package me.palazzomichi.telegram.telejam.json;
 
 import com.google.gson.*;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Expose;
 import com.google.gson.internal.$Gson$Types;
 import com.google.gson.reflect.TypeToken;
 import me.palazzomichi.telegram.telejam.objects.*;
@@ -22,33 +21,33 @@ public final class Json {
   private static final Gson prettyPrintingGson;
   
   static {
+    ExclusionStrategy serializationExclusionStrategy = new ExclusionStrategy() {
+      @Override
+      public boolean shouldSkipField(FieldAttributes f) {
+        return f.hasModifier(Modifier.STATIC) && f.getAnnotation(Expose.class) == null;
+      }
+  
+      @Override
+      public boolean shouldSkipClass(Class<?> clazz) {
+        return false;
+      }
+    };
+    ExclusionStrategy deserializationExclusionStrategy = new ExclusionStrategy() {
+      @Override
+      public boolean shouldSkipField(FieldAttributes f) {
+        return f.hasModifier(Modifier.STATIC);
+      }
+  
+      @Override
+      public boolean shouldSkipClass(Class<?> clazz) {
+        return false;
+      }
+    };
     GsonBuilder builder = new GsonBuilder()
         .excludeFieldsWithModifiers(Modifier.TRANSIENT)
-        .addSerializationExclusionStrategy(new ExclusionStrategy() {
-          @Override
-          public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-            return fieldAttributes.getAnnotation(SerializedName.class) == null &&
-                fieldAttributes.getAnnotation(JsonAdapter.class) == null;
-          }
-          
-          @Override
-          public boolean shouldSkipClass(Class<?> clazz) {
-            return false;
-          }
-        }).addDeserializationExclusionStrategy(new ExclusionStrategy() {
-          @Override
-          public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-            return fieldAttributes.hasModifier(Modifier.FINAL) ||
-                fieldAttributes.hasModifier(Modifier.STATIC) ||
-                (fieldAttributes.getAnnotation(SerializedName.class) == null &&
-                    fieldAttributes.getAnnotation(JsonAdapter.class) == null);
-          }
-          
-          @Override
-          public boolean shouldSkipClass(Class<?> clazz) {
-            return false;
-          }
-        }).registerTypeAdapter(Locale.class, LocaleTypeAdapter.INSTANCE)
+        .addSerializationExclusionStrategy(serializationExclusionStrategy)
+        .addDeserializationExclusionStrategy(deserializationExclusionStrategy)
+        .registerTypeAdapter(Locale.class, LocaleTypeAdapter.INSTANCE)
         .registerTypeAdapter(Update.class, UpdateAdapter.INSTANCE)
         .registerTypeAdapter(Chat.class, ChatAdapter.INSTANCE)
         .registerTypeAdapter(Message.class, MessageAdapter.INSTANCE)

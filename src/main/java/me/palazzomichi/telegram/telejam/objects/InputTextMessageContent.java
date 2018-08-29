@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.text.Text;
 
@@ -14,6 +15,7 @@ public class InputTextMessageContent implements InputMessageContent {
   static final String PARSE_MODE_FIELD = "parse_mode";
   static final String DISABLE_WEB_PAGE_PREVIEW_FIELD = "disable_web_page_preview";
   
+  @Expose
   @SerializedName(PARSE_MODE_FIELD)
   private static final String PARSE_MODE = "HTML";
   

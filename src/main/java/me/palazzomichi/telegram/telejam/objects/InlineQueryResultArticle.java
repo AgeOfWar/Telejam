@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
@@ -23,6 +24,7 @@ public class InlineQueryResultArticle extends InlineQueryResult {
   static final String THUMB_WIDTH_FIELD = "thumb_width";
   static final String THUMB_HEIGHT_FIELD = "thumb_height";
 
+  @Expose
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "article";
 

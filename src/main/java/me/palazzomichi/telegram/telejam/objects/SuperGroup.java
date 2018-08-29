@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
@@ -19,6 +20,7 @@ public class SuperGroup extends Chat {
   static final String STICKER_SET_NAME_FIELD = "sticker_set_name";
   static final String CAN_SET_STICKER_SET_FIELD = "can_set_sticker_set";
   
+  @Expose
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "supergroup";
   

@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.text.Text;
 
@@ -16,6 +17,7 @@ public class InputMediaAnimation extends InputMedia {
   static final String HEIGHT_FIELD = "height";
   static final String DURATION_FIELD = "duration";
   
+  @Expose
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "animation";
   

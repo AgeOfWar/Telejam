@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.text.Text;
 
@@ -30,9 +31,11 @@ public class InlineQueryResultDocument extends InlineQueryResult {
   static final String THUMB_HEIGHT_FIELD = "thumb_height";
   static final String PARSE_MODE_FIELD = "parse_mode";
 
+  @Expose
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "document";
   
+  @Expose
   @SerializedName(PARSE_MODE_FIELD)
   private static final String PARSE_MODE = "HTML";
   

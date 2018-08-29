@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
@@ -16,6 +17,7 @@ public class PrivateChat extends Chat {
   static final String FIRST_NAME_FIELD = "first_name";
   static final String LAST_NAME_FIELD = "last_name";
   
+  @Expose
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "private";
   

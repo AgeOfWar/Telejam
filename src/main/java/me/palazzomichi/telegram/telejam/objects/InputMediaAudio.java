@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.text.Text;
 
@@ -9,6 +10,7 @@ public class InputMediaAudio extends InputMedia {
   static final String PERFORMER_FIELD = "performer";
   static final String TITLE_FIELD = "title";
   
+  @Expose
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "audio";
   

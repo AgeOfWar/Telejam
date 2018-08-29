@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
@@ -15,6 +16,7 @@ public class InlineQueryResultGame extends InlineQueryResult {
   static final String GAME_SHORT_NAME_FIELD = "game_short_name";
   static final String REPLY_MARKUP_FIELD = "reply_markup";
 
+  @Expose
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "game";
 

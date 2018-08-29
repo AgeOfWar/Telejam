@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
@@ -19,6 +20,7 @@ public class InlineQueryResultCachedSticker extends InlineQueryResult {
   static final String REPLY_MARKUP_FIELD = "reply_markup";
   static final String INPUT_MESSAGE_CONTENT_FIELD = "input_message_content";
 
+  @Expose
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "sticker";
 

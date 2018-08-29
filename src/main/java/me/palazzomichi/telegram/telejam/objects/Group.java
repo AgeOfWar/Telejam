@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
@@ -14,6 +15,7 @@ public class Group extends Chat {
   static final String TITLE_FIELD = "title";
   static final String ALL_ADMINS_FIELD = "all_members_are_administrators";
   
+  @Expose
   @SerializedName(TYPE_FIELD)
   static final String TYPE = "group";
   

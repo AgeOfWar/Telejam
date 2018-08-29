@@ -1,5 +1,6 @@
 package me.palazzomichi.telegram.telejam.objects;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.text.Text;
 
@@ -21,6 +22,7 @@ public abstract class InputMedia implements TelegramObject {
   
   private static final String ATTACH_PREFIX = "attach://";
   
+  @Expose
   @SerializedName(PARSE_MODE_FIELD)
   private static final String PARSE_MODE = "HTML";
   
