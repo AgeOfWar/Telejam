@@ -18,43 +18,51 @@ import java.util.Locale;
  */
 public final class Json {
   
-  private static final Gson gson = new GsonBuilder()
-      .excludeFieldsWithModifiers(Modifier.TRANSIENT)
-      .addSerializationExclusionStrategy(new ExclusionStrategy() {
-        @Override
-        public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-          return fieldAttributes.getAnnotation(SerializedName.class) == null &&
-              fieldAttributes.getAnnotation(JsonAdapter.class) == null;
-        }
+  private static final Gson gson;
+  private static final Gson prettyPrintingGson;
   
-        @Override
-        public boolean shouldSkipClass(Class<?> clazz) {
-          return false;
-        }
-      }).addDeserializationExclusionStrategy(new ExclusionStrategy() {
-        @Override
-        public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-          return fieldAttributes.hasModifier(Modifier.FINAL) ||
-              fieldAttributes.hasModifier(Modifier.STATIC) ||
-              (fieldAttributes.getAnnotation(SerializedName.class) == null &&
-                  fieldAttributes.getAnnotation(JsonAdapter.class) == null);
-        }
-      
-        @Override
-        public boolean shouldSkipClass(Class<?> clazz) {
-          return false;
-        }
-      }).registerTypeAdapter(Locale.class, LocaleTypeAdapter.INSTANCE)
-      .registerTypeAdapter(Update.class, UpdateAdapter.INSTANCE)
-      .registerTypeAdapter(Chat.class, ChatAdapter.INSTANCE)
-      .registerTypeAdapter(Message.class, MessageAdapter.INSTANCE)
-      .registerTypeAdapter(Forward.class, ForwardMessageAdapter.INSTANCE)
-      .registerTypeAdapter(KeyboardButton.class, KeyboardButtonAdapter.INSTANCE)
-      .registerTypeAdapter(InlineKeyboardButton.class, InlineKeyboardButtonAdapter.INSTANCE)
-      .registerTypeAdapter(InlineQueryResult.class, InlineQueryResultAdapter.INSTANCE)
-      .registerTypeAdapter(InputMessageContent.class, InputMessageContentAdapter.INSTANCE)
-      .registerTypeAdapter(InputMedia.class, InputMediaAdapter.INSTANCE)
-      .create();
+  static {
+    GsonBuilder builder = new GsonBuilder()
+        .excludeFieldsWithModifiers(Modifier.TRANSIENT)
+        .addSerializationExclusionStrategy(new ExclusionStrategy() {
+          @Override
+          public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+            return fieldAttributes.getAnnotation(SerializedName.class) == null &&
+                fieldAttributes.getAnnotation(JsonAdapter.class) == null;
+          }
+          
+          @Override
+          public boolean shouldSkipClass(Class<?> clazz) {
+            return false;
+          }
+        }).addDeserializationExclusionStrategy(new ExclusionStrategy() {
+          @Override
+          public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+            return fieldAttributes.hasModifier(Modifier.FINAL) ||
+                fieldAttributes.hasModifier(Modifier.STATIC) ||
+                (fieldAttributes.getAnnotation(SerializedName.class) == null &&
+                    fieldAttributes.getAnnotation(JsonAdapter.class) == null);
+          }
+          
+          @Override
+          public boolean shouldSkipClass(Class<?> clazz) {
+            return false;
+          }
+        }).registerTypeAdapter(Locale.class, LocaleTypeAdapter.INSTANCE)
+        .registerTypeAdapter(Update.class, UpdateAdapter.INSTANCE)
+        .registerTypeAdapter(Chat.class, ChatAdapter.INSTANCE)
+        .registerTypeAdapter(Message.class, MessageAdapter.INSTANCE)
+        .registerTypeAdapter(Forward.class, ForwardMessageAdapter.INSTANCE)
+        .registerTypeAdapter(KeyboardButton.class, KeyboardButtonAdapter.INSTANCE)
+        .registerTypeAdapter(InlineKeyboardButton.class, InlineKeyboardButtonAdapter.INSTANCE)
+        .registerTypeAdapter(InlineQueryResult.class, InlineQueryResultAdapter.INSTANCE)
+        .registerTypeAdapter(InputMessageContent.class, InputMessageContentAdapter.INSTANCE)
+        .registerTypeAdapter(InputMedia.class, InputMediaAdapter.INSTANCE)
+        .disableHtmlEscaping();
+    gson = builder.create();
+    builder.setPrettyPrinting();
+    prettyPrintingGson = builder.create();
+  }
   
   /**
    * This method serializes the specified object into its equivalent Json representation.
@@ -70,8 +78,7 @@ public final class Json {
    * @return Json representation of {@code src}.
    */
   public static String toJson(Object src) {
-    Class<?> clazz = src.getClass();
-    return gson.toJson(src, clazz.isAnonymousClass() ? clazz.getSuperclass() : clazz);
+    return gson.toJson(src);
   }
   
   /**
@@ -80,13 +87,13 @@ public final class Json {
    * type. For non-generic objects, use {@link #toJson(Object)} instead. If you want to write out
    * the object to a {@link Appendable}, use {@link #toJson(Object, Type, Appendable)} instead.
    *
-   * @param src the object for which JSON representation is to be created
+   * @param src       the object for which JSON representation is to be created
    * @param typeOfSrc The specific genericized type of src. You can obtain
-   * this type by using the {@link #genericTypeOf(Class, Type...)} method. For example,
-   * to get the type for {@code Collection<Foo>}, you should use:
-   * <pre>
-   * Type typeOfSrc = genericTypeOf(Collection.class, Foo.class);
-   * </pre>
+   *                  this type by using the {@link #genericTypeOf(Class, Type...)} method. For example,
+   *                  to get the type for {@code Collection<Foo>}, you should use:
+   *                  <pre>
+   *                  Type typeOfSrc = genericTypeOf(Collection.class, Foo.class);
+   *                  </pre>
    * @return Json representation of {@code src}
    */
   public static String toJson(Object src, Type typeOfSrc) {
@@ -102,7 +109,7 @@ public final class Json {
    * just the object itself should not be of a generic type. If the object is of generic type, use
    * {@link #toJson(Object, Type, Appendable)} instead.
    *
-   * @param src the object for which Json representation is to be created
+   * @param src    the object for which Json representation is to be created
    * @param writer Writer to which the Json representation needs to be written
    * @throws IOException if there was a problem writing to the writer
    */
@@ -119,19 +126,99 @@ public final class Json {
    * equivalent Json representation. This method must be used if the specified object is a generic
    * type. For non-generic objects, use {@link #toJson(Object, Appendable)} instead.
    *
-   * @param src the object for which JSON representation is to be created
+   * @param src       the object for which JSON representation is to be created
    * @param typeOfSrc The specific genericized type of src. You can obtain
-   * this type by using the {@link #genericTypeOf(Class, Type...)} method. For example,
-   * to get the type for {@code Collection<Foo>}, you should use:
-   * <pre>
-   * Type typeOfSrc = genericTypeOf(Collection.class, Foo.class);
-   * </pre>
-   * @param writer Writer to which the Json representation of src needs to be written.
+   *                  this type by using the {@link #genericTypeOf(Class, Type...)} method. For example,
+   *                  to get the type for {@code Collection<Foo>}, you should use:
+   *                  <pre>
+   *                  Type typeOfSrc = genericTypeOf(Collection.class, Foo.class);
+   *                  </pre>
+   * @param writer    Writer to which the Json representation of src needs to be written.
    * @throws IOException if there was a problem writing to the writer
    */
   public static void toJson(Object src, Type typeOfSrc, Appendable writer) throws IOException {
     try {
       gson.toJson(src, typeOfSrc, writer);
+    } catch (JsonIOException e) {
+      throw new IOException(e);
+    }
+  }
+  
+  /**
+   * This method serializes the specified object into its equivalent Json representation.
+   * This method should be used when the specified object is not a generic type. This method uses
+   * {@link Class#getClass()} to get the type for the specified object, but the
+   * {@code getClass()} loses the generic type information because of the Type Erasure feature
+   * of Java. Note that this method works fine if the any of the object fields are of generic type,
+   * just the object itself should not be of a generic type. If the object is of generic type, use
+   * {@link #toJson(Object, Type)} instead. If you want to write out the object to a
+   * {@link java.io.Writer}, use {@link #toPrettyJson(Object, Appendable)} instead.
+   *
+   * @param src the object for which Json representation is to be created
+   * @return Json representation of {@code src}.
+   */
+  public static String toPrettyJson(Object src) {
+    return prettyPrintingGson.toJson(src);
+  }
+  
+  /**
+   * This method serializes the specified object, including those of generic types, into its
+   * equivalent Json representation. This method must be used if the specified object is a generic
+   * type. For non-generic objects, use {@link #toPrettyJson(Object)} instead. If you want to write out
+   * the object to a {@link Appendable}, use {@link #toPrettyJson(Object, Type, Appendable)} instead.
+   *
+   * @param src       the object for which JSON representation is to be created
+   * @param typeOfSrc The specific genericized type of src. You can obtain
+   *                  this type by using the {@link #genericTypeOf(Class, Type...)} method. For example,
+   *                  to get the type for {@code Collection<Foo>}, you should use:
+   *                  <pre>
+   *                  Type typeOfSrc = genericTypeOf(Collection.class, Foo.class);
+   *                  </pre>
+   * @return Json representation of {@code src}
+   */
+  public static String toPrettyJson(Object src, Type typeOfSrc) {
+    return prettyPrintingGson.toJson(src, typeOfSrc);
+  }
+  
+  /**
+   * This method serializes the specified object into its equivalent Json representation.
+   * This method should be used when the specified object is not a generic type. This method uses
+   * {@link Class#getClass()} to get the type for the specified object, but the
+   * {@code getClass()} loses the generic type information because of the Type Erasure feature
+   * of Java. Note that this method works fine if the any of the object fields are of generic type,
+   * just the object itself should not be of a generic type. If the object is of generic type, use
+   * {@link #toPrettyJson(Object, Type, Appendable)} instead.
+   *
+   * @param src    the object for which Json representation is to be created
+   * @param writer Writer to which the Json representation needs to be written
+   * @throws IOException if there was a problem writing to the writer
+   */
+  public static void toPrettyJson(Object src, Appendable writer) throws IOException {
+    try {
+      prettyPrintingGson.toJson(src, writer);
+    } catch (JsonIOException e) {
+      throw new IOException(e);
+    }
+  }
+  
+  /**
+   * This method serializes the specified object, including those of generic types, into its
+   * equivalent Json representation. This method must be used if the specified object is a generic
+   * type. For non-generic objects, use {@link #toPrettyJson(Object, Appendable)} instead.
+   *
+   * @param src       the object for which JSON representation is to be created
+   * @param typeOfSrc The specific genericized type of src. You can obtain
+   *                  this type by using the {@link #genericTypeOf(Class, Type...)} method. For example,
+   *                  to get the type for {@code Collection<Foo>}, you should use:
+   *                  <pre>
+   *                  Type typeOfSrc = genericTypeOf(Collection.class, Foo.class);
+   *                  </pre>
+   * @param writer    Writer to which the Json representation of src needs to be written.
+   * @throws IOException if there was a problem writing to the writer
+   */
+  public static void toPrettyJson(Object src, Type typeOfSrc, Appendable writer) throws IOException {
+    try {
+      prettyPrintingGson.toJson(src, typeOfSrc, writer);
     } catch (JsonIOException e) {
       throw new IOException(e);
     }
@@ -147,12 +234,12 @@ public final class Json {
    * {@link #fromJson(String, Type)}. If you have the Json in a {@link Reader} instead of
    * a String, use {@link #fromJson(Reader, Class)} instead.
    *
-   * @param <T> the type of the desired object
-   * @param json the string from which the object is to be deserialized
+   * @param <T>      the type of the desired object
+   * @param json     the string from which the object is to be deserialized
    * @param classOfT the class of T
    * @return an object of type T from the string.
    * @throws JsonSyntaxException if json is not a valid representation for an object of type
-   * classOfT
+   *                             classOfT
    */
   public static <T> T fromJson(String json, Class<T> classOfT) throws JsonSyntaxException {
     try {
@@ -170,14 +257,14 @@ public final class Json {
    * {@link #fromJson(String, Class)} instead. If you have the Json in a {@link Reader} instead of
    * a String, use {@link #fromJson(Reader, Type)} instead.
    *
-   * @param <T> the type of the desired object
-   * @param json the string from which the object is to be deserialized
+   * @param <T>     the type of the desired object
+   * @param json    the string from which the object is to be deserialized
    * @param typeOfT The specific genericized type of src. You can obtain this type by using the
-   * {@link #genericTypeOf(Class, Type...)} method. For example, to get the type for
-   * {@code Collection<Foo>}, you should use:
-   * <pre>
-   * Type typeOfT = genericTypeOf(Collection.class, Foo.class);
-   * </pre>
+   *                {@link #genericTypeOf(Class, Type...)} method. For example, to get the type for
+   *                {@code Collection<Foo>}, you should use:
+   *                <pre>
+   *                Type typeOfT = genericTypeOf(Collection.class, Foo.class);
+   *                </pre>
    * @return an object of type T from the string.
    * @throws JsonSyntaxException if json is not a valid representation for an object of type
    */
@@ -202,11 +289,11 @@ public final class Json {
    * invoke {@link #fromJson(Reader, Type)}. If you have the Json in a String form instead of a
    * {@link Reader}, use {@link #fromJson(String, Class)} instead.
    *
-   * @param <T> the type of the desired object
-   * @param json the reader producing the Json from which the object is to be deserialized.
+   * @param <T>      the type of the desired object
+   * @param json     the reader producing the Json from which the object is to be deserialized.
    * @param classOfT the class of T
    * @return an object of type T from the string.
-   * @throws IOException if there was a problem reading from the Reader
+   * @throws IOException         if there was a problem reading from the Reader
    * @throws JsonSyntaxException if json is not a valid representation for an object of type
    */
   public static <T> T fromJson(Reader json, Class<T> classOfT) throws IOException, JsonSyntaxException {
@@ -225,16 +312,16 @@ public final class Json {
    * non-generic objects, use {@link #fromJson(Reader, Class)} instead. If you have the Json in a
    * String form instead of a {@link Reader}, use {@link #fromJson(String, Type)} instead.
    *
-   * @param <T> the type of the desired object
-   * @param json the reader producing Json from which the object is to be deserialized
+   * @param <T>     the type of the desired object
+   * @param json    the reader producing Json from which the object is to be deserialized
    * @param typeOfT The specific genericized type of src. You can obtain this type by using the
-   * {@link #genericTypeOf(Class, Type...)} method. For example, to get the type for
-   * {@code Collection<Foo>}, you should use:
-   * <pre>
-   * Type typeOfT = genericTypeOf(Collection.class, Foo.class);
-   * </pre>
+   *                {@link #genericTypeOf(Class, Type...)} method. For example, to get the type for
+   *                {@code Collection<Foo>}, you should use:
+   *                <pre>
+   *                Type typeOfT = genericTypeOf(Collection.class, Foo.class);
+   *                </pre>
    * @return an object of type T from the json.
-   * @throws IOException if there was a problem reading from the Reader
+   * @throws IOException         if there was a problem reading from the Reader
    * @throws JsonSyntaxException if json is not a valid representation for an object of type
    */
   @SuppressWarnings("unchecked")
