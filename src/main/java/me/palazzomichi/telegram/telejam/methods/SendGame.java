@@ -1,6 +1,5 @@
 package me.palazzomichi.telegram.telejam.methods;
 
-import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.objects.Chat;
 import me.palazzomichi.telegram.telejam.objects.GameMessage;
 import me.palazzomichi.telegram.telejam.objects.InlineKeyboardMarkup;

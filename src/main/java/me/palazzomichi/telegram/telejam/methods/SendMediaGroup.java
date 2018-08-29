@@ -1,6 +1,9 @@
 package me.palazzomichi.telegram.telejam.methods;
 
-import me.palazzomichi.telegram.telejam.objects.*;
+import me.palazzomichi.telegram.telejam.objects.Chat;
+import me.palazzomichi.telegram.telejam.objects.InputMedia;
+import me.palazzomichi.telegram.telejam.objects.Message;
+import me.palazzomichi.telegram.telejam.objects.UploadFile;
 
 import java.util.HashMap;
 import java.util.Map;

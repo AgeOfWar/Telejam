@@ -1,6 +1,5 @@
 package me.palazzomichi.telegram.telejam.methods;
 
-import com.google.gson.annotations.SerializedName;
 import me.palazzomichi.telegram.telejam.objects.GameHighScore;
 import me.palazzomichi.telegram.telejam.objects.Message;
 import me.palazzomichi.telegram.telejam.objects.User;
