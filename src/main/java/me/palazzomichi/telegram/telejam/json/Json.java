@@ -57,6 +57,7 @@ public final class Json {
         .registerTypeAdapter(InlineQueryResult.class, InlineQueryResultAdapter.INSTANCE)
         .registerTypeAdapter(InputMessageContent.class, InputMessageContentAdapter.INSTANCE)
         .registerTypeAdapter(InputMedia.class, InputMediaAdapter.INSTANCE)
+        .registerTypeAdapter(ReplyMarkup.class, ReplyMarkupAdapter.INSTANCE)
         .disableHtmlEscaping();
     gson = builder.create();
     builder.setPrettyPrinting();
