@@ -112,10 +112,6 @@ public class InlineQueryResultArticle extends InlineQueryResult {
     this(id, title, inputMessageContent, replyMarkup, null, null, description,null, null, null);
   }
 
-  public InlineQueryResultArticle(String id, String title, InlineKeyboardMarkup replyMarkup, String description) {
-    this(id, title, null, replyMarkup, description);
-  }
-
 
   /**
    * Getter for property {@link #title}.
