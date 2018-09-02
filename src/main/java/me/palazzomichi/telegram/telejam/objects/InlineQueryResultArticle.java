@@ -125,10 +125,10 @@ public class InlineQueryResultArticle extends InlineQueryResult {
   /**
    * Getter for property {@link #inputMessageContent}.
    *
-   * @return optional value for property {@link #inputMessageContent}
+   * @return value for property {@link #inputMessageContent}
    */
-  public Optional<InputMessageContent> getInputMessageContent() {
-    return Optional.ofNullable(inputMessageContent);
+  public InputMessageContent getInputMessageContent() {
+    return inputMessageContent;
   }
 
   /**
