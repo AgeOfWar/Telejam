@@ -20,9 +20,8 @@ This program re-sends messages.
         System.exit(1);
       }
       Bot bot = Bot.fromToken(args[0]);
-      try (ExampleBot exampleBot = new ExampleBot(bot)) {
-        exampleBot.run();
-      }
+      ExampleBot exampleBot = new ExampleBot(bot);
+      exampleBot.run();
     }
     
     public ExampleBot(Bot bot) {
