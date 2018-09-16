@@ -1,5 +1,6 @@
 # Telegram Bot Java Library
 A simple to use library to create Telegram Bots in Java.
+This library uses the [Telegram Bot API](https://core.telegram.org/bots/api)
 
 ## Example
 This program re-sends messages.
@@ -40,3 +41,5 @@ This program re-sends messages.
     
   }
 ```
+Read the [wiki](https://github.com/AgeOfWar/Telejam/wiki)
+for more information.
