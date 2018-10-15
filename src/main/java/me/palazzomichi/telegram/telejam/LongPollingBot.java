@@ -1,7 +1,6 @@
 package me.palazzomichi.telegram.telejam;
 
 import me.palazzomichi.telegram.telejam.objects.Update;
-import me.palazzomichi.telegram.telejam.util.CommandRegistry;
 import me.palazzomichi.telegram.telejam.util.UpdateReader;
 
 import java.io.IOException;
@@ -24,8 +23,6 @@ import static me.palazzomichi.telegram.telejam.json.Json.toJson;
  * @author Michi Palazzo
  */
 public abstract class LongPollingBot extends TelegramBot implements Runnable, AutoCloseable {
-  
-  protected final CommandRegistry commands;
   
   private final Logger logger;
   private final UpdateReader updateReader;
@@ -67,7 +64,6 @@ public abstract class LongPollingBot extends TelegramBot implements Runnable, Au
     super(bot);
     this.logger = Objects.requireNonNull(logger);
     updateReader = new UpdateReader(bot, backOff);
-    commands = new CommandRegistry(bot);
   }
   
   /**
@@ -101,22 +97,22 @@ public abstract class LongPollingBot extends TelegramBot implements Runnable, Au
   
   @Override
   public void run() {
-    logger.info("Starting " + bot.getUsername() + "...");
+    logger.info(() -> "Starting " + bot.getUsername() + "...");
     try {
-      logger.info("Discarding previous updates...");
+      logger.info(() -> "Discarding previous updates...");
       updateReader.discardAll();
     } catch (IOException e) {
       logError(e);
       onError(e);
     }
-    logger.info("Waiting for updates...");
+    logger.info(() -> "Waiting for updates...");
     while (!Thread.interrupted()) {
       try {
         Update update = updateReader.read();
-        logger.finer("New update: " + toJson(update));
+        logger.finer(() -> "New update: " + toJson(update));
         onUpdate(update);
       } catch (InterruptedException e) {
-        logger.info("Stopping " + bot.getUsername() + "...");
+        logger.info(() -> "Stopping " + bot.getUsername() + "...");
         Thread.currentThread().interrupt();
       } catch (Throwable e) {
         logError(e);
