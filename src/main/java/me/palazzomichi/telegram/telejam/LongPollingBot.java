@@ -27,7 +27,7 @@ public abstract class LongPollingBot extends TelegramBot implements Runnable, Au
   private final Logger logger;
   private final UpdateReader updateReader;
   
-  private static Logger newLogger(Bot bot) {
+  public static Logger newLogger(Bot bot) {
     Logger logger = Logger.getLogger(bot.getUsername());
     logger.setUseParentHandlers(false);
     ConsoleHandler handler = new ConsoleHandler();
