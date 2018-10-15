@@ -24,43 +24,43 @@ public class PreCheckoutQuery implements TelegramObject {
    * Unique query identifier.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * User who sent the query.
    */
   @SerializedName(SENDER_FIELD)
-  private User sender;
+  private final User sender;
 
   /**
    * Three-letter ISO 4217 currency code.
    */
   @SerializedName(CURRENCY_FIELD)
-  private String currency;
+  private final String currency;
 
   /**
    * Total price in the smallest units of the currency.
    */
   @SerializedName(TOTAL_AMOUNT_FIELD)
-  private int totalAmount;
+  private final int totalAmount;
 
   /**
    * Bot specified invoice payload.
    */
   @SerializedName(INVOICE_PAYLOAD_FIELD)
-  private String invoicePayload;
+  private final String invoicePayload;
 
   /**
    * Identifier of the shipping option chosen by the user.
    */
   @SerializedName(SHIPPING_OPTION_ID_FIELD)
-  private String shippingOptionId;
+  private final String shippingOptionId;
 
   /**
    * Order info provided by the user.
    */
   @SerializedName(ORDER_INFO_FIELD)
-  private OrderInfo orderInfo;
+  private final OrderInfo orderInfo;
 
 
   public PreCheckoutQuery(String id,

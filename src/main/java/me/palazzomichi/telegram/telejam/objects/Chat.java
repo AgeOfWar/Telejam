@@ -16,7 +16,7 @@ public abstract class Chat implements TelegramObject {
    * Unique identifier for this chat.
    */
   @SerializedName(ID_FIELD)
-  private long id;
+  private final long id;
   
   
   public Chat(long id) {

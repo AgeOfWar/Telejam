@@ -12,7 +12,7 @@ import static java.net.URLConnection.guessContentTypeFromStream;
 import static me.palazzomichi.telegram.telejam.json.Json.genericTypeOf;
 import static me.palazzomichi.telegram.telejam.json.Json.toJson;
 
-public class Http {
+public final class Http {
   
   private static final int CONNECTION_TIMEOUT = 0;
   private static final int READ_TIMEOUT = 0;
@@ -33,7 +33,7 @@ public class Http {
         toJson(parameters, genericTypeOf(Map.class, String.class, Object.class), writer);
       }
     } else {
-      final String boundary = generateBoundary();
+      String boundary = generateBoundary();
       connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
       try (PrintWriter output = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), CHARSET))) {
         for (Map.Entry<String, Object> entry : parameters.entrySet()) {
@@ -88,7 +88,7 @@ public class Http {
   }
   
   private static String generateBoundary() {
-    return "-=-" + UUID.randomUUID().toString() + "-=-";
+    return "-=-" + UUID.randomUUID() + "-=-";
   }
   
   private static InputStream getInputOrErrorStream(HttpURLConnection connection) throws IOException {

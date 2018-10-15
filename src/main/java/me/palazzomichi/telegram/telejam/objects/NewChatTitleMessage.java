@@ -15,7 +15,7 @@ public class NewChatTitleMessage extends Message {
    * The message chat title was changed to this value.
    */
   @SerializedName(NEW_CHAT_TITLE_FIELD)
-  private String newChatTitle;
+  private final String newChatTitle;
 
 
   public NewChatTitleMessage(long id,

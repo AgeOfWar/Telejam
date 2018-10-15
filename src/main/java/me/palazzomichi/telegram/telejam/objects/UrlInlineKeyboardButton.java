@@ -17,7 +17,7 @@ public class UrlInlineKeyboardButton extends InlineKeyboardButton {
    * HTTP url to be opened when button is pressed.
    */
   @SerializedName(URL_FIELD)
-  private String url;
+  private final String url;
 
 
   /**

@@ -23,7 +23,7 @@ public class ReplyKeyboardMarkup implements ReplyMarkup {
    * Array of {@link KeyboardButton} objects.
    */
   @SerializedName(KEYBOARD_FIELD)
-  private KeyboardButton[][] keyboard;
+  private final KeyboardButton[][] keyboard;
 
   /**
    * Optional.

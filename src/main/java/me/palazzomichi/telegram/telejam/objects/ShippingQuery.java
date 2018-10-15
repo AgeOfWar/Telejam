@@ -20,25 +20,25 @@ public class ShippingQuery implements TelegramObject {
    * Unique query identifier.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * User who sent the query.
    */
   @SerializedName(SENDER_FIELD)
-  private User sender;
+  private final User sender;
 
   /**
    * Bot specified invoice payload.
    */
   @SerializedName(INVOICE_PAYLOAD_FIELD)
-  private String invoicePayload;
+  private final String invoicePayload;
 
   /**
    * User specified shipping address.
    */
   @SerializedName(SHIPPING_ADDRESS_FIELD)
-  private ShippingAddress shippingAddress;
+  private final ShippingAddress shippingAddress;
 
 
   public ShippingQuery(String id, User sender, String invoicePayload, ShippingAddress shippingAddress) {

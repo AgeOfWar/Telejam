@@ -83,7 +83,7 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
   }
   
   public CreateNewStickerSet user(User user) {
-    this.userId = user.getId();
+    userId = user.getId();
     return this;
   }
   
@@ -125,7 +125,7 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
   }
   
   public CreateNewStickerSet containsMask() {
-    this.containsMasks = true;
+    containsMasks = true;
     return this;
   }
   
@@ -158,7 +158,7 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
   

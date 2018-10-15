@@ -18,25 +18,25 @@ public class StickerSet implements TelegramObject {
    * Sticker set name.
    */
   @SerializedName(NAME_FIELD)
-  private String name;
+  private final String name;
 
   /**
    * Sticker set title.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * <code>true</code> if the sticker set contains masks, <code>false</code> otherwise.
    */
   @SerializedName(CONTAINS_MASKS_FIELD)
-  private boolean containsMasks;
+  private final boolean containsMasks;
 
   /**
    * List of all set stickers.
    */
   @SerializedName(STICKERS_FIELD)
-  private Sticker[] stickers;
+  private final Sticker[] stickers;
 
 
   public StickerSet(String name, String title, boolean containsMasks, Sticker[] stickers) {

@@ -59,7 +59,7 @@ public class GetGameHighScores implements TelegramMethod<GameHighScore[]> {
   }
 
   public GetGameHighScores user(User user) {
-    this.userId = user.getId();
+    userId = user.getId();
     return this;
   }
 
@@ -71,8 +71,8 @@ public class GetGameHighScores implements TelegramMethod<GameHighScore[]> {
 
   public GetGameHighScores message(Message message) {
     inlineMessageId = null;
-    this.chatId = message.getChat().getId();
-    this.messageId = message.getId();
+    chatId = message.getChat().getId();
+    messageId = message.getId();
     return this;
   }
 

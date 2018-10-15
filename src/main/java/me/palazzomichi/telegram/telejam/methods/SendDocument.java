@@ -70,19 +70,19 @@ public class SendDocument implements TelegramMethod<DocumentMessage> {
   
   public SendDocument chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public SendDocument chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public SendDocument chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -92,14 +92,14 @@ public class SendDocument implements TelegramMethod<DocumentMessage> {
   }
 
   public SendDocument disableNotification() {
-    this.disableNotification = true;
+    disableNotification = true;
     return this;
   }
 
   public SendDocument replyToMessage(Message message) {
-    this.replyToMessageId = message.getId();
-    this.chatId = message.getChat().getId();
-    this.chatUsername = null;
+    replyToMessageId = message.getId();
+    chatId = message.getChat().getId();
+    chatUsername = null;
     return this;
   }
 

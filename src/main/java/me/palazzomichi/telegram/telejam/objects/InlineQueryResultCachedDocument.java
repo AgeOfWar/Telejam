@@ -37,37 +37,37 @@ public class InlineQueryResultCachedDocument extends InlineQueryResult {
    * Title for the result.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * A valid file identifier for the file.
    */
   @SerializedName(DOCUMENT_FILE_ID_FIELD)
-  private String documentFileId;
+  private final String documentFileId;
 
   /**
    * Short description of the result.
    */
   @SerializedName(DESCRIPTION_FIELD)
-  private String description;
+  private final String description;
 
   /**
    * Caption of the document to be sent, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the file.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
 
   public InlineQueryResultCachedDocument(String id,

@@ -36,31 +36,31 @@ public class InlineQueryResultCachedMpeg4Gif extends InlineQueryResult {
    * A valid file identifier for the MP4 file.
    */
   @SerializedName(MPEG4_FILE_ID_FIELD)
-  private String mpeg4FileId;
+  private final String mpeg4FileId;
 
   /**
    * Title for the result.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Caption of the MPEG-4 file to be sent, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the video animation.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
 
   public InlineQueryResultCachedMpeg4Gif(String id,

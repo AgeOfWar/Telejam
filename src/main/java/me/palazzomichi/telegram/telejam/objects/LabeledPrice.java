@@ -18,7 +18,7 @@ public class LabeledPrice implements TelegramObject {
    * Portion label.
    */
   @SerializedName(LABEL_FIELD)
-  private String label;
+  private final String label;
 
   /**
    * Price of the product in the smallest units of the currency (integer, not float/double).
@@ -27,7 +27,7 @@ public class LabeledPrice implements TelegramObject {
    * past the decimal point for each currency (2 for the majority of currencies).
    */
   @SerializedName(AMOUNT_FIELD)
-  private int amount;
+  private final int amount;
 
 
   /**

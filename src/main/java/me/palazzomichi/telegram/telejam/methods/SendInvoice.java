@@ -158,7 +158,7 @@ public class SendInvoice implements TelegramMethod<InvoiceMessage> {
   }
 
   public SendInvoice chat(Chat chat) {
-    this.chatId = chat.getId();
+    chatId = chat.getId();
     return this;
   }
 
@@ -233,7 +233,7 @@ public class SendInvoice implements TelegramMethod<InvoiceMessage> {
   }
 
   public SendInvoice needName() {
-    this.needName = true;
+    needName = true;
     return this;
   }
 
@@ -243,7 +243,7 @@ public class SendInvoice implements TelegramMethod<InvoiceMessage> {
   }
 
   public SendInvoice needPhoneNumber() {
-    this.needPhoneNumber = true;
+    needPhoneNumber = true;
     return this;
   }
 
@@ -253,7 +253,7 @@ public class SendInvoice implements TelegramMethod<InvoiceMessage> {
   }
 
   public SendInvoice needEmail() {
-    this.needEmail = true;
+    needEmail = true;
     return this;
   }
 
@@ -263,7 +263,7 @@ public class SendInvoice implements TelegramMethod<InvoiceMessage> {
   }
 
   public SendInvoice needShippingAddress() {
-    this.needShippingAddress = true;
+    needShippingAddress = true;
     return this;
   }
 
@@ -273,7 +273,7 @@ public class SendInvoice implements TelegramMethod<InvoiceMessage> {
   }
 
   public SendInvoice isFlexible() {
-    this.isFlexible = true;
+    isFlexible = true;
     return this;
   }
 
@@ -283,7 +283,7 @@ public class SendInvoice implements TelegramMethod<InvoiceMessage> {
   }
 
   public SendInvoice disableNotification() {
-    this.disableNotification = true;
+    disableNotification = true;
     return this;
   }
 
@@ -293,8 +293,8 @@ public class SendInvoice implements TelegramMethod<InvoiceMessage> {
   }
 
   public SendInvoice replyToMessage(Message message) {
-    this.replyToMessageId = message.getId();
-    this.chatId = message.getChat().getId();
+    replyToMessageId = message.getId();
+    chatId = message.getChat().getId();
     return this;
   }
 

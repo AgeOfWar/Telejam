@@ -25,7 +25,7 @@ import static me.palazzomichi.telegram.telejam.json.Json.genericTypeOf;
  *
  * @author Michi Palazzo
  */
-public class Bot {
+public final class Bot {
   
   /**
    * General link to the Telegram API.

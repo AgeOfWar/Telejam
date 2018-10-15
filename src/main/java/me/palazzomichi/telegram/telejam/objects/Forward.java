@@ -19,7 +19,7 @@ public class Forward<T extends Message> extends Message {
   /**
    * The forwarded message.
    */
-  private T forwardedMessage;
+  private final T forwardedMessage;
   
   
   public Forward(long id,

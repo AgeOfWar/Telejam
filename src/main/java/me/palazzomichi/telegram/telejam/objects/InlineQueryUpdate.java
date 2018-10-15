@@ -17,7 +17,7 @@ public class InlineQueryUpdate extends Update {
    * New incoming inline query.
    */
   @SerializedName(INLINE_QUERY_FIELD)
-  private InlineQuery inlineQuery;
+  private final InlineQuery inlineQuery;
 
 
   public InlineQueryUpdate(long id, InlineQuery inlineQuery) {

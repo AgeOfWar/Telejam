@@ -18,12 +18,12 @@ public class TextBuilder {
   /**
    * Builder of the string of the Text.
    */
-  private StringBuilder builder;
+  private final StringBuilder builder;
   
   /**
    * Array of entities.
    */
-  private ArrayList<MessageEntity> entities;
+  private final ArrayList<MessageEntity> entities;
   
   
   /**
@@ -62,7 +62,7 @@ public class TextBuilder {
               entity.getType() != MessageEntity.Type.EMAIL
       );
     }
-    builder.append(text.toString());
+    builder.append(text);
     return this;
   }
   

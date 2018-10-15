@@ -20,33 +20,33 @@ public class InputVenueMessageContent extends InputLocationMessageContent {
    * Name of the venue.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Address of the venue.
    */
   @SerializedName(ADDRESS_FIELD)
-  private String address;
+  private final String address;
 
   /**
    * Foursquare identifier of the venue, if known.
    */
   @SerializedName(FOURSQUARE_ID_FIELD)
-  private String foursquareId;
+  private final String foursquareId;
   
   /**
    * Foursquare type of the venue.
    */
   @SerializedName(FOURSQUARE_TYPE_FIELD)
-  private String foursquareType;
+  private final String foursquareType;
   
 
   public InputVenueMessageContent(Venue venue) {
     super(venue.getLocation());
-    this.title = venue.getTitle();
-    this.address = venue.getAddress();
-    this.foursquareId = venue.getFoursquareId().orElse(null);
-    this.foursquareType = venue.getFoursquareType().orElse(null);
+    title = venue.getTitle();
+    address = venue.getAddress();
+    foursquareId = venue.getFoursquareId().orElse(null);
+    foursquareType = venue.getFoursquareType().orElse(null);
   }
 
 

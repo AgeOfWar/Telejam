@@ -17,7 +17,7 @@ public class CallbackQueryUpdate extends Update {
    * New incoming callback query.
    */
   @SerializedName(CALLBACK_QUERY_FIELD)
-  private CallbackQuery callbackQuery;
+  private final CallbackQuery callbackQuery;
 
 
   public CallbackQueryUpdate(long id, CallbackQuery callbackQuery) {

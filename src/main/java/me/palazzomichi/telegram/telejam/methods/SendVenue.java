@@ -85,19 +85,19 @@ public class SendVenue implements TelegramMethod<VenueMessage> {
   
   public SendVenue chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public SendVenue chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public SendVenue chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -107,14 +107,14 @@ public class SendVenue implements TelegramMethod<VenueMessage> {
   }
 
   public SendVenue disableNotification() {
-    this.disableNotification = true;
+    disableNotification = true;
     return this;
   }
 
   public SendVenue replyToMessage(Message message) {
-    this.replyToMessageId = message.getId();
-    this.chatId = message.getChat().getId();
-    this.chatUsername = null;
+    replyToMessageId = message.getId();
+    chatId = message.getChat().getId();
+    chatUsername = null;
     return this;
   }
 
@@ -139,8 +139,8 @@ public class SendVenue implements TelegramMethod<VenueMessage> {
   }
 
   public SendVenue location(Location location) {
-    this.latitude = location.getLatitude();
-    this.longitude = location.getLongitude();
+    latitude = location.getLatitude();
+    longitude = location.getLongitude();
     return this;
   }
 
@@ -165,12 +165,12 @@ public class SendVenue implements TelegramMethod<VenueMessage> {
   }
   
   public SendVenue venue(Venue venue) {
-    this.latitude = venue.getLocation().getLatitude();
-    this.longitude = venue.getLocation().getLongitude();
-    this.title = venue.getTitle();
-    this.address = venue.getAddress();
-    this.foursquareId = venue.getFoursquareId().orElse(null);
-    this.foursquareType = venue.getFoursquareType().orElse(null);
+    latitude = venue.getLocation().getLatitude();
+    longitude = venue.getLocation().getLongitude();
+    title = venue.getTitle();
+    address = venue.getAddress();
+    foursquareId = venue.getFoursquareId().orElse(null);
+    foursquareType = venue.getFoursquareType().orElse(null);
     return this;
   }
 

@@ -23,17 +23,17 @@ public class InputTextMessageContent implements InputMessageContent {
    * Text of the message to be sent, 1-4096 characters.
    */
   @SerializedName(MESSAGE_TEXT_FIELD)
-  private String messageText;
+  private final String messageText;
 
   /**
    * Disables link previews for links in the sent message.
    */
   @SerializedName(DISABLE_WEB_PAGE_PREVIEW_FIELD)
-  private Boolean disableWebPagePreview;
+  private final Boolean disableWebPagePreview;
 
 
   public InputTextMessageContent(Text text, Boolean disableWebPagePreview) {
-    this.messageText = text.toHtmlString();
+    messageText = text.toHtmlString();
     this.disableWebPagePreview = disableWebPagePreview;
   }
 

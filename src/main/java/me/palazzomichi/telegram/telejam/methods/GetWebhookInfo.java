@@ -13,7 +13,7 @@ import static me.palazzomichi.telegram.telejam.methods.util.Maps.mapOf;
  *
  * @author Michi Palazzo
  */
-public class GetWebhookInfo implements TelegramMethod<WebhookInfo> {
+public final class GetWebhookInfo implements TelegramMethod<WebhookInfo> {
 
   public static final String NAME = "getWebhookInfo";
 

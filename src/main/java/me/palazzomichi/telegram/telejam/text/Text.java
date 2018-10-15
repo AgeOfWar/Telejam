@@ -4,7 +4,6 @@ import me.palazzomichi.telegram.telejam.objects.MessageEntity;
 import me.palazzomichi.telegram.telejam.objects.User;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -291,7 +290,7 @@ public final class Text implements CharSequence {
    */
   public Text concat(Text other) {
     if (other.isEmpty()) return this;
-    if (this.isEmpty()) return other;
+    if (isEmpty()) return other;
     return new TextBuilder()
         .append(this)
         .append(other)
@@ -467,7 +466,8 @@ public final class Text implements CharSequence {
   
   public Text trim() {
     int len = length();
-    int start = 0, end = len - 1;
+    int start = 0;
+    int end = len - 1;
     for (; start < len; start++) {
       if (charAt(start) != ' ') break;
     }
@@ -528,7 +528,7 @@ public final class Text implements CharSequence {
    * @return the text entities
    */
   public List<MessageEntity> getEntities() {
-    return Collections.unmodifiableList(entities);
+    return unmodifiableList(entities);
   }
   
   @Override

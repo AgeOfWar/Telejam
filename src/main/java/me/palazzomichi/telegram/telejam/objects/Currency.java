@@ -45,67 +45,67 @@ public class Currency implements TelegramObject {
    * Currency code.
    */
   @SerializedName(CODE_FIELD)
-  private String code;
+  private final String code;
 
   /**
    * Currency title.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Currency symbol.
    */
   @SerializedName(SYMBOL_FIELD)
-  private String symbol;
+  private final String symbol;
 
   /**
    * Currency native symbol.
    */
   @SerializedName(NATIVE_FIELD)
-  private String nativeSymbol;
+  private final String nativeSymbol;
 
   /**
    * Currency thousands separator.
    */
   @SerializedName(THOUSANDS_SEPARATOR_FIELD)
-  private String thousandsSeparator;
+  private final String thousandsSeparator;
 
   /**
    * Currency decimal separator.
    */
   @SerializedName(DECIMAL_SEPARATOR_FIELD)
-  private String decimalSeparator;
+  private final String decimalSeparator;
 
   /**
    * Whether or not the symbol is on the left of the number.
    */
   @SerializedName(SYMBOL_LEFT_FIELD)
-  private boolean symbolLeft;
+  private final boolean symbolLeft;
 
   /**
    * Whether or not there is a space between the symbol and the number.
    */
   @SerializedName(SPACE_BETWEEN_FIELD)
-  private boolean spaceBetween;
+  private final boolean spaceBetween;
 
   /**
    * Number of max decimal digits.
    */
   @SerializedName(EXPONENT_FIELD)
-  private int exponent;
+  private final int exponent;
 
   /**
    * Minimum price in Telegram payments.
    */
   @SerializedName(MIN_AMOUNT_FIELD)
-  private int minAmount;
+  private final int minAmount;
 
   /**
    * Maximum price in Telegram payments.
    */
   @SerializedName(MAX_AMOUNT_FIELD)
-  private int maxAmount;
+  private final int maxAmount;
 
 
   /**

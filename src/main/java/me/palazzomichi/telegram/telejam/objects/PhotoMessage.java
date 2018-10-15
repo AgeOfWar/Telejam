@@ -23,20 +23,20 @@ public class PhotoMessage extends Message {
    * Available sizes of the photo.
    */
   @SerializedName(PHOTO_FIELD)
-  private PhotoSize[] photo;
+  private final PhotoSize[] photo;
 
   /**
    * Caption for the photo, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
   
   /**
    * Special entities like usernames, URLs, bot
    * commands, etc. that appear in the caption.
    */
   @SerializedName(CAPTION_ENTITIES)
-  private List<MessageEntity> captionEntities;
+  private final List<MessageEntity> captionEntities;
 
 
   public PhotoMessage(long id,
@@ -51,7 +51,7 @@ public class PhotoMessage extends Message {
     super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.photo = Objects.requireNonNull(photo);
     this.caption = caption != null ? caption.toString() : null;
-    this.captionEntities = caption != null ? caption.getEntities() : null;
+    captionEntities = caption != null ? caption.getEntities() : null;
   }
 
 

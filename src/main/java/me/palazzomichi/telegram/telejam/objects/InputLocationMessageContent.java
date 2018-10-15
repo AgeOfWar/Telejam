@@ -16,18 +16,18 @@ public class InputLocationMessageContent implements InputMessageContent {
    * Latitude of the location in degrees.
    */
   @SerializedName(LATITUDE_FIELD)
-  private float latitude;
+  private final float latitude;
 
   /**
    * Longitude of the location in degrees.
    */
   @SerializedName(LONGITUDE_FIELD)
-  private float longitude;
+  private final float longitude;
 
 
   public InputLocationMessageContent(Location location) {
-    this.latitude = location.getLatitude();
-    this.longitude = location.getLongitude();
+    latitude = location.getLatitude();
+    longitude = location.getLongitude();
   }
   
   /**

@@ -28,19 +28,19 @@ public class InlineQueryResultCachedSticker extends InlineQueryResult {
    * A valid file identifier of the sticker.
    */
   @SerializedName(STICKER_FILE_ID_FIELD)
-  private String stickerFileId;
+  private final String stickerFileId;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the sticker.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
 
   public InlineQueryResultCachedSticker(String id,

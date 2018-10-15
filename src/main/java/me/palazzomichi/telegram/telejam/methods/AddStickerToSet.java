@@ -65,7 +65,7 @@ public class AddStickerToSet implements TelegramMethod<Boolean> {
   }
 
   public AddStickerToSet user(User user) {
-    this.userId = user.getId();
+    userId = user.getId();
     return this;
   }
 
@@ -75,14 +75,14 @@ public class AddStickerToSet implements TelegramMethod<Boolean> {
   }
 
   public AddStickerToSet sticker(String sticker) {
-    this.newSticker = null;
+    newSticker = null;
     this.sticker = sticker;
     return this;
   }
 
   public AddStickerToSet sticker(UploadFile newSticker) {
     this.newSticker = newSticker;
-    this.sticker = null;
+    sticker = null;
     return this;
   }
 
@@ -118,7 +118,7 @@ public class AddStickerToSet implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
 

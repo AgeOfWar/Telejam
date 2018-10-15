@@ -19,7 +19,7 @@ public class MessagePinnedMessage extends Message {
    * contain further reply_to_message fields even if it is itself a reply.</p>
    */
   @SerializedName(PINNED_MESSAGE_FIELD)
-  private Message pinnedMessage;
+  private final Message pinnedMessage;
 
 
   public MessagePinnedMessage(long id,

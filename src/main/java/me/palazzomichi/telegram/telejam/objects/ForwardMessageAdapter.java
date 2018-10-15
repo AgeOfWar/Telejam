@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
  *
  * @author Michi Palazzo
  */
-public class ForwardMessageAdapter implements JsonSerializer<Forward<?>>, JsonDeserializer<Forward<?>> {
+public final class ForwardMessageAdapter implements JsonSerializer<Forward<?>>, JsonDeserializer<Forward<?>> {
   
   public static final ForwardMessageAdapter INSTANCE = new ForwardMessageAdapter();
   

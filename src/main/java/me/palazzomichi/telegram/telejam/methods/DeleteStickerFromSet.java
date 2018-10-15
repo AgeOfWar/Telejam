@@ -45,7 +45,7 @@ public class DeleteStickerFromSet implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
 

@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
  *
  * @author Michi Palazzo
  */
-public class InputMessageContentAdapter implements JsonDeserializer<InputMessageContent>, JsonSerializer<InputMessageContent> {
+public final class InputMessageContentAdapter implements JsonDeserializer<InputMessageContent>, JsonSerializer<InputMessageContent> {
 
   public static final InputMessageContentAdapter INSTANCE = new InputMessageContentAdapter();
 

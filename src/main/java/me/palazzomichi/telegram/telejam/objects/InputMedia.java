@@ -31,7 +31,7 @@ public abstract class InputMedia implements TelegramObject {
    * pass an HTTP URL for Telegram to get a file from the Internet, or pass a file.
    */
   @SerializedName(MEDIA_FIELD)
-  private String media;
+  private final String media;
   
   /**
    * Thumbnail of the file sent. The thumbnail should be in JPEG
@@ -39,13 +39,13 @@ public abstract class InputMedia implements TelegramObject {
    * and height should not exceed 90.
    */
   @SerializedName(THUMBNAIL_FIELD)
-  private String thumbnail;
+  private final String thumbnail;
   
   /**
    * Caption of the file to be sent, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
   
   /**
    * Media not present in Telegram servers.
@@ -55,7 +55,7 @@ public abstract class InputMedia implements TelegramObject {
   /**
    * Thumbnail not present in Telegram servers.
    */
-  private UploadFile newThumbnail;
+  private final UploadFile newThumbnail;
   
   
   /**
@@ -69,7 +69,7 @@ public abstract class InputMedia implements TelegramObject {
     this.media = Objects.requireNonNull(media);
     this.thumbnail = thumbnail != null ? ATTACH_PREFIX + thumbnail.getFileName() : null;
     this.caption = caption != null ? caption.toHtmlString() : null;
-    this.newThumbnail = thumbnail;
+    newThumbnail = thumbnail;
   }
   
   /**
@@ -83,8 +83,8 @@ public abstract class InputMedia implements TelegramObject {
     this.media = ATTACH_PREFIX + media.getFileName();
     this.thumbnail = thumbnail != null ? ATTACH_PREFIX + thumbnail.getFileName() : null;
     this.caption = caption != null ? caption.toHtmlString() : null;
-    this.newMedia = media;
-    this.newThumbnail = thumbnail;
+    newMedia = media;
+    newThumbnail = thumbnail;
   }
   
   

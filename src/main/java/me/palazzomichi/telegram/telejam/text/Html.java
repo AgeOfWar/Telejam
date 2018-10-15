@@ -128,7 +128,7 @@ final class Html {
     try (StringReader reader = new StringReader(s)) {
       return readText(reader);
     } catch (IOException e) {
-      throw new AssertionError();
+      throw new AssertionError(e);
     }
   }
 
@@ -198,7 +198,7 @@ final class Html {
       write(text, writer);
       return writer.toString();
     } catch (IOException e) {
-      throw new AssertionError();
+      throw new AssertionError(e);
     }
   }
   

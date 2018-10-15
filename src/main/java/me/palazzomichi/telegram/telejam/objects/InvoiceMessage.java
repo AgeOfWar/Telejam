@@ -17,7 +17,7 @@ public class InvoiceMessage extends Message {
    * Information about the invoice.
    */
   @SerializedName(INVOICE_FIELD)
-  private Invoice invoice;
+  private final Invoice invoice;
 
 
   public InvoiceMessage(long id,

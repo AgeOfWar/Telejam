@@ -19,7 +19,7 @@ public final class UpdateReader implements AutoCloseable {
 
   private final Bot bot;
   private final ConcurrentLinkedQueue<Update> updates;
-  private LongUnaryOperator backOff;
+  private final LongUnaryOperator backOff;
   private long lastUpdateId;
   
   /**

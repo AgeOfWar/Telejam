@@ -32,55 +32,55 @@ public class InlineQueryResultArticle extends InlineQueryResult {
    * Title of the result.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Content of the message to be sent.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * URL of the result.
    */
   @SerializedName(URL_FIELD)
-  private String url;
+  private final String url;
 
   /**
    * Pass <code>true</code>, if you don't want the URL to be shown in the message.
    */
   @SerializedName(HIDE_URL_FIELD)
-  private Boolean hideUrl;
+  private final Boolean hideUrl;
 
   /**
    * Short description of the result.
    */
   @SerializedName(DESCRIPTION_FIELD)
-  private String description;
+  private final String description;
 
   /**
    * Url of the thumbnail for the result.
    */
   @SerializedName(THUMB_URL_FIELD)
-  private String thumbUrlField;
+  private final String thumbUrlField;
 
   /**
    * Thumbnail width.
    */
   @SerializedName(THUMB_WIDTH_FIELD)
-  private Integer thumbWidth;
+  private final Integer thumbWidth;
 
   /**
    * Thumbnail height.
    */
   @SerializedName(THUMB_HEIGHT_FIELD)
-  private Integer thumbHeight;
+  private final Integer thumbHeight;
 
 
   public InlineQueryResultArticle(String id,

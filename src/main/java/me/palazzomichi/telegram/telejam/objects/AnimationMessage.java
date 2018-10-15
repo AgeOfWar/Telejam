@@ -20,20 +20,20 @@ public class AnimationMessage extends Message {
    * Animation of the message.
    */
   @SerializedName(ANIMATION_FIELD)
-  private Animation animation;
+  private final Animation animation;
   
   /**
    * Caption for the video, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
   
   /**
    * Special entities like usernames, URLs, bot
    * commands, etc. that appear in the caption.
    */
   @SerializedName(CAPTION_ENTITIES)
-  private List<MessageEntity> captionEntities;
+  private final List<MessageEntity> captionEntities;
   
   
   public AnimationMessage(long id,
@@ -48,7 +48,7 @@ public class AnimationMessage extends Message {
     super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.animation = Objects.requireNonNull(animation);
     this.caption = caption != null ? caption.toString() : null;
-    this.captionEntities = caption != null ? caption.getEntities() : null;
+    captionEntities = caption != null ? caption.getEntities() : null;
   }
   
   

@@ -23,13 +23,13 @@ public class Group extends Chat {
    * Title of the group.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
   
   /**
    * True if a group has ‘All Members Are Admins’ enabled.
    */
   @SerializedName(ALL_ADMINS_FIELD)
-  private boolean allAdmins;
+  private final boolean allAdmins;
   
   
   public Group(long id, String title, boolean allAdmins) {

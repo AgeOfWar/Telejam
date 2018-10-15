@@ -22,37 +22,37 @@ public class ShippingAddress implements TelegramObject {
    * ISO 3166-1 alpha-2 country code.
    */
   @SerializedName(COUNTRY_CODE_FIELD)
-  private String countryCode;
+  private final String countryCode;
 
   /**
    * State, if applicable.
    */
   @SerializedName(STATE_FIELD)
-  private String stateField;
+  private final String stateField;
 
   /**
    * City.
    */
   @SerializedName(CITY_FIELD)
-  private String city;
+  private final String city;
 
   /**
    * First line for the address.
    */
   @SerializedName(STREET_LINE1_FIELD)
-  private String streetLine1;
+  private final String streetLine1;
 
   /**
    * Second line for the address.
    */
   @SerializedName(STREET_LINE2_FIELD)
-  private String streetLine2;
+  private final String streetLine2;
 
   /**
    * Address post code.
    */
   @SerializedName(POST_CODE_FIELD)
-  private String postCode;
+  private final String postCode;
 
 
   public ShippingAddress(String countryCode,

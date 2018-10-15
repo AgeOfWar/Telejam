@@ -17,7 +17,7 @@ public class MessageUpdate extends Update {
    * New incoming message of any kind.
    */
   @SerializedName(MESSAGE_FIELD)
-  private Message message;
+  private final Message message;
 
 
   public MessageUpdate(long id, Message message) {

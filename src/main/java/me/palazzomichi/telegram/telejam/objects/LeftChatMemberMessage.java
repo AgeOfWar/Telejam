@@ -18,7 +18,7 @@ public class LeftChatMemberMessage extends Message {
    * information about them (this member may be the bot itself).
    */
   @SerializedName(LEFT_CHAT_MEMBER_FIELD)
-  private User leftChatMember;
+  private final User leftChatMember;
 
 
   public LeftChatMemberMessage(long id,

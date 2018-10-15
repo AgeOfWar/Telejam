@@ -5,6 +5,7 @@ import me.palazzomichi.telegram.telejam.objects.Message;
 /**
  * Interface that handles channel posts received from a bot.
  */
+@FunctionalInterface
 public interface ChannelPostHandler {
   
   /**

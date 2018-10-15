@@ -17,7 +17,7 @@ public abstract class InlineKeyboardButton implements TelegramObject {
    * Label text on the button.
    */
   @SerializedName(TEXT_FIELD)
-  private String text;
+  private final String text;
 
 
   /**

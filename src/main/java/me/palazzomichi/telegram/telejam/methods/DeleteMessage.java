@@ -45,19 +45,19 @@ public class DeleteMessage implements TelegramMethod<Boolean> {
   
   public DeleteMessage chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public DeleteMessage chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public DeleteMessage chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -67,9 +67,9 @@ public class DeleteMessage implements TelegramMethod<Boolean> {
   }
 
   public DeleteMessage message(Message message) {
-    this.chatId = message.getChat().getId();
-    this.messageId = message.getId();
-    this.chatUsername = null;
+    chatId = message.getChat().getId();
+    messageId = message.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -87,7 +87,7 @@ public class DeleteMessage implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
 

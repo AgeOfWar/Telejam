@@ -42,55 +42,55 @@ public class InlineQueryResultGif extends InlineQueryResult {
    * InputFile size must not exceed 1MB.
    */
   @SerializedName(GIF_URL_FIELD)
-  private String gifUrl;
+  private final String gifUrl;
 
   /**
    * Width of the GIF.
    */
   @SerializedName(GIF_WIDTH_FIELD)
-  private Integer gifWidth;
+  private final Integer gifWidth;
 
   /**
    * Height of the GIF.
    */
   @SerializedName(GIF_HEIGHT_FIELD)
-  private Integer gifHeight;
+  private final Integer gifHeight;
 
   /**
    * Duration of the GIF.
    */
   @SerializedName(GIF_DURATION_FIELD)
-  private Integer gifDuration;
+  private final Integer gifDuration;
 
   /**
    * URL of the static thumbnail for the result (jpeg or gif).
    */
   @SerializedName(THUMB_URL_FIELD)
-  private String thumbUrl;
+  private final String thumbUrl;
 
   /**
    * Title for the result.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Caption of the GIF file to be sent, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the GIF animation.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
 
   public InlineQueryResultGif(String id,

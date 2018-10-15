@@ -23,7 +23,7 @@ public class Animation implements TelegramObject {
    * Unique file identifier.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * Animation thumbnail as defined by sender.

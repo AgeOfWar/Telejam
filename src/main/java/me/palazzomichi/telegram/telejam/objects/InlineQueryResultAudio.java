@@ -39,43 +39,43 @@ public class InlineQueryResultAudio extends InlineQueryResult {
    * A valid URL for the audio file.
    */
   @SerializedName(AUDIO_URL_FIELD)
-  private String audioUrl;
+  private final String audioUrl;
 
   /**
    * Title.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Caption, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
 
   /**
    * Performer.
    */
   @SerializedName(PERFORMER_FIELD)
-  private String performer;
+  private final String performer;
 
   /**
    * Audio duration in seconds.
    */
   @SerializedName(AUDIO_DURATION_FIELD)
-  private Integer audioDuration;
+  private final Integer audioDuration;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the audio.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
 
   public InlineQueryResultAudio(String id,

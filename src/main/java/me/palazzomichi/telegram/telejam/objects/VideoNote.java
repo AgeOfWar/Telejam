@@ -23,19 +23,19 @@ public class VideoNote implements TelegramObject {
    * Unique identifier for this file.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * Video width and height as defined by sender.
    */
   @SerializedName(LENGTH_FIELD)
-  private int length;
+  private final int length;
 
   /**
    * Duration of the video in seconds as defined by sender.
    */
   @SerializedName(DURATION_FIELD)
-  private int duration;
+  private final int duration;
 
   /**
    * Video thumbnail.

@@ -23,7 +23,7 @@ public class Result<T extends Serializable> implements TelegramObject {
    * Whether or not the method invocation was successful.
    */
   @SerializedName(SUCCESS_FIELD)
-  private boolean success;
+  private final boolean success;
 
   /**
    * The result of the method invocation.
@@ -56,7 +56,7 @@ public class Result<T extends Serializable> implements TelegramObject {
    * @param result the result
    */
   public Result(T result) {
-    this.success = true;
+    success = true;
     this.result = result;
   }
 
@@ -66,10 +66,10 @@ public class Result<T extends Serializable> implements TelegramObject {
    * @param exception the result
    */
   public Result(TelegramException exception) {
-    this.success = false;
-    this.errorCode = exception.getErrorCode();
-    this.description = exception.getMessage();
-    this.responseParameters = exception.getResponseParameters().orElse(null);
+    success = false;
+    errorCode = exception.getErrorCode();
+    description = exception.getMessage();
+    responseParameters = exception.getResponseParameters().orElse(null);
   }
 
 

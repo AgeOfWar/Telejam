@@ -10,12 +10,12 @@ public final class UploadFile implements Closeable {
   /**
    * The name of the file.
    */
-  private String fileName;
+  private final String fileName;
   
   /**
    * The content of the file.
    */
-  private InputStream inputStream;
+  private final InputStream inputStream;
   
   
   /**

@@ -24,7 +24,7 @@ public class SuccessfulPayment implements TelegramObject {
    * Three-letter ISO 4217 currency code.
    */
   @SerializedName(CURRENCY_FIELD)
-  private String currency;
+  private final String currency;
 
   /**
    * Total price in the smallest units of the currency.
@@ -34,37 +34,37 @@ public class SuccessfulPayment implements TelegramObject {
    * currency (2 for the majority of currencies).</p>
    */
   @SerializedName(TOTAL_AMOUNT_FIELD)
-  private int totalAmount;
+  private final int totalAmount;
 
   /**
    * Bot specified invoice payload.
    */
   @SerializedName(INVOICE_PAYLOAD_FIELD)
-  private String invoicePayloadField;
+  private final String invoicePayloadField;
 
   /**
    * Identifier of the shipping option chosen by the user.
    */
   @SerializedName(SHIPPING_OPTION_ID_FIELD)
-  private String shippingOptionId;
+  private final String shippingOptionId;
 
   /**
    * Order info provided by the user.
    */
   @SerializedName(ORDER_INFO_FIELD)
-  private OrderInfo orderInfo;
+  private final OrderInfo orderInfo;
 
   /**
    * Telegram payment identifier.
    */
   @SerializedName(TELEGRAM_PAYMENT_CHARGE_ID_FIELD)
-  private String telegramPaymentChargeId;
+  private final String telegramPaymentChargeId;
 
   /**
    * Provider payment identifier.
    */
   @SerializedName(PROVIDER_PAYMENT_CHARGE_ID_FIELD)
-  private String providerPaymentChargeId;
+  private final String providerPaymentChargeId;
 
 
   public SuccessfulPayment(String currency,

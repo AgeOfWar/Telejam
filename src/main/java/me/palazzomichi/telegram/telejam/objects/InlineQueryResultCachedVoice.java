@@ -36,31 +36,31 @@ public class InlineQueryResultCachedVoice extends InlineQueryResult {
    * A valid file identifier for the voice message.
    */
   @SerializedName(VOICE_FILE_ID_FIELD)
-  private String voiceFileId;
+  private final String voiceFileId;
 
   /**
    * Voice message title.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Caption, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the voice message.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
 
   public InlineQueryResultCachedVoice(String id,

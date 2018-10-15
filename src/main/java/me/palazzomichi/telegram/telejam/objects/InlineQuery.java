@@ -22,31 +22,31 @@ public class InlineQuery implements TelegramObject {
    * Unique identifier for this query.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * Sender.
    */
   @SerializedName(SENDER_FIELD)
-  private User sender;
+  private final User sender;
 
   /**
    * Sender location, only for bots that request user location.
    */
   @SerializedName(LOCATION_FIELD)
-  private Location location;
+  private final Location location;
 
   /**
    * Text of the query (up to 512 characters).
    */
   @SerializedName(QUERY_FIELD)
-  private String query;
+  private final String query;
 
   /**
    * Offset of the results to be returned, can be controlled by the bot.
    */
   @SerializedName(OFFSET_FIELD)
-  private String offset;
+  private final String offset;
 
 
   public InlineQuery(String id, User sender, Location location, String query, String offset) {

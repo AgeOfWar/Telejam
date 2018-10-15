@@ -35,25 +35,25 @@ public class InlineQueryResultCachedAudio extends InlineQueryResult {
    * A valid file identifier for the audio file.
    */
   @SerializedName(AUDIO_FILE_ID_FIELD)
-  private String audioFileId;
+  private final String audioFileId;
 
   /**
    * Caption, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the audio.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
 
   public InlineQueryResultCachedAudio(String id,

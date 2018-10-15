@@ -74,7 +74,7 @@ public class SetGameScore implements TelegramMethod<Serializable> {
   }
 
   public SetGameScore user(User user) {
-    this.userId = user.getId();
+    userId = user.getId();
     return this;
   }
 
@@ -89,7 +89,7 @@ public class SetGameScore implements TelegramMethod<Serializable> {
   }
 
   public SetGameScore force() {
-    this.force = true;
+    force = true;
     return this;
   }
 
@@ -99,7 +99,7 @@ public class SetGameScore implements TelegramMethod<Serializable> {
   }
 
   public SetGameScore disableEdit() {
-    this.disableEdit = true;
+    disableEdit = true;
     return this;
   }
 
@@ -111,8 +111,8 @@ public class SetGameScore implements TelegramMethod<Serializable> {
 
   public SetGameScore message(Message message) {
     inlineMessageId = null;
-    this.chatId = message.getChat().getId();
-    this.messageId = message.getId();
+    chatId = message.getChat().getId();
+    messageId = message.getId();
     return this;
   }
 
@@ -124,9 +124,9 @@ public class SetGameScore implements TelegramMethod<Serializable> {
   }
   
   public SetGameScore callbackQuery(CallbackQuery callbackQuery) {
-    this.inlineMessageId = callbackQuery.getInlineMessageId().orElse(null);
-    this.chatId = callbackQuery.getMessage().map(Message::getChat).map(Chat::getId).orElse(null);
-    this.messageId = callbackQuery.getMessage().map(Message::getId).orElse(null);
+    inlineMessageId = callbackQuery.getInlineMessageId().orElse(null);
+    chatId = callbackQuery.getMessage().map(Message::getChat).map(Chat::getId).orElse(null);
+    messageId = callbackQuery.getMessage().map(Message::getId).orElse(null);
     return this;
   }
   

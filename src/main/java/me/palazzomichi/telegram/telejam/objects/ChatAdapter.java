@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
  *
  * @author Michi Palazzo
  */
-public class ChatAdapter implements JsonDeserializer<Chat>, JsonSerializer<Chat> {
+public final class ChatAdapter implements JsonDeserializer<Chat>, JsonSerializer<Chat> {
 
   public static final ChatAdapter INSTANCE = new ChatAdapter();
 

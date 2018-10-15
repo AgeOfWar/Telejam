@@ -70,7 +70,7 @@ public final class Markdown {
     try (StringReader reader = new StringReader(s)) {
       return readText(reader);
     } catch (IOException e) {
-      throw new AssertionError();
+      throw new AssertionError(e);
     }
   }
   
@@ -127,7 +127,7 @@ public final class Markdown {
       write(text, writer);
       return writer.toString();
     } catch (IOException e) {
-      throw new AssertionError();
+      throw new AssertionError(e);
     }
   }
   

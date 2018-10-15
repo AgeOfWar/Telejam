@@ -28,13 +28,13 @@ public class SuperGroup extends Chat {
    * The title of the supergroup.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
   
   /**
    * The username of the supergroup.
    */
   @SerializedName(USERNAME_FIELD)
-  private String username;
+  private final String username;
   
   
   public SuperGroup(long id, String title, String username) {

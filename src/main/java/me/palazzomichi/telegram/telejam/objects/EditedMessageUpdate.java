@@ -17,7 +17,7 @@ public class EditedMessageUpdate extends Update {
    * New version of a message that is known to the bot and was edited.
    */
   @SerializedName(EDITED_MESSAGE_FIELD)
-  private Message editedMessage;
+  private final Message editedMessage;
 
 
   public EditedMessageUpdate(long id, Message editedMessage) {

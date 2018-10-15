@@ -24,13 +24,13 @@ public class InlineQueryResultGame extends InlineQueryResult {
    * Short name of the game.
    */
   @SerializedName(GAME_SHORT_NAME_FIELD)
-  private String gameShortName;
+  private final String gameShortName;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
 
   public InlineQueryResultGame(String id, String gameShortName, InlineKeyboardMarkup replyMarkup) {

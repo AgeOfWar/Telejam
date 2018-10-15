@@ -41,19 +41,19 @@ public class UnbanChatMember implements TelegramMethod<Boolean> {
   
   public UnbanChatMember chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public UnbanChatMember chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public UnbanChatMember chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -63,7 +63,7 @@ public class UnbanChatMember implements TelegramMethod<Boolean> {
   }
 
   public UnbanChatMember user(User user) {
-    this.userId = user.getId();
+    userId = user.getId();
     return this;
   }
 
@@ -81,7 +81,7 @@ public class UnbanChatMember implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
 

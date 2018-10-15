@@ -21,7 +21,7 @@ public class InputFile implements TelegramObject {
    * Unique identifier for this file.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * InputFile size, if known.

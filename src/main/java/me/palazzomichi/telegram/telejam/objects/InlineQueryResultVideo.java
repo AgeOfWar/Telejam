@@ -46,61 +46,61 @@ public class InlineQueryResultVideo extends InlineQueryResult {
    * A valid URL for the embedded video player or video file.
    */
   @SerializedName(VIDEO_URL_FIELD)
-  private String videoUrl;
+  private final String videoUrl;
 
   /**
    * Mime type of the content of video url, "text/html" or "video/mp4".
    */
   @SerializedName(MIME_TYPE_FIELD)
-  private String mimeType;
+  private final String mimeType;
 
   /**
    * URL of the thumbnail (jpeg only) for the video.
    */
   @SerializedName(THUMB_URL_FIELD)
-  private String thumbUrl;
+  private final String thumbUrl;
 
   /**
    * Title for the result.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Caption of the video to be sent, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
 
   /**
    * Video width.
    */
   @SerializedName(VIDEO_WIDTH_FIELD)
-  private Integer videoWidth;
+  private final Integer videoWidth;
 
   /**
    * Video height.
    */
   @SerializedName(VIDEO_HEIGHT_FIELD)
-  private Integer videoHeight;
+  private final Integer videoHeight;
 
   /**
    * Video duration in seconds.
    */
   @SerializedName(VIDEO_DURATION_FIELD)
-  private Integer videoDuration;
+  private final Integer videoDuration;
 
   /**
    * Short description of the result.
    */
   @SerializedName(DESCRIPTION_FIELD)
-  private String description;
+  private final String description;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the video.
@@ -108,7 +108,7 @@ public class InlineQueryResultVideo extends InlineQueryResult {
    * send an HTML-page as a result (e.g., a YouTube video).
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
 
   public InlineQueryResultVideo(String id,

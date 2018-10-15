@@ -11,7 +11,7 @@ import static me.palazzomichi.telegram.telejam.methods.util.Maps.mapOf;
  *
  * @author Michi Palazzo
  */
-public class GetMe implements TelegramMethod<User> {
+public final class GetMe implements TelegramMethod<User> {
 
   public static final String NAME = "getMe";
 

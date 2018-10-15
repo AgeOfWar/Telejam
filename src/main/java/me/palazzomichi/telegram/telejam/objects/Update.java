@@ -15,7 +15,7 @@ public abstract class Update implements TelegramObject {
    * The update‘s unique identifier.
    */
   @SerializedName(ID_FIELD)
-  private long id;
+  private final long id;
   
   
   public Update(long id) {

@@ -17,7 +17,7 @@ public class ChannelPostUpdate extends Update {
    * New incoming channel post of any kind — text, photo, sticker, etc.
    */
   @SerializedName(CHANNEL_POST_FIELD)
-  private Message channelPost;
+  private final Message channelPost;
 
 
   public ChannelPostUpdate(long id, Message channelPost) {

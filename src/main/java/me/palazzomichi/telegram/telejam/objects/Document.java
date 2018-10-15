@@ -24,7 +24,7 @@ public class Document implements TelegramObject {
    * Unique file identifier.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * Document thumbnail as defined by sender.

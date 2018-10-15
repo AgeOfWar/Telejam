@@ -22,20 +22,20 @@ public class AudioMessage extends Message {
    * Information about the audio.
    */
   @SerializedName(AUDIO_FIELD)
-  private Audio audio;
+  private final Audio audio;
 
   /**
    * Caption for the file.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
   
   /**
    * Special entities like usernames, URLs, bot
    * commands, etc. that appear in the caption.
    */
   @SerializedName(CAPTION_ENTITIES)
-  private List<MessageEntity> captionEntities;
+  private final List<MessageEntity> captionEntities;
 
 
   public AudioMessage(long id,
@@ -50,7 +50,7 @@ public class AudioMessage extends Message {
     super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.audio = Objects.requireNonNull(audio);
     this.caption = caption != null ? caption.toString() : null;
-    this.captionEntities = caption != null ? caption.getEntities() : null;
+    captionEntities = caption != null ? caption.getEntities() : null;
   }
 
 

@@ -6,6 +6,7 @@ import me.palazzomichi.telegram.telejam.objects.InlineQuery;
 /**
  * Interface that handles inline queries received from a bot.
  */
+@FunctionalInterface
 public interface InlineQueryHandler {
   
   /**

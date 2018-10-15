@@ -91,19 +91,19 @@ public class PromoteChatMember implements TelegramMethod<Boolean> {
   
   public PromoteChatMember chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public PromoteChatMember chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public PromoteChatMember chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -113,7 +113,7 @@ public class PromoteChatMember implements TelegramMethod<Boolean> {
   }
 
   public PromoteChatMember user(User user) {
-    this.userId = user.getId();
+    userId = user.getId();
     return this;
   }
   
@@ -123,7 +123,7 @@ public class PromoteChatMember implements TelegramMethod<Boolean> {
   }
   
   public PromoteChatMember canChangeInfo() {
-    this.canChangeInfo = true;
+    canChangeInfo = true;
     return this;
   }
   
@@ -133,7 +133,7 @@ public class PromoteChatMember implements TelegramMethod<Boolean> {
   }
   
   public PromoteChatMember canPostMessages() {
-    this.canPostMessages = true;
+    canPostMessages = true;
     return this;
   }
   
@@ -143,7 +143,7 @@ public class PromoteChatMember implements TelegramMethod<Boolean> {
   }
   
   public PromoteChatMember canEditMessage() {
-    this.canEditMessage = true;
+    canEditMessage = true;
     return this;
   }
   
@@ -153,7 +153,7 @@ public class PromoteChatMember implements TelegramMethod<Boolean> {
   }
   
   public PromoteChatMember canDeleteMessages() {
-    this.canDeleteMessages = true;
+    canDeleteMessages = true;
     return this;
   }
   
@@ -163,7 +163,7 @@ public class PromoteChatMember implements TelegramMethod<Boolean> {
   }
   
   public PromoteChatMember canInviteUsers() {
-    this.canInviteUsers = true;
+    canInviteUsers = true;
     return this;
   }
   
@@ -173,7 +173,7 @@ public class PromoteChatMember implements TelegramMethod<Boolean> {
   }
   
   public PromoteChatMember canRestrictMembers() {
-    this.canRestrictMembers = true;
+    canRestrictMembers = true;
     return this;
   }
   
@@ -183,7 +183,7 @@ public class PromoteChatMember implements TelegramMethod<Boolean> {
   }
   
   public PromoteChatMember canPinMessages() {
-    this.canPinMessages = true;
+    canPinMessages = true;
     return this;
   }
   
@@ -193,7 +193,7 @@ public class PromoteChatMember implements TelegramMethod<Boolean> {
   }
   
   public PromoteChatMember canPromoteMembers() {
-    this.canPromoteMembers = true;
+    canPromoteMembers = true;
     return this;
   }
   
@@ -219,7 +219,7 @@ public class PromoteChatMember implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
 

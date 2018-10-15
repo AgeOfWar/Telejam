@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
  *
  * @author Michi Palazzo
  */
-public class UpdateAdapter implements JsonDeserializer<Update>, JsonSerializer<Update> {
+public final class UpdateAdapter implements JsonDeserializer<Update>, JsonSerializer<Update> {
 
   public static final UpdateAdapter INSTANCE = new UpdateAdapter();
 

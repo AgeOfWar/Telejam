@@ -22,13 +22,13 @@ public class Voice implements TelegramObject {
    * Unique identifier for this file.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * Duration of the audio in seconds as defined by sender.
    */
   @SerializedName(DURATION_FIELD)
-  private int duration;
+  private final int duration;
 
   /**
    * MIME type of the file as defined by sender.

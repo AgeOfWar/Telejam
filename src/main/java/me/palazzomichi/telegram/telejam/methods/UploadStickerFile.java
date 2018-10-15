@@ -40,7 +40,7 @@ public class UploadStickerFile implements TelegramMethod<InputFile> {
   }
 
   public UploadStickerFile user(User user) {
-    this.userId = user.getId();
+    userId = user.getId();
     return this;
   }
 

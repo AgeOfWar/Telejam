@@ -73,19 +73,19 @@ public class SendVideoNote implements TelegramMethod<VideoNoteMessage> {
   
   public SendVideoNote chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public SendVideoNote chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public SendVideoNote chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
   
@@ -95,14 +95,14 @@ public class SendVideoNote implements TelegramMethod<VideoNoteMessage> {
   }
   
   public SendVideoNote disableNotification() {
-    this.disableNotification = true;
+    disableNotification = true;
     return this;
   }
   
   public SendVideoNote replyToMessage(Message message) {
-    this.replyToMessageId = message.getId();
-    this.chatId = message.getChat().getId();
-    this.chatUsername = null;
+    replyToMessageId = message.getId();
+    chatId = message.getChat().getId();
+    chatUsername = null;
     return this;
   }
   

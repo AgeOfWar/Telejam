@@ -16,7 +16,7 @@ import java.util.Map;
 public class CommandRegistry implements MessageHandler, CommandHandler {
   
   protected final Bot bot;
-  private Map<String, CommandHandler> commands;
+  private final Map<String, CommandHandler> commands;
   
   /**
    * Creates a command registry.

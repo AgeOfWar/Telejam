@@ -17,7 +17,7 @@ public class ContactMessage extends Message {
    * Information about the contact.
    */
   @SerializedName(CONTACT_FIELD)
-  private Contact contact;
+  private final Contact contact;
   
 
   public ContactMessage(long id,

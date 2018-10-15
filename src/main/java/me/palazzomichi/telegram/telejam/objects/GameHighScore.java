@@ -19,19 +19,19 @@ public class GameHighScore implements TelegramObject {
    * Position in high score table for the game.
    */
   @SerializedName(POSITION_FIELD)
-  private int position;
+  private final int position;
 
   /**
    * User.
    */
   @SerializedName(USER_FIELD)
-  private User user;
+  private final User user;
 
   /**
    * Score.
    */
   @SerializedName(SCORE_FIELD)
-  private int score;
+  private final int score;
 
 
   public GameHighScore(int position, User user, int score) {

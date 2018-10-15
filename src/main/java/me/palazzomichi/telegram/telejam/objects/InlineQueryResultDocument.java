@@ -43,61 +43,61 @@ public class InlineQueryResultDocument extends InlineQueryResult {
    * Title for the result.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Caption of the document to be sent, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
 
   /**
    * A valid URL for the file.
    */
   @SerializedName(DOCUMENT_URL_FIELD)
-  private String documentUrl;
+  private final String documentUrl;
 
   /**
    * Mime type of the content of the file, either "application/pdf" or "application/zip".
    */
   @SerializedName(MIME_TYPE_FIELD)
-  private String mimeType;
+  private final String mimeType;
 
   /**
    * Short description of the result.
    */
   @SerializedName(DESCRIPTION_FIELD)
-  private String description;
+  private final String description;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the file.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
   /**
    * URL of the thumbnail (jpeg only) for the file.
    */
   @SerializedName(THUMB_URL_FIELD)
-  private String thumbUrl;
+  private final String thumbUrl;
 
   /**
    * Thumbnail width.
    */
   @SerializedName(THUMB_WIDTH_FIELD)
-  private Integer thumbWidth;
+  private final Integer thumbWidth;
 
   /**
    * Thumbnail height.
    */
   @SerializedName(THUMB_HEIGHT_FIELD)
-  private Integer thumbHeight;
+  private final Integer thumbHeight;
 
 
   public InlineQueryResultDocument(String id,

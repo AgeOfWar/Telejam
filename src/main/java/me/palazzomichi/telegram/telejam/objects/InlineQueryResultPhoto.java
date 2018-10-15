@@ -42,55 +42,55 @@ public class InlineQueryResultPhoto extends InlineQueryResult {
    * Photo size must not exceed 5MB.
    */
   @SerializedName(PHOTO_URL_FIELD)
-  private String photoUrl;
+  private final String photoUrl;
 
   /**
    * URL of the thumbnail for the photo.
    */
   @SerializedName(THUMBNAIL_URL_FIELD)
-  private String thumbnailUrl;
+  private final String thumbnailUrl;
 
   /**
    * Width of the photo.
    */
   @SerializedName(PHOTO_WIDTH_FIELD)
-  private Integer photoWidth;
+  private final Integer photoWidth;
 
   /**
    * Height of the photo.
    */
   @SerializedName(PHOTO_HEIGHT_FIELD)
-  private Integer photoHeight;
+  private final Integer photoHeight;
 
   /**
    * Title for the result.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Short description of the result.
    */
   @SerializedName(DESCRIPTION_FIELD)
-  private String description;
+  private final String description;
 
   /**
    * Caption of the photo to be sent, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the photo.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
 
   public InlineQueryResultPhoto(String id,

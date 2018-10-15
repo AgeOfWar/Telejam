@@ -23,13 +23,13 @@ public class Channel extends Chat {
    * The title of the channel.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
   
   /**
    * The username of the channel.
    */
   @SerializedName(USERNAME_FIELD)
-  private String username;
+  private final String username;
   
   
   public Channel(long id, String title, String username) {

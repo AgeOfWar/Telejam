@@ -25,13 +25,13 @@ public class Audio implements TelegramObject {
    * Unique identifier for this file.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * Duration of the audio in seconds as defined by sender.
    */
   @SerializedName(DURATION_FIELD)
-  private int duration;
+  private final int duration;
 
   /**
    * Performer of the audio as defined by sender or by audio tags.

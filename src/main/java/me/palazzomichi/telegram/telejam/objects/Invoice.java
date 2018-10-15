@@ -21,25 +21,25 @@ public class Invoice implements TelegramObject {
    * Product name.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Product description.
    */
   @SerializedName(DESCRIPTION_FIELD)
-  private String description;
+  private final String description;
 
   /**
    * Unique bot deep-linking parameter that can be used to generate this invoice.
    */
   @SerializedName(START_PARAMETER_FIELD)
-  private String startParameter;
+  private final String startParameter;
 
   /**
    * Three-letter ISO 4217 currency code.
    */
   @SerializedName(CURRENCY_FIELD)
-  private String currency;
+  private final String currency;
 
   /**
    * Total price in the smallest units of the currency.
@@ -49,7 +49,7 @@ public class Invoice implements TelegramObject {
    * currency (2 for the majority of currencies).</p>
    */
   @SerializedName(TOTAL_AMOUNT_FIELD)
-  private int totalAmount;
+  private final int totalAmount;
 
 
   /**

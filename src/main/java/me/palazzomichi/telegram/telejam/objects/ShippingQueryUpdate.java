@@ -17,7 +17,7 @@ public class ShippingQueryUpdate extends Update {
    * New incoming shipping query. Only for invoices with flexible price.
    */
   @SerializedName(SHIPPING_QUERY_FIELD)
-  private ShippingQuery shippingQuery;
+  private final ShippingQuery shippingQuery;
 
 
   public ShippingQueryUpdate(long id, ShippingQuery shippingQuery) {

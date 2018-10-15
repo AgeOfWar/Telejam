@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
  *
  * @author Michi Palazzo
  */
-public class InputMediaAdapter implements JsonDeserializer<InputMedia>, JsonSerializer<InputMedia> {
+public final class InputMediaAdapter implements JsonDeserializer<InputMedia>, JsonSerializer<InputMedia> {
   
   public static final InputMediaAdapter INSTANCE = new InputMediaAdapter();
   

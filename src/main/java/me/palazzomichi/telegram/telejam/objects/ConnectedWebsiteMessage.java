@@ -17,7 +17,7 @@ public class ConnectedWebsiteMessage extends Message {
    * The domain name of the website on which the user has logged in.
    */
   @SerializedName(CONNECTED_WEBSITE_FIELD)
-  private String connectedWebsite;
+  private final String connectedWebsite;
   
   public ConnectedWebsiteMessage(long id,
                                  User sender,

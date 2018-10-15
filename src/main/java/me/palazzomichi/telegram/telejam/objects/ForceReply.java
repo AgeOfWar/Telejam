@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author Michi Palazzo
  */
-public class ForceReply implements ReplyMarkup {
+public final class ForceReply implements ReplyMarkup {
 
   public static final ForceReply NONSELECTIVE = new ForceReply(false);
   public static final ForceReply SELECTIVE = new ForceReply(true);
@@ -28,7 +28,7 @@ public class ForceReply implements ReplyMarkup {
    *  2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
    */
   @SerializedName(SELECTIVE_FIELD)
-  private boolean selective;
+  private final boolean selective;
 
   /**
    * Constructs a ForceReply.

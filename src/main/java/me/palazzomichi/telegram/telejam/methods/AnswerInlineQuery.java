@@ -76,7 +76,7 @@ public class AnswerInlineQuery implements TelegramMethod<Boolean> {
   }
 
   public AnswerInlineQuery inlineQuery(InlineQuery inlineQuery) {
-    this.inlineQueryId = inlineQuery.getId();
+    inlineQueryId = inlineQuery.getId();
     return this;
   }
 
@@ -135,7 +135,7 @@ public class AnswerInlineQuery implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
 

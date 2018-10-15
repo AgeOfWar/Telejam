@@ -17,7 +17,7 @@ public class EditedChannelPostUpdate extends Update {
    * New version of a channel post that is known to the bot and was edited.
    */
   @SerializedName(EDITED_CHANNEL_POST_FIELD)
-  private Message editedChannelPost;
+  private final Message editedChannelPost;
 
 
   public EditedChannelPostUpdate(long id, Message editedChannelPost) {

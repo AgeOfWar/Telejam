@@ -22,20 +22,20 @@ public class VoiceMessage extends Message {
    * Information about the voice.
    */
   @SerializedName(VOICE_FIELD)
-  private Voice voice;
+  private final Voice voice;
 
   /**
    * Caption for the voice, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
   
   /**
    * Special entities like usernames, URLs, bot
    * commands, etc. that appear in the caption.
    */
   @SerializedName(CAPTION_ENTITIES)
-  private List<MessageEntity> captionEntities;
+  private final List<MessageEntity> captionEntities;
 
 
   public VoiceMessage(long id,
@@ -50,7 +50,7 @@ public class VoiceMessage extends Message {
     super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.voice = Objects.requireNonNull(voice);
     this.caption = caption != null ? caption.toString() : null;
-    this.captionEntities = caption != null ? caption.getEntities() : null;
+    captionEntities = caption != null ? caption.getEntities() : null;
   }
 
 

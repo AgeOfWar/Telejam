@@ -34,55 +34,55 @@ public class InlineQueryResultContact extends InlineQueryResult {
    * Contact's phone number.
    */
   @SerializedName(PHONE_NUMBER_FIELD)
-  private String phoneNumber;
+  private final String phoneNumber;
 
   /**
    * Contact's first name.
    */
   @SerializedName(FIRST_NAME_FIELD)
-  private String firstName;
+  private final String firstName;
 
   /**
    * Contact's last name.
    */
   @SerializedName(LAST_NAME_FIELD)
-  private String lastName;
+  private final String lastName;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the contact.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
   /**
    * Url of the thumbnail for the result.
    */
   @SerializedName(THUMB_URL_FIELD)
-  private String thumbUrl;
+  private final String thumbUrl;
 
   /**
    * Thumbnail width.
    */
   @SerializedName(THUMB_WIDTH_FIELD)
-  private Integer thumbWidth;
+  private final Integer thumbWidth;
 
   /**
    * Thumbnail height.
    */
   @SerializedName(THUMB_HEIGHT_FIELD)
-  private Integer thumbHeight;
+  private final Integer thumbHeight;
   
   /**
    * Additional data about the contact in the form of a vCard.
    */
   @SerializedName(VCARD_FIELD)
-  private String vCard;
+  private final String vCard;
 
   
   public InlineQueryResultContact(String id,

@@ -17,7 +17,7 @@ public class SuccessfulPaymentMessage extends Message {
    * Information about the payment.
    */
   @SerializedName(SUCCESSFUL_PAYMENT_FIELD)
-  private SuccessfulPayment successfulPayment;
+  private final SuccessfulPayment successfulPayment;
 
 
   public SuccessfulPaymentMessage(long id,

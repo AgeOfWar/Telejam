@@ -46,19 +46,19 @@ public class PinChatMessage implements TelegramMethod<Boolean> {
   
   public PinChatMessage chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public PinChatMessage chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public PinChatMessage chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -68,7 +68,7 @@ public class PinChatMessage implements TelegramMethod<Boolean> {
   }
 
   public PinChatMessage disableNotification() {
-    this.disableNotification = true;
+    disableNotification = true;
     return this;
   }
 
@@ -78,9 +78,9 @@ public class PinChatMessage implements TelegramMethod<Boolean> {
   }
 
   public PinChatMessage message(Message message) {
-    this.chatId = message.getChat().getId();
-    this.messageId = message.getId();
-    this.chatUsername = null;
+    chatId = message.getChat().getId();
+    messageId = message.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -99,7 +99,7 @@ public class PinChatMessage implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
 

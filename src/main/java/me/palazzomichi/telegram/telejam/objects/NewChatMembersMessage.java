@@ -18,7 +18,7 @@ public class NewChatMembersMessage extends Message {
    * information about them (the bot itself may be one of these members).
    */
   @SerializedName(NEW_CHAT_MEMBERS_FIELD)
-  private User[] newChatMembers;
+  private final User[] newChatMembers;
 
 
   public NewChatMembersMessage(long id,

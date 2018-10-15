@@ -26,44 +26,44 @@ public class WebhookInfo implements TelegramObject {
    * Webhook URL, may be empty if webhook is not set up.
    */
   @SerializedName(URL_FIELD)
-  private String url;
+  private final String url;
 
   /**
    * True, if a custom certificate was provided for webhook certificate checks.
    */
   @SerializedName(HAS_CUSTOM_CERTIFICATE_FIELD)
-  private boolean hasCustomCertificate;
+  private final boolean hasCustomCertificate;
 
   /**
    * Number of updates awaiting delivery.
    */
   @SerializedName(PENDING_UPDATE_COUNT_FIELD)
-  private int pendingUpdateCount;
+  private final int pendingUpdateCount;
 
   /**
    * Unix time for the most recent error that happened when trying to deliver an update via webhook.
    */
   @SerializedName(LAST_ERROR_DATE_FIELD)
-  private Long lastErrorDate;
+  private final Long lastErrorDate;
 
   /**
    * Error message in human-readable format for the most recent
    * error that happened when trying to deliver an update via webhook
    */
   @SerializedName(LAST_ERROR_MESSAGE_FIELD)
-  private String lastErrorMessage;
+  private final String lastErrorMessage;
 
   /**
    * Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery.
    */
   @SerializedName(MAX_CONNECTIONS_FIELD)
-  private Integer maxConnections;
+  private final Integer maxConnections;
 
   /**
    * A list of update types the bot is subscribed to. Defaults to all update types.
    */
   @SerializedName(ALLOWED_UPDATES_FIELD)
-  private String[] allowedUpdates;
+  private final String[] allowedUpdates;
 
 
   public WebhookInfo(String url,
@@ -142,8 +142,8 @@ public class WebhookInfo implements TelegramObject {
    *
    * @return optional value for property {@link #allowedUpdates}
    */
-  public Optional<String[]> getAllowedUpdates() {
-    return Optional.ofNullable(allowedUpdates);
+  public String[] getAllowedUpdates() {
+    return allowedUpdates == null ? new String[0] : allowedUpdates;
   }
 
 }

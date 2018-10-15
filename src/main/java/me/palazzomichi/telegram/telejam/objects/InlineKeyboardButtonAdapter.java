@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
  *
  * @author Michi Palazzo
  */
-public class InlineKeyboardButtonAdapter implements JsonSerializer<InlineKeyboardButton>, JsonDeserializer<InlineKeyboardButton> {
+public final class InlineKeyboardButtonAdapter implements JsonSerializer<InlineKeyboardButton>, JsonDeserializer<InlineKeyboardButton> {
 
   public static final InlineKeyboardButtonAdapter INSTANCE = new InlineKeyboardButtonAdapter();
 

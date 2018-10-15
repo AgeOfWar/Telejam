@@ -5,6 +5,7 @@ import me.palazzomichi.telegram.telejam.objects.TextMessage;
 /**
  * Interface that handles commands received from a bot.
  */
+@FunctionalInterface
 public interface CommandHandler {
   
   /**

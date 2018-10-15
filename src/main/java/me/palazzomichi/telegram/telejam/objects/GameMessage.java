@@ -17,7 +17,7 @@ public class GameMessage extends Message {
    * Information about the game.
    */
   @SerializedName(GAME_FIELD)
-  private Game game;
+  private final Game game;
 
 
   public GameMessage(long id,

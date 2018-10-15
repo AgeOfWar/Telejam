@@ -31,19 +31,19 @@ public class GetChatMembersCount implements TelegramMethod<Integer> {
   
   public GetChatMembersCount chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public GetChatMembersCount chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public GetChatMembersCount chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -58,7 +58,7 @@ public class GetChatMembersCount implements TelegramMethod<Integer> {
   }
   
   @Override
-  public Class<? extends Integer> getReturnType() {
+  public Class<Integer> getReturnType() {
     return Integer.class;
   }
 

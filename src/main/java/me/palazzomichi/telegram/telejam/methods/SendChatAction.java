@@ -47,19 +47,19 @@ public class SendChatAction implements TelegramMethod<Boolean> {
   
   public SendChatAction chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public SendChatAction chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public SendChatAction chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -69,52 +69,52 @@ public class SendChatAction implements TelegramMethod<Boolean> {
   }
   
   public SendChatAction typing() {
-    this.action = "typing";
+    action = "typing";
     return this;
   }
   
   public SendChatAction uploadPhoto() {
-    this.action = "upload_photo";
+    action = "upload_photo";
     return this;
   }
   
   public SendChatAction recordVideo() {
-    this.action = "record_video";
+    action = "record_video";
     return this;
   }
   
   public SendChatAction uploadVideo() {
-    this.action = "upload_video";
+    action = "upload_video";
     return this;
   }
   
   public SendChatAction recordAudio() {
-    this.action = "record_audio";
+    action = "record_audio";
     return this;
   }
   
   public SendChatAction uploadAudio() {
-    this.action = "upload_audio";
+    action = "upload_audio";
     return this;
   }
   
   public SendChatAction uploadDocument() {
-    this.action = "upload_document";
+    action = "upload_document";
     return this;
   }
   
   public SendChatAction findLocation() {
-    this.action = "find_location";
+    action = "find_location";
     return this;
   }
   
   public SendChatAction recordVideoNote() {
-    this.action = "record_video_note";
+    action = "record_video_note";
     return this;
   }
   
   public SendChatAction uploadVideoNote() {
-    this.action = "record_video_note";
+    action = "record_video_note";
     return this;
   }
 
@@ -132,7 +132,7 @@ public class SendChatAction implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
 

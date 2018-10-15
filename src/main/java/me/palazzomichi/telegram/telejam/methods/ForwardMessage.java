@@ -60,37 +60,37 @@ public class ForwardMessage implements TelegramMethod<Forward<?>> {
   
   public ForwardMessage chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public ForwardMessage chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public ForwardMessage chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
   public ForwardMessage fromChat(String fromChatUsername) {
     this.fromChatUsername = fromChatUsername;
-    this.fromChatId = null;
+    fromChatId = null;
     return this;
   }
 
   public ForwardMessage fromChat(long fromChatId) {
     this.fromChatId = fromChatId;
-    this.fromChatUsername = null;
+    fromChatUsername = null;
     return this;
   }
 
   public ForwardMessage fromChat(Chat fromChat) {
-    this.fromChatId = fromChat.getId();
-    this.fromChatUsername = null;
+    fromChatId = fromChat.getId();
+    fromChatUsername = null;
     return this;
   }
 
@@ -100,7 +100,7 @@ public class ForwardMessage implements TelegramMethod<Forward<?>> {
   }
 
   public ForwardMessage disableNotification() {
-    this.disableNotification = true;
+    disableNotification = true;
     return this;
   }
 
@@ -110,9 +110,9 @@ public class ForwardMessage implements TelegramMethod<Forward<?>> {
   }
 
   public ForwardMessage message(Message message) {
-    this.fromChatId = message.getChat().getId();
-    this.messageId = message.getId();
-    this.fromChatUsername = null;
+    fromChatId = message.getChat().getId();
+    messageId = message.getId();
+    fromChatUsername = null;
     return this;
   }
 

@@ -16,13 +16,13 @@ public class Location implements TelegramObject {
    * Latitude as defined by sender.
    */
   @SerializedName(LATITUDE_FIELD)
-  private float latitude;
+  private final float latitude;
 
   /**
    * Longitude as defined by sender.
    */
   @SerializedName(LONGITUDE_FIELD)
-  private float longitude;
+  private final float longitude;
 
 
   /**

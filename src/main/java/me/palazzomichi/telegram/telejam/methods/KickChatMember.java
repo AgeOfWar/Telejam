@@ -50,19 +50,19 @@ public class KickChatMember implements TelegramMethod<Boolean> {
   
   public KickChatMember chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public KickChatMember chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public KickChatMember chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -72,7 +72,7 @@ public class KickChatMember implements TelegramMethod<Boolean> {
   }
 
   public KickChatMember user(User user) {
-    this.userId = user.getId();
+    userId = user.getId();
     return this;
   }
 
@@ -96,7 +96,7 @@ public class KickChatMember implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
 

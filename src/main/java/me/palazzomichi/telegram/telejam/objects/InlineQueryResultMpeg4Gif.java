@@ -42,55 +42,55 @@ public class InlineQueryResultMpeg4Gif extends InlineQueryResult {
    * InputFile size must not exceed 1MB.
    */
   @SerializedName(MPEG4_URL_FIELD)
-  private String mpeg4Url;
+  private final String mpeg4Url;
 
   /**
    * Video width.
    */
   @SerializedName(MPEG4_WIDTH_FIELD)
-  private Integer mpeg4Width;
+  private final Integer mpeg4Width;
 
   /**
    * Video height.
    */
   @SerializedName(MPEG4_HEIGHT_FIELD)
-  private Integer mpeg4Height;
+  private final Integer mpeg4Height;
 
   /**
    * Video duration.
    */
   @SerializedName(MPEG4_DURATION_FIELD)
-  private Integer mpeg4Duration;
+  private final Integer mpeg4Duration;
 
   /**
    * URL of the static thumbnail for the result (jpeg or gif).
    */
   @SerializedName(THUMB_URL_FIELD)
-  private String thumbUrl;
+  private final String thumbUrl;
 
   /**
    * Title for the result.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Caption of the MPEG-4 file to be sent, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the video animation.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
 
   public InlineQueryResultMpeg4Gif(String id,
@@ -107,7 +107,7 @@ public class InlineQueryResultMpeg4Gif extends InlineQueryResult {
     this.mpeg4Url = Objects.requireNonNull(mpeg4Url);
     this.mpeg4Width = mpeg4Width;
     this.mpeg4Height = mpeg4Height;
-    this.mpeg4Duration = gifDuration;
+    mpeg4Duration = gifDuration;
     this.thumbUrl = Objects.requireNonNull(thumbUrl);
     this.title = title;
     this.caption = caption != null ? caption.toHtmlString() : null;

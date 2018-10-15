@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
  *
  * @author Michi Palazzo
  */
-public class InlineQueryResultAdapter implements JsonDeserializer<InlineQueryResult>, JsonSerializer<InlineQueryResult> {
+public final class InlineQueryResultAdapter implements JsonDeserializer<InlineQueryResult>, JsonSerializer<InlineQueryResult> {
 
   public static final InlineQueryResultAdapter INSTANCE = new InlineQueryResultAdapter();
 

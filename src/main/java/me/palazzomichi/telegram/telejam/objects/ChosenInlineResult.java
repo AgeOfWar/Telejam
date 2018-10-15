@@ -23,19 +23,19 @@ public class ChosenInlineResult implements TelegramObject {
    * The unique identifier for the result that was chosen.
    */
   @SerializedName(RESULT_ID_FIELD)
-  private String resultId;
+  private final String resultId;
 
   /**
    * The user that chose the result.
    */
   @SerializedName(SENDER_FIELD)
-  private User sender;
+  private final User sender;
 
   /**
    * Sender location, only for bots that require user location.
    */
   @SerializedName(LOCATION_FIELD)
-  private Location location;
+  private final Location location;
 
   /**
    * Identifier of the sent inline message.
@@ -43,13 +43,13 @@ public class ChosenInlineResult implements TelegramObject {
    * Will be also received in callback queries and can be used to edit the message.
    */
   @SerializedName(INLINE_MESSAGE_ID_FIELD)
-  private String inlineMessageId;
+  private final String inlineMessageId;
 
   /**
    * The query that was used to obtain the result.
    */
   @SerializedName(QUERY_FIELD)
-  private String query;
+  private final String query;
 
 
   public ChosenInlineResult(String resultId, User sender, Location location, String inlineMessageId, String query) {

@@ -5,6 +5,7 @@ import me.palazzomichi.telegram.telejam.objects.Update;
 /**
  * Interface that handles updates received from a bot.
  */
+@FunctionalInterface
 public interface UpdateHandler {
   
   /**

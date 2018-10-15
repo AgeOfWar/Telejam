@@ -53,7 +53,7 @@ public class AnswerPreCheckoutQuery implements TelegramMethod<Boolean> {
   }
 
   public AnswerPreCheckoutQuery preCheckoutQuery(PreCheckoutQuery preCheckoutQuery) {
-    this.preCheckoutQueryId = preCheckoutQuery.getId();
+    preCheckoutQueryId = preCheckoutQuery.getId();
     return this;
   }
 
@@ -78,7 +78,7 @@ public class AnswerPreCheckoutQuery implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
 

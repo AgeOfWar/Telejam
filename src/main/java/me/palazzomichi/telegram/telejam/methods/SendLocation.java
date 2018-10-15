@@ -68,19 +68,19 @@ public class SendLocation implements TelegramMethod<LocationMessage> {
   
   public SendLocation chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public SendLocation chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public SendLocation chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -90,14 +90,14 @@ public class SendLocation implements TelegramMethod<LocationMessage> {
   }
 
   public SendLocation disableNotification() {
-    this.disableNotification = true;
+    disableNotification = true;
     return this;
   }
 
   public SendLocation replyToMessage(Message message) {
-    this.replyToMessageId = message.getId();
-    this.chatId = message.getChat().getId();
-    this.chatUsername = null;
+    replyToMessageId = message.getId();
+    chatId = message.getChat().getId();
+    chatUsername = null;
     return this;
   }
 
@@ -122,8 +122,8 @@ public class SendLocation implements TelegramMethod<LocationMessage> {
   }
 
   public SendLocation location(Location location) {
-    this.latitude = location.getLatitude();
-    this.longitude = location.getLongitude();
+    latitude = location.getLatitude();
+    longitude = location.getLongitude();
     return this;
   }
   

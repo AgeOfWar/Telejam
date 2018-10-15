@@ -33,19 +33,19 @@ public class ExportChatInviteLink implements TelegramMethod<String> {
   
   public ExportChatInviteLink chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public ExportChatInviteLink chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public ExportChatInviteLink chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -60,7 +60,7 @@ public class ExportChatInviteLink implements TelegramMethod<String> {
   }
   
   @Override
-  public Class<? extends String> getReturnType() {
+  public Class<String> getReturnType() {
     return String.class;
   }
 

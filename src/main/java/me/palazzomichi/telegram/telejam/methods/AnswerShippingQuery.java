@@ -57,7 +57,7 @@ public class AnswerShippingQuery implements TelegramMethod<Boolean> {
   }
 
   public AnswerShippingQuery shippingQuery(ShippingQuery shippingQuery) {
-    this.shippingQueryId = shippingQuery.getId();
+    shippingQueryId = shippingQuery.getId();
     return this;
   }
 
@@ -89,7 +89,7 @@ public class AnswerShippingQuery implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
 

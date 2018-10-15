@@ -38,37 +38,37 @@ public class InlineQueryResultVoice extends InlineQueryResult {
    * A valid URL for the voice recording.
    */
   @SerializedName(VOICE_URL_FIELD)
-  private String voiceUrl;
+  private final String voiceUrl;
 
   /**
    * Recording title.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Caption, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
 
   /**
    * Audio duration in seconds.
    */
   @SerializedName(VOICE_DURATION_FIELD)
-  private Integer voiceDuration;
+  private final Integer voiceDuration;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the voice recording.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
 
   public InlineQueryResultVoice(String id,

@@ -98,19 +98,19 @@ public class SendAnimation implements TelegramMethod<AnimationMessage> {
   
   public SendAnimation chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public SendAnimation chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public SendAnimation chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
   
@@ -120,14 +120,14 @@ public class SendAnimation implements TelegramMethod<AnimationMessage> {
   }
   
   public SendAnimation disableNotification() {
-    this.disableNotification = true;
+    disableNotification = true;
     return this;
   }
   
   public SendAnimation replyToMessage(Message message) {
-    this.replyToMessageId = message.getId();
-    this.chatId = message.getChat().getId();
-    this.chatUsername = null;
+    replyToMessageId = message.getId();
+    chatId = message.getChat().getId();
+    chatUsername = null;
     return this;
   }
   

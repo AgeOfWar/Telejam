@@ -17,7 +17,7 @@ public class NewChatPhotoMessage extends Message {
    * This message chat photo was change to this value.
    */
   @SerializedName(NEW_CHAT_PHOTO_FIELD)
-  private PhotoSize[] newChatPhoto;
+  private final PhotoSize[] newChatPhoto;
 
 
   public NewChatPhotoMessage(long id,

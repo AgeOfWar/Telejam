@@ -17,7 +17,7 @@ public class StickerMessage extends Message {
    * Information about the sticker.
    */
   @SerializedName(STICKER_FIELD)
-  private Sticker sticker;
+  private final Sticker sticker;
 
 
   public StickerMessage(long id,

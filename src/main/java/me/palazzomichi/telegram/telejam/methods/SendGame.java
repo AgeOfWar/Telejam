@@ -60,7 +60,7 @@ public class SendGame implements TelegramMethod<GameMessage> {
   }
 
   public SendGame chat(Chat chat) {
-    this.chatId = chat.getId();
+    chatId = chat.getId();
     return this;
   }
 
@@ -75,7 +75,7 @@ public class SendGame implements TelegramMethod<GameMessage> {
   }
 
   public SendGame disableNotification() {
-    this.disableNotification = true;
+    disableNotification = true;
     return this;
   }
 
@@ -85,8 +85,8 @@ public class SendGame implements TelegramMethod<GameMessage> {
   }
 
   public SendGame replyToMessage(Message message) {
-    this.replyToMessageId = message.getId();
-    this.chatId = message.getChat().getId();
+    replyToMessageId = message.getId();
+    chatId = message.getChat().getId();
     return this;
   }
 

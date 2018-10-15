@@ -25,25 +25,25 @@ public class Video implements TelegramObject {
    * Unique identifier for this file.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * Video width as defined by sender.
    */
   @SerializedName(WIDTH_FIELD)
-  private int width;
+  private final int width;
 
   /**
    * Video height as defined by sender.
    */
   @SerializedName(HEIGHT_FIELD)
-  private int height;
+  private final int height;
 
   /**
    * Duration of the video in seconds as defined by sender.
    */
   @SerializedName(DURATION_FIELD)
-  private int duration;
+  private final int duration;
 
   /**
    * Video thumbnail.

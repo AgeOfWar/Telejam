@@ -17,7 +17,7 @@ public class VenueMessage extends Message {
    * Information about the venue.
    */
   @SerializedName(VENUE_FIELD)
-  private Venue venue;
+  private final Venue venue;
 
 
   public VenueMessage(long id,

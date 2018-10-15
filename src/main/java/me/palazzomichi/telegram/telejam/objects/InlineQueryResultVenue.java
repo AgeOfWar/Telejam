@@ -35,67 +35,67 @@ public class InlineQueryResultVenue extends InlineQueryResult {
    * Latitude of the venue location in degrees.
    */
   @SerializedName(LATITUDE_FIELD)
-  private float latitude;
+  private final float latitude;
 
   /**
    * Longitude of the venue location in degrees.
    */
   @SerializedName(LONGITUDE_FIELD)
-  private float longitude;
+  private final float longitude;
 
   /**
    * Title of the venue.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Address of the venue.
    */
   @SerializedName(ADDRESS_FIELD)
-  private String address;
+  private final String address;
 
   /**
    * Foursquare identifier of the venue if known.
    */
   @SerializedName(FOURSQUARE_ID_FIELD)
-  private String foursquareId;
+  private final String foursquareId;
   
   /**
    * Foursquare type of the venue.
    */
   @SerializedName(FOURSQUARE_TYPE_FIELD)
-  private String foursquareType;
+  private final String foursquareType;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the venue.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
   /**
    * Url of the thumbnail for the result.
    */
   @SerializedName(THUMB_URL_FIELD)
-  private String thumbUrl;
+  private final String thumbUrl;
 
   /**
    * Thumbnail width.
    */
   @SerializedName(THUMB_WIDTH_FIELD)
-  private Integer thumbWidth;
+  private final Integer thumbWidth;
 
   /**
    * Thumbnail height.
    */
   @SerializedName(THUMB_HEIGHT_FIELD)
-  private Integer thumbHeight;
+  private final Integer thumbHeight;
 
 
   public InlineQueryResultVenue(String id,
@@ -106,12 +106,12 @@ public class InlineQueryResultVenue extends InlineQueryResult {
                                 Integer thumbWidth,
                                 Integer thumbHeight) {
     super(id);
-    this.latitude = venue.getLocation().getLatitude();
-    this.longitude = venue.getLocation().getLongitude();
-    this.title = venue.getTitle();
-    this.address = venue.getAddress();
-    this.foursquareId = venue.getFoursquareId().orElse(null);
-    this.foursquareType = venue.getFoursquareType().orElse(null);
+    latitude = venue.getLocation().getLatitude();
+    longitude = venue.getLocation().getLongitude();
+    title = venue.getTitle();
+    address = venue.getAddress();
+    foursquareId = venue.getFoursquareId().orElse(null);
+    foursquareType = venue.getFoursquareType().orElse(null);
     this.replyMarkup = replyMarkup;
     this.inputMessageContent = inputMessageContent;
     this.thumbUrl = thumbUrl;

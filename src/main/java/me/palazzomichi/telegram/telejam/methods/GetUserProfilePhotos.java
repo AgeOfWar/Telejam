@@ -46,7 +46,7 @@ public class GetUserProfilePhotos implements TelegramMethod<UserProfilePhotos> {
   }
 
   public GetUserProfilePhotos user(User user) {
-    this.userId = user.getId();
+    userId = user.getId();
     return this;
   }
 
@@ -56,7 +56,7 @@ public class GetUserProfilePhotos implements TelegramMethod<UserProfilePhotos> {
   }
 
   public GetUserProfilePhotos limit(Integer limit) {
-    this.offset = limit;
+    offset = limit;
     return this;
   }
 

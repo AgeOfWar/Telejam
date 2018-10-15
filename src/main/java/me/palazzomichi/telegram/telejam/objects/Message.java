@@ -25,25 +25,25 @@ public abstract class Message implements TelegramObject {
    * Unique message identifier inside this chat.
    */
   @SerializedName(ID_FIELD)
-  private long id;
+  private final long id;
 
   /**
    * Sender, can be empty for messages sent to channels.
    */
   @SerializedName(SENDER_FIELD)
-  private User sender;
+  private final User sender;
 
   /**
    * Date the message was sent in Unix time.
    */
   @SerializedName(DATE_FIELD)
-  private long date;
+  private final long date;
 
   /**
    * Conversation the message belongs to.
    */
   @SerializedName(CHAT_FIELD)
-  private Chat chat;
+  private final Chat chat;
 
   /**
    * For replies, the original message.
@@ -52,19 +52,19 @@ public abstract class Message implements TelegramObject {
    * even if it itself is a reply.</p>
    */
   @SerializedName(REPLY_TO_MESSAGE_FIELD)
-  private Message replyToMessage;
+  private final Message replyToMessage;
 
   /**
    * Date the message was last edited in Unix time.
    */
   @SerializedName(EDIT_DATE_FIELD)
-  private Long editDate;
+  private final Long editDate;
 
   /**
    * Signature of the post author for messages in channels.
    */
   @SerializedName(AUTHOR_SIGNATURE_FIELD)
-  private String authorSignature;
+  private final String authorSignature;
   
   
   public Message(long id,

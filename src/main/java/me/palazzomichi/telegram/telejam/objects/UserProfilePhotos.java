@@ -19,13 +19,13 @@ public class UserProfilePhotos implements TelegramObject {
    * Total number of profile pictures the target user has.
    */
   @SerializedName(TOTAL_COUNT_FIELD)
-  private int totalCount;
+  private final int totalCount;
   
   /**
    * Requested profile pictures (in up to 4 sizes each).
    */
   @SerializedName(PHOTOS_FIELD)
-  private PhotoSize[][] photos;
+  private final PhotoSize[][] photos;
   
   
   public UserProfilePhotos(int totalCount, PhotoSize[][] photos) {

@@ -19,7 +19,7 @@ public class SwitchInlineQueryCurrentChatInlineKeyboardButton extends InlineKeyb
    * Can be empty, in which case only the bot’s username will be inserted.
    */
   @SerializedName(SWITCH_INLINE_QUERY_CURRENT_CHAT_FIELD)
-  private String query;
+  private final String query;
 
 
   /**

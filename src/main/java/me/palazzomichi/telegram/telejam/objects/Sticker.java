@@ -26,19 +26,19 @@ public class Sticker implements TelegramObject {
    * Unique identifier for this file.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * Sticker width.
    */
   @SerializedName(WIDTH_FIELD)
-  private int width;
+  private final int width;
 
   /**
    * Sticker height.
    */
   @SerializedName(HEIGHT_FIELD)
-  private int height;
+  private final int height;
 
   /**
    * Sticker thumbnail in .webp or .jpg format.

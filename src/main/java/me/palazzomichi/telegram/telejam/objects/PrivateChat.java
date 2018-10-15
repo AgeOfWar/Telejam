@@ -25,19 +25,19 @@ public class PrivateChat extends Chat {
    * Username of the chat.
    */
   @SerializedName(USERNAME_FIELD)
-  private String username;
+  private final String username;
   
   /**
    * First name of the other party in the private chat.
    */
   @SerializedName(FIRST_NAME_FIELD)
-  private String firstName;
+  private final String firstName;
   
   /**
    * Last name of the other party in the private chat.
    */
   @SerializedName(LAST_NAME_FIELD)
-  private String lastName;
+  private final String lastName;
   
   
   public PrivateChat(long id, String username, String firstName, String lastName) {

@@ -25,13 +25,13 @@ public class Contact implements TelegramObject {
    * Contact's phone number.
    */
   @SerializedName(PHONE_NUMBER_FIELD)
-  private String phoneNumber;
+  private final String phoneNumber;
 
   /**
    * Contact's first name.
    */
   @SerializedName(FIRST_NAME_FIELD)
-  private String firstName;
+  private final String firstName;
 
   /**
    * Contact's last name.

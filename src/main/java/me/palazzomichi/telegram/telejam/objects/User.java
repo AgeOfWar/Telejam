@@ -24,37 +24,37 @@ public class User implements TelegramObject {
    * Unique identifier for this user or bot.
    */
   @SerializedName(ID_FIELD)
-  private long id;
+  private final long id;
   
   /**
    * User‘s or bot’s first name.
    */
   @SerializedName(FIRST_NAME_FIELD)
-  private String firstName;
+  private final String firstName;
   
   /**
    * User‘s or bot’s last name.
    */
   @SerializedName(LAST_NAME_FIELD)
-  private String lastName;
+  private final String lastName;
   
   /**
    * User‘s or bot’s username.
    */
   @SerializedName(USERNAME_FIELD)
-  private String username;
+  private final String username;
   
   /**
    * User's locale.
    */
   @SerializedName(LANGUAGE_CODE_FIELD)
-  private Locale locale;
+  private final Locale locale;
   
   /**
    * <code>true</code> if this user is a bot, <code>false</code> otherwise.
    */
   @SerializedName(IS_BOT_FIELD)
-  private boolean isBot;
+  private final boolean isBot;
   
   
   public User(long id,

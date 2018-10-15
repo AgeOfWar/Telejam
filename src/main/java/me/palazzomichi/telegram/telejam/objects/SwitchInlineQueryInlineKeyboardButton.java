@@ -20,7 +20,7 @@ public class SwitchInlineQueryInlineKeyboardButton extends InlineKeyboardButton 
    * bot’s username will be inserted.
    */
   @SerializedName(SWITCH_INLINE_QUERY_FIELD)
-  private String query;
+  private final String query;
 
 
   /**

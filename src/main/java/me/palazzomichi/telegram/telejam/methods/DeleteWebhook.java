@@ -12,7 +12,7 @@ import static me.palazzomichi.telegram.telejam.methods.util.Maps.mapOf;
  *
  * @author Michi Palazzo
  */
-public class DeleteWebhook implements TelegramMethod<Boolean> {
+public final class DeleteWebhook implements TelegramMethod<Boolean> {
 
   public static final String NAME = "deleteWebhook";
 
@@ -32,7 +32,7 @@ public class DeleteWebhook implements TelegramMethod<Boolean> {
   }
   
   @Override
-  public Class<? extends Boolean> getReturnType() {
+  public Class<Boolean> getReturnType() {
     return Boolean.class;
   }
 

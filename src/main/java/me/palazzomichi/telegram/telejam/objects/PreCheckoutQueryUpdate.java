@@ -17,7 +17,7 @@ public class PreCheckoutQueryUpdate extends Update {
    * New incoming pre-checkout query. Contains full information about checkout.
    */
   @SerializedName(PRE_CHECKOUT_QUERY_FIELD)
-  private PreCheckoutQuery preCheckoutQuery;
+  private final PreCheckoutQuery preCheckoutQuery;
 
 
   public PreCheckoutQueryUpdate(long id, PreCheckoutQuery preCheckoutQuery) {

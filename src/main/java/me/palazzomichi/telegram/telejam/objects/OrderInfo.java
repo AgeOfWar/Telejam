@@ -21,25 +21,25 @@ public class OrderInfo implements TelegramObject {
    * User name.
    */
   @SerializedName(NAME_FIELD)
-  private String name;
+  private final String name;
 
   /**
    * User's phone number.
    */
   @SerializedName(PHONE_NUMBER_FIELD)
-  private String phoneNumber;
+  private final String phoneNumber;
 
   /**
    * User email.
    */
   @SerializedName(EMAIL_FIELD)
-  private String email;
+  private final String email;
 
   /**
    * User shipping address.
    */
   @SerializedName(SHIPPING_ADDRESS_FIELD)
-  private ShippingAddress shippingAddress;
+  private final ShippingAddress shippingAddress;
 
 
   public OrderInfo(String name, String phoneNumber, String email, ShippingAddress shippingAddress) {

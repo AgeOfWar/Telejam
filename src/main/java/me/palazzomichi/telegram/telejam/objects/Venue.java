@@ -22,31 +22,31 @@ public class Venue implements TelegramObject {
    * Venue location.
    */
   @SerializedName(LOCATION_FIELD)
-  private Location location;
+  private final Location location;
 
   /**
    * Name of the venue.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Address of the venue.
    */
   @SerializedName(ADDRESS_FIELD)
-  private String address;
+  private final String address;
 
   /**
    * Foursquare identifier of the venue.
    */
   @SerializedName(FOURSQUARE_ID_FIELD)
-  private String foursquareId;
+  private final String foursquareId;
   
   /**
    * Foursquare type of the venue.
    */
   @SerializedName(FOURSQUARE_TYPE_FIELD)
-  private String foursquareType;
+  private final String foursquareType;
   
 
   public Venue(Location location, String title, String address, String foursquareId, String foursquareType) {

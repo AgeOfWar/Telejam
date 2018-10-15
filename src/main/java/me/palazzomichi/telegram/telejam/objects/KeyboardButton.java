@@ -20,7 +20,7 @@ public class KeyboardButton implements TelegramObject {
    * message when the button is pressed.
    */
   @SerializedName(TEXT_FIELD)
-  private String text;
+  private final String text;
 
 
   /**

@@ -19,14 +19,14 @@ public class TextMessage extends Message {
    * The actual text of the message, 0-4096 characters.
    */
   @SerializedName(TEXT_FIELD)
-  private String text;
+  private final String text;
 
   /**
    * For text messages, special entities like usernames,
    * URLs, bot commands, etc. that appear in the text.
    */
   @SerializedName(ENTITIES_FIELD)
-  private List<MessageEntity> entities;
+  private final List<MessageEntity> entities;
 
 
   public TextMessage(long id,
@@ -39,7 +39,7 @@ public class TextMessage extends Message {
                      Text text) {
     super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.text = text.toString();
-    this.entities = text.getEntities();
+    entities = text.getEntities();
   }
 
 

@@ -18,7 +18,7 @@ public class CallbackGameInlineKeyboardButton extends InlineKeyboardButton {
    * Description of the game that will be launched when the user presses the button.
    */
   @SerializedName(CALLBACK_GAME_FIELD)
-  private CallbackGame callbackGame;
+  private final CallbackGame callbackGame;
 
 
   /**

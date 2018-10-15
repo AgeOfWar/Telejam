@@ -15,7 +15,7 @@ public class MigrateFromChatIdMessage extends Message {
    * The old chat id.
    */
   @SerializedName(MIGRATE_FROM_CHAT_ID_FIELD)
-  private long oldChatId;
+  private final long oldChatId;
 
 
   public MigrateFromChatIdMessage(long id,

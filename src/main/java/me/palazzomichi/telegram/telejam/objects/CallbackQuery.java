@@ -28,13 +28,13 @@ public class CallbackQuery implements TelegramObject {
    * Unique identifier for this query.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * Sender.
    */
   @SerializedName(SENDER_FIELD)
-  private User sender;
+  private final User sender;
 
   /**
    * Message with the callback button that originated the query.
@@ -56,14 +56,14 @@ public class CallbackQuery implements TelegramObject {
    * Useful for high scores in games.
    */
   @SerializedName(CHAT_INSTANCE_FIELD)
-  private String chatInstance;
+  private final String chatInstance;
 
   /**
    * Data associated with the callback button.
    * Be aware that a bad client can send arbitrary data in this field.
    */
   @SerializedName(DATA_FIELD)
-  private String data;
+  private final String data;
 
   /**
    * Short name of a Game to be returned, serves as the unique identifier for the game.
@@ -71,7 +71,7 @@ public class CallbackQuery implements TelegramObject {
    * @see Game
    */
   @SerializedName(GAME_SHORT_NAME_FIELD)
-  private String gameShortName;
+  private final String gameShortName;
   
   
   public CallbackQuery(String id, User sender, Message message, String chatInstance, String data, String gameShortName) {

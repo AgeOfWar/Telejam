@@ -21,7 +21,7 @@ public class InlineKeyboardMarkup implements ReplyMarkup {
    * Array of {@link InlineKeyboardButton} objects.
    */
   @SerializedName(INLINE_KEYBOARD_FIELD)
-  private InlineKeyboardButton[][] inlineKeyboard;
+  private final InlineKeyboardButton[][] inlineKeyboard;
   
   
   /**

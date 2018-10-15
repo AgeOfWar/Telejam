@@ -22,20 +22,20 @@ public class DocumentMessage extends Message {
    * Information about the file.
    */
   @SerializedName(DOCUMENT_FIELD)
-  private Document document;
+  private final Document document;
 
   /**
    * Caption for the file.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
   
   /**
    * Special entities like usernames, URLs, bot
    * commands, etc. that appear in the caption.
    */
   @SerializedName(CAPTION_ENTITIES)
-  private List<MessageEntity> captionEntities;
+  private final List<MessageEntity> captionEntities;
   
 
   public DocumentMessage(long id,
@@ -50,7 +50,7 @@ public class DocumentMessage extends Message {
     super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.document = Objects.requireNonNull(document);
     this.caption = caption != null ? caption.toString() : null;
-    this.captionEntities = caption != null ? caption.getEntities() : null;
+    captionEntities = caption != null ? caption.getEntities() : null;
   }
 
 

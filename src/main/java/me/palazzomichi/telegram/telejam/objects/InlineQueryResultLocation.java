@@ -33,49 +33,49 @@ public class InlineQueryResultLocation extends InlineQueryResult {
    * Location latitude in degrees.
    */
   @SerializedName(LATITUDE_FIELD)
-  private float latitude;
+  private final float latitude;
 
   /**
    * Location longitude in degrees.
    */
   @SerializedName(LONGITUDE_FIELD)
-  private float longitude;
+  private final float longitude;
 
   /**
    * Location title.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Inline keyboard attached to the message.
    */
   @SerializedName(REPLY_MARKUP_FIELD)
-  private InlineKeyboardMarkup replyMarkup;
+  private final InlineKeyboardMarkup replyMarkup;
 
   /**
    * Content of the message to be sent instead of the location.
    */
   @SerializedName(INPUT_MESSAGE_CONTENT_FIELD)
-  private InputMessageContent inputMessageContent;
+  private final InputMessageContent inputMessageContent;
 
   /**
    * Url of the thumbnail for the result.
    */
   @SerializedName(THUMB_URL_FIELD)
-  private String thumbUrl;
+  private final String thumbUrl;
 
   /**
    * Thumbnail width.
    */
   @SerializedName(THUMB_WIDTH_FIELD)
-  private Integer thumbWidth;
+  private final Integer thumbWidth;
 
   /**
    * Thumbnail height.
    */
   @SerializedName(THUMB_HEIGHT_FIELD)
-  private Integer thumbHeight;
+  private final Integer thumbHeight;
 
 
   public InlineQueryResultLocation(String id,
@@ -87,8 +87,8 @@ public class InlineQueryResultLocation extends InlineQueryResult {
                                    Integer thumbWidth,
                                    Integer thumbHeight) {
     super(id);
-    this.latitude = location.getLatitude();
-    this.longitude = location.getLongitude();
+    latitude = location.getLatitude();
+    longitude = location.getLongitude();
     this.title = Objects.requireNonNull(title);
     this.replyMarkup = replyMarkup;
     this.inputMessageContent = inputMessageContent;

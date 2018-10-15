@@ -17,7 +17,7 @@ public class LocationMessage extends Message {
    * Information about the location.
    */
   @SerializedName(LOCATION_FIELD)
-  private Location location;
+  private final Location location;
 
 
   public LocationMessage(long id,

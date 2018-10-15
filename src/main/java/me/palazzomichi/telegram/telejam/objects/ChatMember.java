@@ -32,14 +32,14 @@ public class ChatMember implements TelegramObject {
    * Information about the user.
    */
   @SerializedName(USER_FIELD)
-  private User user;
+  private final User user;
 
   /**
    * The member's status in the chat.
    * Can be "creator", "administrator", "member",  "restricted", "left" or "kicked".
    */
   @SerializedName(STATUS_FIELD)
-  private Status status;
+  private final Status status;
 
   /**
    * if member is restricted or kicked , date when restrictions will

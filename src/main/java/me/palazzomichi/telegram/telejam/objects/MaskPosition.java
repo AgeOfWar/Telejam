@@ -20,7 +20,7 @@ public class MaskPosition implements TelegramObject {
    * One of "forehead", "eyes", "mouth", or "chin".
    */
   @SerializedName(POINT_FIELD)
-  private Point point;
+  private final Point point;
 
   /**
    * Shift by X-axis measured in widths of the mask scaled to the face size,
@@ -28,7 +28,7 @@ public class MaskPosition implements TelegramObject {
    * to the left of the default mask position.
    */
   @SerializedName(X_SHIFT_FIELD)
-  private float xShift;
+  private final float xShift;
 
   /**
    * Shift by Y-axis measured in heights of the mask scaled to the face size,
@@ -36,13 +36,13 @@ public class MaskPosition implements TelegramObject {
    * default mask position.
    */
   @SerializedName(Y_SHIFT_FIELD)
-  private float yShift;
+  private final float yShift;
 
   /**
    * Mask scaling coefficient. For example, 2.0 means double size.
    */
   @SerializedName(SCALE_FIELD)
-  private float scale = 1f;
+  private final float scale;
 
 
   public MaskPosition(Point point, float xShift, float yShift, float scale) {

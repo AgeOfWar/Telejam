@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
  *
  * @author Michi Palazzo
  */
-public class MessageAdapter implements JsonDeserializer<Message>, JsonSerializer<Message> {
+public final class MessageAdapter implements JsonDeserializer<Message>, JsonSerializer<Message> {
 
   public static final MessageAdapter INSTANCE = new MessageAdapter();
 

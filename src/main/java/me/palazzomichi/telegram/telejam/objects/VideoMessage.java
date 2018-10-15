@@ -22,20 +22,20 @@ public class VideoMessage extends Message {
    * Information about the video.
    */
   @SerializedName(VIDEO_FIELD)
-  private Video video;
+  private final Video video;
 
   /**
    * Caption for the video, 0-200 characters.
    */
   @SerializedName(CAPTION_FIELD)
-  private String caption;
+  private final String caption;
   
   /**
    * Special entities like usernames, URLs, bot
    * commands, etc. that appear in the caption.
    */
   @SerializedName(CAPTION_ENTITIES)
-  private List<MessageEntity> captionEntities;
+  private final List<MessageEntity> captionEntities;
 
 
   public VideoMessage(long id,
@@ -50,7 +50,7 @@ public class VideoMessage extends Message {
     super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
     this.video = Objects.requireNonNull(video);
     this.caption = caption != null ? caption.toString() : null;
-    this.captionEntities = caption != null ? caption.getEntities() : null;
+    captionEntities = caption != null ? caption.getEntities() : null;
   }
 
 

@@ -21,25 +21,25 @@ public class InputContactMessageContent implements InputMessageContent {
    * Contact's phone number.
    */
   @SerializedName(PHONE_NUMBER_FIELD)
-  private String phoneNumber;
+  private final String phoneNumber;
 
   /**
    * Contact's first name.
    */
   @SerializedName(FIRST_NAME_FIELD)
-  private String firstName;
+  private final String firstName;
 
   /**
    * Contact's last name.
    */
   @SerializedName(LAST_NAME_FIELD)
-  private String lastName;
+  private final String lastName;
   
   /**
    * Additional data about the contact in the form of a vCard.
    */
   @SerializedName(VCARD_FIELD)
-  private String vCard;
+  private final String vCard;
   
 
   public InputContactMessageContent(String phoneNumber, String firstName, String lastName, String vCard) {

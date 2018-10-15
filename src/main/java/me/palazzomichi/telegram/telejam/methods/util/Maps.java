@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Maps {
+public final class Maps {
   
   public static <K, V> Map<K, V> mapOf() {
     return Collections.emptyMap();

@@ -59,52 +59,52 @@ public class EditMessageReplyMarkup implements TelegramMethod<Serializable> {
   
   public EditMessageReplyMarkup chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
-    this.inlineMessageId = null;
+    chatId = null;
+    inlineMessageId = null;
     return this;
   }
   
   public EditMessageReplyMarkup chat(long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
-    this.inlineMessageId = null;
+    chatUsername = null;
+    inlineMessageId = null;
     return this;
   }
   
   public EditMessageReplyMarkup chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
-    this.inlineMessageId = null;
+    chatId = chat.getId();
+    chatUsername = null;
+    inlineMessageId = null;
     return this;
   }
 
   public EditMessageReplyMarkup message(Long messageId) {
     this.messageId = messageId;
-    this.inlineMessageId = null;
+    inlineMessageId = null;
     return this;
   }
 
   public EditMessageReplyMarkup message(Message message) {
-    this.chatId = message.getChat().getId();
-    this.messageId = message.getId();
-    this.chatUsername = null;
-    this.inlineMessageId = null;
+    chatId = message.getChat().getId();
+    messageId = message.getId();
+    chatUsername = null;
+    inlineMessageId = null;
     return this;
   }
 
   public EditMessageReplyMarkup inlineMessage(String inlineMessageId) {
     this.inlineMessageId = inlineMessageId;
-    this.chatId = null;
-    this.chatUsername = null;
-    this.messageId = null;
+    chatId = null;
+    chatUsername = null;
+    messageId = null;
     return this;
   }
   
   public EditMessageReplyMarkup callbackQuery(CallbackQuery callbackQuery) {
-    this.inlineMessageId = callbackQuery.getInlineMessageId().orElse(null);
-    this.chatId = callbackQuery.getMessage().map(Message::getChat).map(Chat::getId).orElse(null);
-    this.messageId = callbackQuery.getMessage().map(Message::getId).orElse(null);
-    this.chatUsername = null;
+    inlineMessageId = callbackQuery.getInlineMessageId().orElse(null);
+    chatId = callbackQuery.getMessage().map(Message::getChat).map(Chat::getId).orElse(null);
+    messageId = callbackQuery.getMessage().map(Message::getId).orElse(null);
+    chatUsername = null;
     return this;
   }
 

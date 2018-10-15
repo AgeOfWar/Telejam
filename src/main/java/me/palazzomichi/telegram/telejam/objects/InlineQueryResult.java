@@ -18,7 +18,7 @@ public abstract class InlineQueryResult implements TelegramObject {
    * Unique identifier for this result, 1-64 Bytes.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
 
   /**

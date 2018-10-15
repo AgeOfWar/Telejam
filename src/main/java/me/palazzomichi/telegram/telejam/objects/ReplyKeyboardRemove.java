@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
  * @author Michi Palazzo
  * @see ReplyKeyboardMarkup
  */
-public class ReplyKeyboardRemove implements ReplyMarkup {
+public final class ReplyKeyboardRemove implements ReplyMarkup {
 
   public static final ReplyKeyboardRemove NONSELECTIVE = new ReplyKeyboardRemove(false);
   public static final ReplyKeyboardRemove SELECTIVE = new ReplyKeyboardRemove(true);
@@ -30,7 +30,7 @@ public class ReplyKeyboardRemove implements ReplyMarkup {
    *  2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
    */
   @SerializedName(SELECTIVE_FIELD)
-  private boolean selective;
+  private final boolean selective;
 
 
   /**

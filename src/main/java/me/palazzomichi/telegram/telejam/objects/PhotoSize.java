@@ -20,19 +20,19 @@ public class PhotoSize implements TelegramObject {
    * Unique identifier for this file.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * Photo width.
    */
   @SerializedName(WIDTH_FIELD)
-  private int width;
+  private final int width;
 
   /**
    * Photo height.
    */
   @SerializedName(HEIGHT_FIELD)
-  private int height;
+  private final int height;
 
   /**
    * InputFile size.

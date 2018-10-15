@@ -17,7 +17,7 @@ public class VideoNoteMessage extends Message {
    * Information about the video message.
    */
   @SerializedName(VIDEO_NOTE_FIELD)
-  private VideoNote videoNote;
+  private final VideoNote videoNote;
 
 
   public VideoNoteMessage(long id,

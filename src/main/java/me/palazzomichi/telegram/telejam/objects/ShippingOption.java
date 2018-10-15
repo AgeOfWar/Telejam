@@ -19,19 +19,19 @@ public class ShippingOption implements TelegramObject {
    * Shipping option identifier.
    */
   @SerializedName(ID_FIELD)
-  private String id;
+  private final String id;
 
   /**
    * Option title.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * List of price portions.
    */
   @SerializedName(PRICES_FIELD)
-  private LabeledPrice[] prices;
+  private final LabeledPrice[] prices;
 
 
   /**

@@ -26,19 +26,19 @@ public class MessageEntity implements TelegramObject {
    * text_link (for clickable text URLs), text_mention (for users without usernames).
    */
   @SerializedName(TYPE_FIELD)
-  private Type type;
+  private final Type type;
 
   /**
    * Offset in UTF-16 code units to the start of the entity.
    */
   @SerializedName(OFFSET_FIELD)
-  private int offset;
+  private final int offset;
 
   /**
    * Length of the entity in UTF-16 code units.
    */
   @SerializedName(LENGTH_FIELD)
-  private int length;
+  private final int length;
 
   /**
    * For "text_link" type only, url that will be opened after user taps on the text.
@@ -54,14 +54,14 @@ public class MessageEntity implements TelegramObject {
   
 
   public MessageEntity(String url, int offset, int length) {
-    this.type = Type.LINK;
+    type = Type.LINK;
     this.offset = offset;
     this.length = length;
     this.url = url;
   }
 
   public MessageEntity(User user, int offset, int length) {
-    this.type = Type.TEXT_MENTION;
+    type = Type.TEXT_MENTION;
     this.offset = offset;
     this.length = length;
     this.user = user;
@@ -139,7 +139,7 @@ public class MessageEntity implements TelegramObject {
     }
     
     MessageEntity entity = (MessageEntity) obj;
-    return type.equals(entity.type) &&
+    return type == entity.type &&
         offset == entity.getOffset() &&
         length == entity.getLength() &&
         Objects.equals(url, entity.url) &&

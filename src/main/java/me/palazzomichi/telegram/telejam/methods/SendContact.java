@@ -73,19 +73,19 @@ public class SendContact implements TelegramMethod<ContactMessage> {
   
   public SendContact chat(String chatUsername) {
     this.chatUsername = chatUsername;
-    this.chatId = null;
+    chatId = null;
     return this;
   }
   
   public SendContact chat(Long chatId) {
     this.chatId = chatId;
-    this.chatUsername = null;
+    chatUsername = null;
     return this;
   }
   
   public SendContact chat(Chat chat) {
-    this.chatId = chat.getId();
-    this.chatUsername = null;
+    chatId = chat.getId();
+    chatUsername = null;
     return this;
   }
 
@@ -95,14 +95,14 @@ public class SendContact implements TelegramMethod<ContactMessage> {
   }
 
   public SendContact disableNotification() {
-    this.disableNotification = true;
+    disableNotification = true;
     return this;
   }
 
   public SendContact replyToMessage(Message message) {
-    this.replyToMessageId = message.getId();
-    this.chatId = message.getChat().getId();
-    this.chatUsername = null;
+    replyToMessageId = message.getId();
+    chatId = message.getChat().getId();
+    chatUsername = null;
     return this;
   }
 
@@ -143,10 +143,10 @@ public class SendContact implements TelegramMethod<ContactMessage> {
   }
   
   public SendContact contact(Contact contact) {
-    this.firstName = contact.getFirstName();
-    this.lastName = contact.getLastName().orElse(null);
-    this.phoneNumber = contact.getPhoneNumber();
-    this.vCard = contact.getVCard().orElse(null);
+    firstName = contact.getFirstName();
+    lastName = contact.getLastName().orElse(null);
+    phoneNumber = contact.getPhoneNumber();
+    vCard = contact.getVCard().orElse(null);
     return this;
   }
 

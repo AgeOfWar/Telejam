@@ -17,7 +17,7 @@ public class CallbackDataInlineKeyboardButton extends InlineKeyboardButton {
    * Data to be sent in a callback query to the bot when button is pressed.
    */
   @SerializedName(CALLBACK_DATA_FIELD)
-  private String data;
+  private final String data;
 
 
   /**

@@ -26,19 +26,19 @@ public class Game implements TelegramObject {
    * Title of the game.
    */
   @SerializedName(TITLE_FIELD)
-  private String title;
+  private final String title;
 
   /**
    * Description of the game.
    */
   @SerializedName(DESCRIPTION_FIELD)
-  private String description;
+  private final String description;
 
   /**
    * Photo that will be displayed in the game message in chats.
    */
   @SerializedName(PHOTO_FIELD)
-  private PhotoSize[] photo;
+  private final PhotoSize[] photo;
 
   /**
    * Brief description of the game or high scores included in the game message.
@@ -71,7 +71,7 @@ public class Game implements TelegramObject {
     this.description = Objects.requireNonNull(description);
     this.photo = Objects.requireNonNull(photo);
     this.text = text.toString();
-    this.textEntities = text.getEntities();
+    textEntities = text.getEntities();
     this.animation = animation;
   }
 

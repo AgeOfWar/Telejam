@@ -16,12 +16,12 @@ public class TelegramException extends IOException {
   /**
    * Int representation of the error.
    */
-  private int errorCode;
+  private final int errorCode;
 
   /**
    * Object that help to automatically handle the error.
    */
-  private ResponseParameters responseParameters;
+  private final ResponseParameters responseParameters;
 
 
   public TelegramException(int errorCode, String description, ResponseParameters responseParameters) {

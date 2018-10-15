@@ -5,6 +5,7 @@ import me.palazzomichi.telegram.telejam.objects.CallbackQuery;
 /**
  * Interface that handles callback queries received from a bot.
  */
+@FunctionalInterface
 public interface CallbackQueryHandler {
   
   /**
