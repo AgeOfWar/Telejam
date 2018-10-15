@@ -1,6 +1,7 @@
 package me.palazzomichi.telegram.telejam;
 
 import me.palazzomichi.telegram.telejam.objects.Update;
+import me.palazzomichi.telegram.telejam.util.CommandRegistry;
 import me.palazzomichi.telegram.telejam.util.UpdateReader;
 
 import java.io.IOException;
@@ -23,6 +24,8 @@ import static me.palazzomichi.telegram.telejam.json.Json.toJson;
  * @author Michi Palazzo
  */
 public abstract class LongPollingBot extends TelegramBot implements Runnable, AutoCloseable {
+  
+  protected final CommandRegistry commands;
   
   private final Logger logger;
   private final UpdateReader updateReader;
@@ -64,6 +67,7 @@ public abstract class LongPollingBot extends TelegramBot implements Runnable, Au
     super(bot);
     this.logger = Objects.requireNonNull(logger);
     updateReader = new UpdateReader(bot, backOff);
+    commands = new CommandRegistry(bot);
   }
   
   /**
@@ -142,15 +146,6 @@ public abstract class LongPollingBot extends TelegramBot implements Runnable, Au
     } catch (IOException e) {
       throw new IOException("Unable to close LongPollingBot", e);
     }
-  }
-  
-  /**
-   * Returns the logger of the LongPollingBot.
-   *
-   * @return the logger this LongPollingBot
-   */
-  public Logger getLogger() {
-    return logger;
   }
   
 }
