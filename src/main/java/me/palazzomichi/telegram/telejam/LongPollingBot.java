@@ -112,13 +112,13 @@ public abstract class LongPollingBot extends TelegramBot implements Runnable, Au
         logger.finer("New update: " + toJson(update));
         onUpdate(update);
       } catch (InterruptedException e) {
-        break;
+        logger.info("Stopping " + bot.getUsername() + "...");
+        Thread.currentThread().interrupt();
       } catch (Throwable e) {
-        logger.warning(e.getLocalizedMessage());
+        logError(e);
         onError(e);
       }
     }
-    logger.info("Stopping " + bot.getUsername() + "...");
   }
   
   private void logError(Throwable t) {
