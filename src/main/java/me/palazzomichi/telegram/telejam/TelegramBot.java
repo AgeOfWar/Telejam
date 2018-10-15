@@ -1,6 +1,7 @@
 package me.palazzomichi.telegram.telejam;
 
 import me.palazzomichi.telegram.telejam.objects.*;
+import me.palazzomichi.telegram.telejam.text.Text;
 import me.palazzomichi.telegram.telejam.util.*;
 
 /**
@@ -14,15 +15,25 @@ public abstract class TelegramBot implements
     ChannelPostEditHandler,
     InlineQueryHandler,
     CallbackQueryHandler,
-    ShippingQueryHandler {
+    ShippingQueryHandler,
+    TextMessageHandler,
+    CommandHandler,
+    NewChatMemberHandler,
+    ChatJoinHandler {
   
   /**
    * Bot that receives updates.
    */
   protected final Bot bot;
   
+  /**
+   * Commands of the bot.
+   */
+  protected final CommandRegistry commands;
+  
   public TelegramBot(Bot bot) {
     this.bot = bot;
+    commands = new CommandRegistry();
   }
   
   /**
@@ -34,7 +45,25 @@ public abstract class TelegramBot implements
   @Override
   public void onUpdate(Update update) throws Throwable {
     if (update instanceof MessageUpdate) {
-      onMessage(((MessageUpdate) update).getMessage());
+      Message message = ((MessageUpdate) update).getMessage();
+      onMessage(message);
+      if (message instanceof TextMessage) {
+        TextMessage textMessage = (TextMessage) message;
+        onTextMessage(textMessage);
+        Command command = getCommand(textMessage);
+        if (command != null) {
+          onCommand(command, textMessage);
+          commands.onCommand(command, textMessage);
+        }
+      } else if (message instanceof NewChatMembersMessage) {
+        NewChatMembersMessage newChatMembersMessage = (NewChatMembersMessage) message;
+        for (User user : newChatMembersMessage.getNewChatMembers()) {
+          onNewChatMember(newChatMembersMessage.getChat(), user, newChatMembersMessage);
+          if (user.getId() == bot.getId()) {
+            onChatJoin(newChatMembersMessage.getChat(), newChatMembersMessage);
+          }
+        }
+      }
     } else if (update instanceof EditedMessageUpdate) {
       Message message = ((EditedMessageUpdate) update).getMessage();
       onMessageEdit(message, message.getEditDate().getAsLong());
@@ -88,6 +117,22 @@ public abstract class TelegramBot implements
   public void onPreCheckoutQuery(PreCheckoutQuery preCheckoutQuery) throws Throwable {
   }
   
+  @Override
+  public void onTextMessage(TextMessage message) throws Throwable {
+  }
+  
+  @Override
+  public void onCommand(Command command, TextMessage message) throws Throwable {
+  }
+  
+  @Override
+  public void onNewChatMember(Chat chat, User user, NewChatMembersMessage message) throws Throwable {
+  }
+  
+  @Override
+  public void onChatJoin(Chat chat, NewChatMembersMessage message) throws Throwable {
+  }
+  
   /**
    * Handles an exception occurred while receiving or handling updates.
    *
@@ -95,6 +140,32 @@ public abstract class TelegramBot implements
    */
   public void onError(Throwable t) {
     t.printStackTrace();
+  }
+  
+  /**
+   * Returns the {@link Command} contained in the specified message,
+   * or <code>null</code> if the message is not a command.
+   * Override this method if you want to change the syntax of commands.
+   *
+   * @param message the message
+   * @return the command contained in the specified message,
+   * or <code>null</code> if the message is not a command.
+   */
+  protected Command getCommand(TextMessage message) {
+    if (!message.isCommand()) {
+      return null;
+    }
+    Text text = message.getText();
+    String name = text.getBotCommands().get(0);
+    Text args = text.subSequence(name.length() + 1).trim();
+    return new Command(removeSuffix(name, "@" + bot.getUsername()), args);
+  }
+  
+  private String removeSuffix(String s, String suffix) {
+    if (s.endsWith(suffix)) {
+      return s.substring(0, s.length() - suffix.length());
+    }
+    return s;
   }
   
 }
