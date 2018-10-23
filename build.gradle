@@ -1,5 +1,6 @@
 group 'me.palazzomichi.telegram'
 version '6.0'
+ext.versionName = "Strawberry"
 
 apply plugin: 'java'
 apply plugin: 'org.junit.platform.gradle.plugin'
@@ -33,8 +34,13 @@ dependencies {
             version: '5.0.0-M4'
 }
 
+jar {
+    appendix = versionName
+}
+
 // lib with dependencies jar
 task libWithDependenciesJar(type: Jar) {
+    appendix = versionName
     classifier = 'with-dependencies'
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     with jar
@@ -42,14 +48,16 @@ task libWithDependenciesJar(type: Jar) {
 
 // javadoc jar
 task javadocJar(type: Jar, dependsOn: javadoc) {
+    appendix = versionName
     classifier = 'javadoc'
     from javadoc
 }
 
 // add source jar
 task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
+    appendix = versionName
     classifier = 'sources'
+    from sourceSets.main.allSource
 }
 
 build.dependsOn libWithDependenciesJar, javadocJar, sourcesJar
