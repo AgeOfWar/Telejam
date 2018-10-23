@@ -16,6 +16,6 @@ public interface ChatJoinHandler {
    * @param message message relative to the update
    * @throws Throwable if a throwable is thrown
    */
-  void onChatJoin(Chat chat, NewChatMembersMessage message) throws Throwable;
+  void onJoin(Chat chat, NewChatMembersMessage message) throws Throwable;
   
 }

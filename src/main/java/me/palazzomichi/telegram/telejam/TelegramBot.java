@@ -8,6 +8,7 @@ import me.palazzomichi.telegram.telejam.util.*;
  * Abstract class that handles Telegram updates.
  */
 public abstract class TelegramBot implements
+    Runnable,
     UpdateHandler,
     MessageHandler,
     MessageEditHandler,
@@ -36,12 +37,6 @@ public abstract class TelegramBot implements
     commands = new CommandRegistry();
   }
   
-  /**
-   * Handles an incoming update from the bot.
-   *
-   * @param update new incoming update
-   * @throws Throwable if a throwable is thrown
-   */
   @Override
   public void onUpdate(Update update) throws Throwable {
     if (update instanceof MessageUpdate) {
@@ -60,7 +55,7 @@ public abstract class TelegramBot implements
         for (User user : newChatMembersMessage.getNewChatMembers()) {
           onNewChatMember(newChatMembersMessage.getChat(), user, newChatMembersMessage);
           if (user.getId() == bot.getId()) {
-            onChatJoin(newChatMembersMessage.getChat(), newChatMembersMessage);
+            onJoin(newChatMembersMessage.getChat(), newChatMembersMessage);
           }
         }
       }
@@ -130,7 +125,7 @@ public abstract class TelegramBot implements
   }
   
   @Override
-  public void onChatJoin(Chat chat, NewChatMembersMessage message) throws Throwable {
+  public void onJoin(Chat chat, NewChatMembersMessage message) throws Throwable {
   }
   
   /**
