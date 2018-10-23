@@ -1,4 +1,4 @@
-package me.palazzomichi.telegram.telejam.util;
+package me.palazzomichi.telegram.telejam.updates;
 
 import me.palazzomichi.telegram.telejam.Bot;
 import me.palazzomichi.telegram.telejam.methods.GetUpdates;

@@ -1,4 +1,4 @@
-package me.palazzomichi.telegram.telejam.util;
+package me.palazzomichi.telegram.telejam.handlers;
 
 import me.palazzomichi.telegram.telejam.objects.Chat;
 import me.palazzomichi.telegram.telejam.objects.NewChatMembersMessage;

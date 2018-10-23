@@ -1,6 +1,6 @@
 package me.palazzomichi.telegram.telejam;
 
-import me.palazzomichi.telegram.telejam.util.UpdateReader;
+import me.palazzomichi.telegram.telejam.updates.UpdateReader;
 
 import java.io.IOException;
 import java.util.function.LongUnaryOperator;

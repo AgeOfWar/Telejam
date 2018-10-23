@@ -1,8 +1,10 @@
 package me.palazzomichi.telegram.telejam;
 
+import me.palazzomichi.telegram.telejam.commands.Command;
+import me.palazzomichi.telegram.telejam.commands.CommandRegistry;
 import me.palazzomichi.telegram.telejam.objects.*;
 import me.palazzomichi.telegram.telejam.text.Text;
-import me.palazzomichi.telegram.telejam.util.*;
+import me.palazzomichi.telegram.telejam.handlers.*;
 
 /**
  * Abstract class that handles Telegram updates.

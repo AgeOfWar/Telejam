@@ -1,6 +1,7 @@
-package me.palazzomichi.telegram.telejam.util;
+package me.palazzomichi.telegram.telejam.commands;
 
 import me.palazzomichi.telegram.telejam.objects.TextMessage;
+import me.palazzomichi.telegram.telejam.handlers.CommandHandler;
 
 import java.util.HashMap;
 import java.util.Map;

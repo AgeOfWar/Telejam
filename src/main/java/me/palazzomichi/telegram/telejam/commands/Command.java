@@ -1,4 +1,4 @@
-package me.palazzomichi.telegram.telejam.util;
+package me.palazzomichi.telegram.telejam.commands;
 
 import me.palazzomichi.telegram.telejam.text.Text;
 

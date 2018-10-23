@@ -1,5 +1,6 @@
-package me.palazzomichi.telegram.telejam.util;
+package me.palazzomichi.telegram.telejam.handlers;
 
+import me.palazzomichi.telegram.telejam.commands.Command;
 import me.palazzomichi.telegram.telejam.objects.TextMessage;
 
 /**

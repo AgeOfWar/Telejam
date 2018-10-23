@@ -126,10 +126,10 @@ public final class Bot {
   }
   
   /**
-   * Returns the util of the file in the specified path.
+   * Returns the file with the specified id.
    *
    * @param fileId the id of the file to download
-   * @return the util of the file
+   * @return the file
    * @throws IOException when an I/O Exception occurs
    */
   public InputStream downloadFile(String fileId) throws IOException {
@@ -138,13 +138,6 @@ public final class Bot {
     return downloadFile(execute(getFile));
   }
   
-  /**
-   * Returns the util of a file if is possible.
-   *
-   * @param file the file
-   * @return teh util of the file
-   * @throws IOException when an I/O Exception occurs
-   */
   private InputStream downloadFile(InputFile file) throws IOException {
     Optional<String> filePath = file.getPath();
     return download(filePath.orElseThrow(IOException::new));

@@ -2,7 +2,7 @@ package me.palazzomichi.telegram.telejam;
 
 import me.palazzomichi.telegram.telejam.methods.GetChatMember;
 import me.palazzomichi.telegram.telejam.objects.*;
-import me.palazzomichi.telegram.telejam.util.Command;
+import me.palazzomichi.telegram.telejam.commands.Command;
 
 import java.io.IOException;
 
