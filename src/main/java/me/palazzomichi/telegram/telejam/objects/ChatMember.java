@@ -180,6 +180,15 @@ public class ChatMember implements TelegramObject {
   public boolean isAdmin() {
     return status == Status.CREATOR || status == Status.ADMINISTRATOR;
   }
+  
+  /**
+   * Returns whether or not this member has left or was kicked.
+   *
+   * @return <code>true</code> if this member has left or was kicked, <code>false</code> otherwise
+   */
+  public boolean leftOrKicked() {
+    return status == Status.LEFT || status == Status.KICKED;
+  }
 
   /**
    * Getter for property {@link #user}.
