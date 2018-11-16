@@ -7,12 +7,12 @@ This program re-sends messages.
 ```java
   package test;
   
-  import me.palazzomichi.telegram.telejam.Bot;
-  import me.palazzomichi.telegram.telejam.LongPollingBot;
+  import io.github.ageofwar.telejam.Bot;
+  import io.github.ageofwar.telejam.LongPollingBot;
   
   import java.io.IOException;
   
-  public class ExampleBot extends LongPollingBot {
+  public class RepeaterBot extends LongPollingBot {
     
     public static void main(String... args) throws IOException {
       if (args.length != 1) {
@@ -26,16 +26,31 @@ This program re-sends messages.
     
     public ExampleBot(Bot bot) {
       super(bot);
+      events.registerTextMessageHandler(new MessageRepeater(bot));
+    }
+
+  }
+```
+```java
+  import io.github.ageofwar.telejam.Bot;
+  import io.github.ageofwar.telejam.messages.TextMessage;
+  import io.github.ageofwar.telejam.messages.TextMessageHandler;
+  import io.github.ageofwar.telejam.methods.SendMessage;
+  
+  public class MessageRepeater implements TextMessageHandler {
+    
+    private final Bot bot;
+    
+    public MessageRepeater(Bot bot) {
+      this.bot = bot;
     }
     
     @Override
-    public void onMessage(Message message) throws IOException {
-      if (message instanceof TextMessage) {
-        SendMessage sendMessage = new SendMessage()
+    public void onTextMessage(TextMessage message) throws Throwable {
+      SendMessage sendMessage = new SendMessage()
           .replyToMessage(message)
-          .text(((TextMessage) message).getText());
-        bot.execute(sendMessage);
-      }
+          .text(message.getText());
+      bot.execute(sendMessage);
     }
     
   }
