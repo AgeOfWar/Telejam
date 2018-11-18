@@ -1,6 +1,6 @@
 group 'me.palazzomichi.telegram'
-version '6.0'
-ext.versionName = "Strawberry"
+version '7.0'
+ext.versionName = "Peach"
 
 apply plugin: 'java'
 apply plugin: 'org.junit.platform.gradle.plugin'
