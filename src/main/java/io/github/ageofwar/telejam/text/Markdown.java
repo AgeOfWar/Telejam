@@ -11,7 +11,7 @@ import static io.github.ageofwar.telejam.text.TextBuilder.TEXT_MENTION_LINK;
  *
  * @author Michi Palazzo
  */
-public final class Markdown {
+final class Markdown {
   
   public static Text readText(Reader reader) throws IOException, TextParseException {
     TextBuilder builder = new TextBuilder();
