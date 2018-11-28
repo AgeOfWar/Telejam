@@ -183,7 +183,7 @@ final class Markdown {
         .replace("(", "\\(")
         .replace(")", "\\)")
         .replace("`", "\\`")
-        .replace("\\", "\\");
+        .replace("\\", "\\\\");
   }
   
   private Markdown() {
