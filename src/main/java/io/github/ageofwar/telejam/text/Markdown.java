@@ -176,14 +176,14 @@ final class Markdown {
   }
   
   private static String escape(String s) {
-    return s.replace("*", "\\*")
+    return s.replace("\\", "\\\\")
+        .replace("*", "\\*")
         .replace("_", "\\_")
         .replace("[", "\\[")
         .replace("]", "\\]")
         .replace("(", "\\(")
         .replace(")", "\\)")
-        .replace("`", "\\`")
-        .replace("\\", "\\\\");
+        .replace("`", "\\`");
   }
   
   private Markdown() {
