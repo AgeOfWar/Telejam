@@ -29,7 +29,7 @@ public abstract class LongPollingBot extends TelegramBot implements AutoCloseabl
    */
   public LongPollingBot(Bot bot, LongUnaryOperator backOff, Logger logger) {
     super(bot);
-    this.logger = logger != null ? logger : emptyLogger(bot);
+    this.logger = logger != null ? logger : emptyLogger();
     updateReader = new UpdateReader(bot, backOff);
   }
   
@@ -50,7 +50,7 @@ public abstract class LongPollingBot extends TelegramBot implements AutoCloseabl
    * @param backOff back off to be used when long polling fails
    */
   public LongPollingBot(Bot bot, LongUnaryOperator backOff) {
-    this(bot, backOff, newLogger(bot));
+    this(bot, backOff, newLogger());
   }
   
   /**
@@ -59,7 +59,7 @@ public abstract class LongPollingBot extends TelegramBot implements AutoCloseabl
    * @param bot the bot used by the reader
    */
   public LongPollingBot(Bot bot) {
-    this(bot, a -> 500L, newLogger(bot));
+    this(bot, a -> 500L, newLogger());
   }
   
   @Override
