@@ -1,5 +1,6 @@
 package io.github.ageofwar.telejam.replymarkups;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -20,6 +21,7 @@ public final class ReplyKeyboardRemove implements ReplyMarkup {
   static final String REMOVE_KEYBOARD_FIELD = "remove_keyboard";
   static final String SELECTIVE_FIELD = "selective";
   
+  @Expose
   @SerializedName(REMOVE_KEYBOARD_FIELD)
   private static final boolean REMOVE_KEYBOARD = true;
   

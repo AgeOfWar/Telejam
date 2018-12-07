@@ -1,5 +1,6 @@
 package io.github.ageofwar.telejam.replymarkups;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -18,8 +19,9 @@ public final class ForceReply implements ReplyMarkup {
   static final String FORCE_REPLY_FIELD = "force_reply";
   static final String SELECTIVE_FIELD = "selective";
   
+  @Expose
   @SerializedName(FORCE_REPLY_FIELD)
-  private static final boolean REMOVE_KEYBOARD = true;
+  private static final boolean FORCE_REPLY = true;
   
   /**
    * If true forces reply from specific users only.
