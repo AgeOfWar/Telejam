@@ -1,4 +1,4 @@
-group 'me.palazzomichi.telegram'
+group 'io.github.ageofwar'
 version '7.2'
 ext.versionName = "Peach"
 
