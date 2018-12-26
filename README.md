@@ -24,7 +24,7 @@ This program re-sends messages.
       repeaterBot.run();
     }
     
-    public ExampleBot(Bot bot) {
+    public RepeaterBot(Bot bot) {
       super(bot);
       events.registerTextMessageHandler(new MessageRepeater(bot));
     }
