@@ -29,7 +29,8 @@ public final class InputMessageContentAdapter implements JsonDeserializer<InputM
     } else if (object.has(InputContactMessageContent.PHONE_NUMBER_FIELD)) {
       return context.deserialize(src, InputContactMessageContent.class);
     }
-    throw new JsonParseException("Unknown input message content: " + src);
+    return new InputMessageContent() {
+    };
   }
   
   @Override

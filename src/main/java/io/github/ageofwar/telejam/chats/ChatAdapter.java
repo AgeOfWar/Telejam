@@ -31,7 +31,14 @@ public final class ChatAdapter implements JsonDeserializer<Chat>, JsonSerializer
       case Channel.TYPE:
         return context.deserialize(src, Channel.class);
       default:
-        throw new JsonParseException("Unknown chat: " + src);
+        return new Chat(
+            context.deserialize(object.get(Chat.ID_FIELD), Long.class)
+        ) {
+          @Override
+          public String getTitle() {
+            return Long.toString(getId());
+          }
+        };
     }
   }
   

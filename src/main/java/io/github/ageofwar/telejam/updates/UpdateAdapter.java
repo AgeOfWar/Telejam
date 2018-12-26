@@ -38,7 +38,10 @@ public final class UpdateAdapter implements JsonDeserializer<Update>, JsonSerial
     } else if (object.has(PreCheckoutQueryUpdate.PRE_CHECKOUT_QUERY_FIELD)) {
       return context.deserialize(src, PreCheckoutQueryUpdate.class);
     }
-    throw new JsonParseException("Unknown update: " + src);
+    return new Update(
+        context.deserialize(object.get(Update.ID_FIELD), Long.class)
+    ) {
+    };
   }
   
   @Override

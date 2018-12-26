@@ -30,7 +30,8 @@ public final class ReplyMarkupAdapter implements JsonSerializer<ReplyMarkup>, Js
     } else if (obj.has(ReplyKeyboardRemove.REMOVE_KEYBOARD_FIELD)) {
       return context.deserialize(json, ReplyKeyboardRemove.class);
     }
-    throw new JsonParseException("Unknown reply markup: " + json);
+    return new ReplyMarkup() {
+    };
   }
   
   @Override

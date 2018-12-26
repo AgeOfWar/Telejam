@@ -62,7 +62,10 @@ public final class InlineQueryResultAdapter implements JsonDeserializer<InlineQu
       case InlineQueryResultCachedSticker.TYPE:
         return context.deserialize(src, InlineQueryResultCachedSticker.class);
       default:
-        throw new JsonParseException("Unknown inline query result: " + src);
+        return new InlineQueryResult(
+            context.deserialize(object.get(InlineQueryResult.ID_FIELD), String.class)
+        ) {
+        };
     }
   }
   

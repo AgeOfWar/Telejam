@@ -1,6 +1,7 @@
 package io.github.ageofwar.telejam.media;
 
 import com.google.gson.*;
+import io.github.ageofwar.telejam.text.Text;
 
 import java.lang.reflect.Type;
 
@@ -32,7 +33,12 @@ public final class InputMediaAdapter implements JsonDeserializer<InputMedia>, Js
       case InputMediaDocument.TYPE:
         return context.deserialize(src, InputMediaDocument.class);
       default:
-        throw new JsonParseException("Unknown input media: " + src);
+        return new InputMedia(
+            (String) context.deserialize(object.get(InputMedia.MEDIA_FIELD), String.class),
+            null,
+            Text.parseHtml(context.deserialize(object.get(InputMedia.CAPTION_FIELD), String.class))
+        ) {
+        };
     }
   }
   

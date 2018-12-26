@@ -1,6 +1,8 @@
 package io.github.ageofwar.telejam.messages;
 
 import com.google.gson.*;
+import io.github.ageofwar.telejam.chats.Chat;
+import io.github.ageofwar.telejam.users.User;
 
 import java.lang.reflect.Type;
 
@@ -74,7 +76,16 @@ public final class MessageAdapter implements JsonDeserializer<Message>, JsonSeri
     } else if (object.has(ConnectedWebsiteMessage.CONNECTED_WEBSITE_FIELD)) {
       return context.deserialize(src, ConnectedWebsiteMessage.class);
     }
-    throw new JsonParseException("Unknown message: " + src);
+    return new Message(
+        context.deserialize(object.get(Message.ID_FIELD), Long.class),
+        context.deserialize(object.get(Message.SENDER_FIELD), User.class),
+        context.deserialize(object.get(Message.DATE_FIELD), Long.class),
+        context.deserialize(object.get(Message.CHAT_FIELD), Chat.class),
+        context.deserialize(object.get(Message.REPLY_TO_MESSAGE_FIELD), Message.class),
+        context.deserialize(object.get(Message.EDIT_DATE_FIELD), Long.class),
+        context.deserialize(object.get(Message.AUTHOR_SIGNATURE_FIELD), String.class)
+    ) {
+    };
   }
   
   @Override
