@@ -1,5 +1,5 @@
 group 'io.github.ageofwar'
-version '7.2'
+version '7.3'
 ext.versionName = "Peach"
 
 apply plugin: 'java'
