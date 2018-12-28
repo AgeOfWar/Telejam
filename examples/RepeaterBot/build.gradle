@@ -19,11 +19,6 @@ jar {
     }
 }
 
-run {
-    standardOutput = System.out
-    standardInput = System.in
-}
-
 dependencies {
     compile fileTree(dir: 'libs')
 }
