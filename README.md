@@ -19,7 +19,8 @@ This program re-sends messages.
         System.err.println("Pass the bot token as unique program argument");
         System.exit(1);
       }
-      Bot bot = Bot.fromToken(args[0]);
+      String token = args[0];
+      Bot bot = Bot.fromToken(token);
       RepeaterBot repeaterBot = new RepeaterBot(bot);
       repeaterBot.run();
     }
