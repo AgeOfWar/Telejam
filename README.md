@@ -1,4 +1,4 @@
-![logo](https://ageofwar.github.io/Telejam/telejam.png =50x50)
+![logo](https://ageofwar.github.io/Telejam/telejam.png=50x50)
 
 # Telegram Bot Java Library
 A simple to use library to create Telegram Bots in Java.
