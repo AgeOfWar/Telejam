@@ -1,4 +1,4 @@
-<img src="https://ageofwar.github.io/Telejam/telejam.png" alt="alt text" width="100" height="100">
+<img src="https://ageofwar.github.io/Telejam/telejam.png" alt="Telejam logo" width="100" height="100">
 
 # Telegram Bot Java Library
 A simple to use library to create Telegram Bots in Java.
