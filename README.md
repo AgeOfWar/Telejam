@@ -1,3 +1,5 @@
+![logo](https://ageofwar.github.io/Telejam/telejam.png)
+
 # Telegram Bot Java Library
 A simple to use library to create Telegram Bots in Java.
 This library uses the [Telegram Bot API](https://core.telegram.org/bots/api)
