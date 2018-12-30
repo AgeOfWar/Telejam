@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://ageofwar.github.io/Telejam/telejam.png" alt="Telejam logo" />
+  <img src="https://ageofwar.github.io/Telejam/telejam.png" alt="Telejam logo" width="25%" height="25%" />
 </p>
 
 # Telegram Bot Java Library
