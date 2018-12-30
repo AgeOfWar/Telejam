@@ -1,4 +1,4 @@
-<p align="center>
+<p align="center">
   <img src="https://ageofwar.github.io/Telejam/telejam.png" alt="Telejam logo" />
 </p>
 
