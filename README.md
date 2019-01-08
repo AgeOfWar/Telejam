@@ -8,6 +8,7 @@ This library uses the [Telegram Bot API](https://core.telegram.org/bots/api)
 
 ## Example
 This program re-sends messages.
+
 ```java
   package test;
   
@@ -33,7 +34,7 @@ This program re-sends messages.
       super(bot);
       events.registerTextMessageHandler(new MessageRepeater(bot));
     }
-
+    
   }
 ```
 ```java
@@ -60,5 +61,10 @@ This program re-sends messages.
     
   }
 ```
+
+You can see other examples [here](https://github.com/AgeOfWar/Telejam/tree/master/examples).
+
+--------------------------------------------------
+
 Read the [wiki](https://github.com/AgeOfWar/Telejam/wiki)
 for more information.
