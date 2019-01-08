@@ -3,6 +3,9 @@ package io.github.ageofwar.telejam.examples.pressthebutton;
 import io.github.ageofwar.telejam.Bot;
 import io.github.ageofwar.telejam.callbacks.CallbackDataHandler;
 import io.github.ageofwar.telejam.callbacks.CallbackQuery;
+import io.github.ageofwar.telejam.examples.pressthebutton.game.PressTheButton;
+import io.github.ageofwar.telejam.examples.pressthebutton.game.settings.PressTheButtonGameSettings;
+import io.github.ageofwar.telejam.examples.pressthebutton.game.settings.Size;
 
 import java.io.IOException;
 import java.util.Map;
@@ -27,7 +30,7 @@ public class PressTheButtonStartCallbackHandler implements CallbackDataHandler {
     String[] args = arg.split(" ");
     int width = Integer.parseInt(args[0]);
     int height = Integer.parseInt(args[1]);
-    PressTheButtonGameSettings settings = new PressTheButtonGameSettings(width, height);
+    PressTheButtonGameSettings settings = new PressTheButtonGameSettings(new Size(width, height));
     games.put(inlineMessageId, PressTheButton.fromSettings(settings));
     messageUpdater.update(inlineMessageId);
   }

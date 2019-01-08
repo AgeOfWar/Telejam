@@ -2,6 +2,7 @@ package io.github.ageofwar.telejam.examples.pressthebutton;
 
 import io.github.ageofwar.telejam.Bot;
 import io.github.ageofwar.telejam.LongPollingBot;
+import io.github.ageofwar.telejam.examples.pressthebutton.game.PressTheButton;
 import io.github.ageofwar.telejam.inline.InputTextMessageContent;
 import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup;
 import io.github.ageofwar.telejam.text.Text;

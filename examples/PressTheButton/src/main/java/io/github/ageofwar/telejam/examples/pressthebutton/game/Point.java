@@ -1,4 +1,4 @@
-package io.github.ageofwar.telejam.examples.pressthebutton.math;
+package io.github.ageofwar.telejam.examples.pressthebutton.game;
 
 import static java.util.Objects.hash;
 

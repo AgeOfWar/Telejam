@@ -3,7 +3,8 @@ package io.github.ageofwar.telejam.examples.pressthebutton;
 import io.github.ageofwar.telejam.Bot;
 import io.github.ageofwar.telejam.callbacks.CallbackDataHandler;
 import io.github.ageofwar.telejam.callbacks.CallbackQuery;
-import io.github.ageofwar.telejam.examples.pressthebutton.math.Point;
+import io.github.ageofwar.telejam.examples.pressthebutton.game.Point;
+import io.github.ageofwar.telejam.examples.pressthebutton.game.PressTheButton;
 import io.github.ageofwar.telejam.methods.AnswerCallbackQuery;
 import io.github.ageofwar.telejam.users.User;
 

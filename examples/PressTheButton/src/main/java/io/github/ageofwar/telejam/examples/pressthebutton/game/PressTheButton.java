@@ -1,6 +1,7 @@
-package io.github.ageofwar.telejam.examples.pressthebutton;
+package io.github.ageofwar.telejam.examples.pressthebutton.game;
 
-import io.github.ageofwar.telejam.examples.pressthebutton.math.Point;
+import io.github.ageofwar.telejam.examples.pressthebutton.game.settings.PressTheButtonGameSettings;
+import io.github.ageofwar.telejam.examples.pressthebutton.game.settings.Size;
 import io.github.ageofwar.telejam.users.User;
 
 import java.util.*;
@@ -21,11 +22,12 @@ public final class PressTheButton {
   }
   
   public static PressTheButton fromSettings(PressTheButtonGameSettings settings) {
+    Size size = settings.getSize();
     return new PressTheButton(
-        new boolean[settings.getWidth()][settings.getHeight()],
+        new boolean[size.getWidth()][size.getHeight()],
         new Point(
-            new Random().nextInt(settings.getWidth()),
-            new Random().nextInt(settings.getHeight())
+            new Random().nextInt(size.getWidth()),
+            new Random().nextInt(size.getHeight())
         ),
         new HashSet<>()
     );

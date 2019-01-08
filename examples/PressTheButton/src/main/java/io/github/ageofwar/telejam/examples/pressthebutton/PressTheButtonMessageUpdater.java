@@ -1,7 +1,8 @@
 package io.github.ageofwar.telejam.examples.pressthebutton;
 
 import io.github.ageofwar.telejam.Bot;
-import io.github.ageofwar.telejam.examples.pressthebutton.math.Point;
+import io.github.ageofwar.telejam.examples.pressthebutton.game.Point;
+import io.github.ageofwar.telejam.examples.pressthebutton.game.PressTheButton;
 import io.github.ageofwar.telejam.inline.CallbackDataInlineKeyboardButton;
 import io.github.ageofwar.telejam.inline.InlineKeyboardButton;
 import io.github.ageofwar.telejam.methods.EditMessageText;
