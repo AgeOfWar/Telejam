@@ -1,18 +1,16 @@
+plugins {
+    id 'java'
+    id 'maven'
+    id 'maven-publish'
+    id 'com.jfrog.bintray' version '1.8.4'
+}
+
+ext {
+    versionName = "Peach"
+}
+
 group 'io.github.ageofwar'
 version '7.3'
-ext.versionName = "Peach"
-
-apply plugin: 'java'
-apply plugin: 'org.junit.platform.gradle.plugin'
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
-    }
-}
 
 repositories {
     mavenCentral()
@@ -21,17 +19,13 @@ repositories {
 sourceCompatibility = 1.8
 
 dependencies {
-    compile group: 'com.google.code.gson',
-            name: 'gson',
-            version: '2.8.1'
+    compile 'com.google.code.gson:gson:2.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+}
 
-    testCompile group: 'org.junit.jupiter',
-            name:'junit-jupiter-api',
-            version: '5.0.0-M4'
-
-    testRuntime group:'org.junit.jupiter',
-            name:'junit-jupiter-engine',
-            version: '5.0.0-M4'
+test {
+    useJUnitPlatform()
 }
 
 jar {
@@ -42,7 +36,9 @@ jar {
 task libWithDependenciesJar(type: Jar) {
     appendix = versionName
     classifier = 'with-dependencies'
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
     with jar
 }
 
@@ -60,4 +56,42 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
-build.dependsOn libWithDependenciesJar, javadocJar, sourcesJar
+artifacts {
+    archives libWithDependenciesJar
+    archives sourcesJar
+    archives javadocJar
+}
+
+publishing {
+    publications {
+        TelejamPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId project.group
+            artifactId rootProject.name.toLowerCase()
+            version project.version
+        }
+    }
+}
+
+bintray {
+    user = project.property('bintrayUser')
+    key = project.property('bintrayApiKey')
+    publications = ['TelejamPublication']
+    publish = true
+    override = true
+    pkg {
+        repo = 'Telegram'
+        name = 'Telejam'
+        userOrg = user
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/AgeOfWar/Telejam.git'
+        githubRepo = 'https://github.com/AgeOfWar/Telejam'
+        publicDownloadNumbers = true
+        version {
+            name = project.version
+            vcsTag = "v${project.version}"
+        }
+    }
+}
