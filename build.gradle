@@ -10,7 +10,7 @@ ext {
 }
 
 group 'io.github.ageofwar'
-version '7.3'
+version '7.4'
 
 repositories {
     mavenCentral()
