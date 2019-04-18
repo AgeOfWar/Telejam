@@ -1,7 +1,6 @@
 package io.github.ageofwar.telejam.messages;
 
 import com.google.gson.annotations.SerializedName;
-import io.github.ageofwar.telejam.locations.Location;
 import io.github.ageofwar.telejam.chats.Chat;
 import io.github.ageofwar.telejam.users.User;
 

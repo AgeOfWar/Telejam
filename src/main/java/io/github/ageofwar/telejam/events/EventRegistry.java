@@ -1,18 +1,17 @@
 package io.github.ageofwar.telejam.events;
 
 import io.github.ageofwar.telejam.Bot;
-import io.github.ageofwar.telejam.commands.Command;
-import io.github.ageofwar.telejam.commands.CommandHandler;
-import io.github.ageofwar.telejam.messages.NewChatMemberHandler;
 import io.github.ageofwar.telejam.callbacks.CallbackDataHandler;
-import io.github.ageofwar.telejam.games.CallbackGameHandler;
 import io.github.ageofwar.telejam.callbacks.CallbackQuery;
 import io.github.ageofwar.telejam.callbacks.CallbackQueryHandler;
+import io.github.ageofwar.telejam.chats.Chat;
+import io.github.ageofwar.telejam.commands.Command;
+import io.github.ageofwar.telejam.commands.CommandHandler;
+import io.github.ageofwar.telejam.games.CallbackGameHandler;
 import io.github.ageofwar.telejam.inline.ChosenInlineResult;
 import io.github.ageofwar.telejam.inline.InlineQuery;
 import io.github.ageofwar.telejam.inline.InlineQueryHandler;
 import io.github.ageofwar.telejam.messages.*;
-import io.github.ageofwar.telejam.chats.Chat;
 import io.github.ageofwar.telejam.payments.PreCheckoutQuery;
 import io.github.ageofwar.telejam.payments.ShippingQuery;
 import io.github.ageofwar.telejam.payments.ShippingQueryHandler;
@@ -20,7 +19,9 @@ import io.github.ageofwar.telejam.text.Text;
 import io.github.ageofwar.telejam.updates.*;
 import io.github.ageofwar.telejam.users.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Utility class that handles events.
@@ -39,7 +40,8 @@ public class EventRegistry implements
     TextMessageHandler,
     CommandHandler,
     NewChatMemberHandler,
-    ChatJoinHandler {
+    ChatJoinHandler,
+    PollHandler {
   
   private final Bot bot;
   private final List<UpdateHandler> updateHandlers;
@@ -56,6 +58,7 @@ public class EventRegistry implements
   private final List<CallbackDataHandler> callbackDataHandlers;
   private final List<CallbackGameHandler> callbackGameHandlers;
   private final List<ShippingQueryHandler> shippingQueryHandlers;
+  private final List<PollHandler> pollHandlers;
   
   public EventRegistry(Bot bot) {
     this.bot = bot;
@@ -73,6 +76,7 @@ public class EventRegistry implements
     callbackDataHandlers = new ArrayList<>();
     callbackGameHandlers = new ArrayList<>();
     shippingQueryHandlers = new ArrayList<>();
+    pollHandlers = new ArrayList<>();
   }
   
   @Override
@@ -101,6 +105,8 @@ public class EventRegistry implements
       onShippingQuery(((ShippingQueryUpdate) update).getShippingQuery());
     } else if (update instanceof PreCheckoutQueryUpdate) {
       onPreCheckoutQuery(((PreCheckoutQueryUpdate) update).getPreCheckoutQuery());
+    } else if (update instanceof PollUpdate) {
+      onPollUpdate(((PollUpdate) update).getPoll());
     }
   }
   
@@ -261,6 +267,13 @@ public class EventRegistry implements
   public void onJoin(Chat chat, NewChatMembersMessage message) throws Throwable {
     for (ChatJoinHandler handler : chatJoinHandlers) {
       handler.onJoin(chat, message);
+    }
+  }
+  
+  @Override
+  public void onPollUpdate(Poll poll) throws Throwable {
+    for (PollHandler handler : pollHandlers) {
+      handler.onPollUpdate(poll);
     }
   }
   
@@ -640,6 +653,33 @@ public class EventRegistry implements
    */
   public void unregisterShippingQueryHandler(ShippingQueryHandler handler) {
     shippingQueryHandlers.remove(handler);
+  }
+  
+  /**
+   * Registers a poll handler.
+   *
+   * @param handler the handler
+   */
+  public void registerPollHandler(PollHandler handler) {
+    pollHandlers.add(handler);
+  }
+  
+  /**
+   * Registers poll handlers.
+   *
+   * @param handler the handler
+   */
+  public void registerPollHandlers(PollHandler... handler) {
+    Collections.addAll(pollHandlers, handler);
+  }
+  
+  /**
+   * Removes a poll handler.
+   *
+   * @param handler the handler
+   */
+  public void unregisterPollHandler(PollHandler handler) {
+    pollHandlers.remove(handler);
   }
   
 }

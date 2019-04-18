@@ -37,6 +37,8 @@ public final class UpdateAdapter implements JsonDeserializer<Update>, JsonSerial
       return context.deserialize(src, ShippingQueryUpdate.class);
     } else if (object.has(PreCheckoutQueryUpdate.PRE_CHECKOUT_QUERY_FIELD)) {
       return context.deserialize(src, PreCheckoutQueryUpdate.class);
+    } else if (object.has(PollUpdate.POLL_FIELD)) {
+      return context.deserialize(src, PollUpdate.class);
     }
     return new Update(
         context.deserialize(object.get(Update.ID_FIELD), Long.class)

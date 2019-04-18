@@ -1,7 +1,7 @@
 package io.github.ageofwar.telejam.inline;
 
 import com.google.gson.annotations.SerializedName;
-import io.github.ageofwar.telejam.locations.Location;
+import io.github.ageofwar.telejam.messages.Location;
 
 /**
  * Represents the content of a location message to be sent as the result of an inline query.

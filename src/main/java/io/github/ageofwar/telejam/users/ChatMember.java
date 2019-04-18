@@ -15,6 +15,7 @@ public class ChatMember implements TelegramObject {
   static final String USER_FIELD = "user";
   static final String STATUS_FIELD = "status";
   static final String UNTIL_DATE_FIELD = "until_date";
+  static final String IS_MEMBER_FIELD = "is_member";
   static final String CAN_BE_EDITED_FIELD = "can_be_edited";
   static final String CAN_CHANGE_INFORMATION_FIELD = "can_change_info";
   static final String CAN_POST_MESSAGES_FIELD = "can_post_messages";
@@ -48,6 +49,12 @@ public class ChatMember implements TelegramObject {
    */
   @SerializedName(UNTIL_DATE_FIELD)
   private long untilDate = -1;
+  
+  /**
+   * True, if the user is a member of the chat at the moment of the request
+   */
+  @SerializedName(IS_MEMBER_FIELD)
+  private boolean isMember = true;
   
   /**
    * True, if the bot is allowed to edit administrator privileges of that user.
@@ -188,7 +195,16 @@ public class ChatMember implements TelegramObject {
    * @return <code>true</code> if this member has left or was kicked, <code>false</code> otherwise
    */
   public boolean leftOrKicked() {
-    return status == Status.LEFT || status == Status.KICKED;
+    return (status == Status.RESTRICTED && !isMember) || status == Status.LEFT || status == Status.KICKED;
+  }
+  
+  /**
+   * Returns whether or not this member is in the group.
+   *
+   * @return <code>true</code> if this member is in the group, <code>false</code> otherwise
+   */
+  public boolean isMember() {
+    return !leftOrKicked();
   }
   
   /**

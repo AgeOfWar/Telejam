@@ -1,7 +1,7 @@
 package io.github.ageofwar.telejam.inline;
 
 import com.google.gson.annotations.SerializedName;
-import io.github.ageofwar.telejam.locations.Venue;
+import io.github.ageofwar.telejam.messages.Venue;
 
 import java.util.Optional;
 

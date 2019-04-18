@@ -3,7 +3,7 @@ package io.github.ageofwar.telejam.methods;
 import io.github.ageofwar.telejam.callbacks.CallbackQuery;
 import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup;
 import io.github.ageofwar.telejam.chats.Chat;
-import io.github.ageofwar.telejam.locations.Location;
+import io.github.ageofwar.telejam.messages.Location;
 import io.github.ageofwar.telejam.messages.LocationMessage;
 import io.github.ageofwar.telejam.messages.Message;
 

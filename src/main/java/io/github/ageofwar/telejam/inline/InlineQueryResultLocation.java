@@ -2,7 +2,7 @@ package io.github.ageofwar.telejam.inline;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import io.github.ageofwar.telejam.locations.Location;
+import io.github.ageofwar.telejam.messages.Location;
 import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup;
 
 import java.util.Objects;

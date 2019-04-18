@@ -1,8 +1,8 @@
 package io.github.ageofwar.telejam.methods;
 
-import io.github.ageofwar.telejam.locations.Location;
+import io.github.ageofwar.telejam.messages.Location;
 import io.github.ageofwar.telejam.replymarkups.ReplyMarkup;
-import io.github.ageofwar.telejam.locations.Venue;
+import io.github.ageofwar.telejam.messages.Venue;
 import io.github.ageofwar.telejam.messages.*;
 import io.github.ageofwar.telejam.chats.Chat;
 

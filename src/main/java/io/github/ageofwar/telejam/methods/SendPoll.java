@@ -1,31 +1,31 @@
 package io.github.ageofwar.telejam.methods;
 
-import io.github.ageofwar.telejam.messages.Location;
-import io.github.ageofwar.telejam.replymarkups.ReplyMarkup;
-import io.github.ageofwar.telejam.messages.*;
 import io.github.ageofwar.telejam.chats.Chat;
+import io.github.ageofwar.telejam.messages.Message;
+import io.github.ageofwar.telejam.messages.PollMessage;
+import io.github.ageofwar.telejam.replymarkups.ReplyMarkup;
 
 import java.util.Map;
 
 import static io.github.ageofwar.telejam.methods.Maps.mapOf;
 
 /**
- * Use this method to send point on the map.
+ * Use this method to send a native poll.
+ * A native poll can't be sent to a private chat.
  * On success, the sent Message is returned.
  *
  * @author Michi Palazzo
  */
-public class SendLocation implements TelegramMethod<LocationMessage> {
-
-  public static final String NAME = "sendLocation";
-
+public class SendPoll implements TelegramMethod<PollMessage> {
+  
+  public static final String NAME = "sendPoll";
+  
   static final String CHAT_ID_FIELD = "chat_id";
+  static final String QUESTION_FIELD = "question";
+  static final String OPTIONS_FIELD = "options";
   static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
   static final String REPLY_TO_MESSAGE_ID_FIELD = "reply_to_message_id";
   static final String REPLY_MARKUP_FIELD = "reply_markup";
-  static final String LATITUDE_FIELD = "latitude";
-  static final String LONGITUDE_FIELD = "longitude";
-  static final String LIVE_PERIOD_FIELD = "live_period";
   
   /**
    * Unique identifier for the target chat.
@@ -36,105 +36,87 @@ public class SendLocation implements TelegramMethod<LocationMessage> {
    * Username of the target channel (in the format @channelusername).
    */
   private String chatUsername;
-
+  
+  /**
+   * Poll question, 1-255 characters.
+   */
+  private String question;
+  
+  /**
+   * List of answer options, 2-10 strings 1-100 characters each.
+   */
+  private String[] options;
+  
   /**
    * Sends the message silently. Users will receive a notification with no sound.
    */
   private Boolean disableNotification;
-
+  
   /**
    * If the message is a reply, ID of the original message.
    */
   private Long replyToMessageId;
-
+  
   /**
    * Additional interface options.
    */
   private ReplyMarkup replyMarkup;
-
-  /**
-   * Latitude of location.
-   */
-  private Float latitude;
-
-  /**
-   * Longitude of location.
-   */
-  private Float longitude;
   
-  /**
-   * Period in seconds for which the location will be updated,
-   * should be between 60 and 86400.
-   */
-  private Integer livePeriod;
-  
-  
-  public SendLocation chat(String chatUsername) {
+  public SendPoll chat(String chatUsername) {
     this.chatUsername = chatUsername;
     chatId = null;
     return this;
   }
   
-  public SendLocation chat(Long chatId) {
+  public SendPoll chat(Long chatId) {
     this.chatId = chatId;
     chatUsername = null;
     return this;
   }
   
-  public SendLocation chat(Chat chat) {
+  public SendPoll chat(Chat chat) {
     chatId = chat.getId();
     chatUsername = null;
     return this;
   }
-
-  public SendLocation disableNotification(Boolean disableNotification) {
+  
+  public SendPoll disableNotification(Boolean disableNotification) {
     this.disableNotification = disableNotification;
     return this;
   }
-
-  public SendLocation disableNotification() {
+  
+  public SendPoll disableNotification() {
     disableNotification = true;
     return this;
   }
-
-  public SendLocation replyToMessage(Message message) {
+  
+  public SendPoll replyToMessage(Message message) {
     replyToMessageId = message.getId();
     chatId = message.getChat().getId();
     chatUsername = null;
     return this;
   }
-
-  public SendLocation replyToMessage(Long replyToMessageId) {
+  
+  public SendPoll replyToMessage(Long replyToMessageId) {
     this.replyToMessageId = replyToMessageId;
     return this;
   }
-
-  public SendLocation replyMarkup(ReplyMarkup replyMarkup) {
+  
+  public SendPoll replyMarkup(ReplyMarkup replyMarkup) {
     this.replyMarkup = replyMarkup;
     return this;
   }
-
-  public SendLocation latitude(Float latitude) {
-    this.latitude = latitude;
-    return this;
-  }
-
-  public SendLocation longitude(Float longitude) {
-    this.longitude = longitude;
-    return this;
-  }
-
-  public SendLocation location(Location location) {
-    latitude = location.getLatitude();
-    longitude = location.getLongitude();
+  
+  public SendPoll question(String question) {
+    this.question = question;
     return this;
   }
   
-  public SendLocation livePeriod(Integer livePeriod) {
-    this.livePeriod = livePeriod;
+  public SendPoll options(String... options) {
+    this.options = options;
     return this;
   }
-
+  
   @Override
   public String getName() {
     return NAME;
@@ -147,15 +129,14 @@ public class SendLocation implements TelegramMethod<LocationMessage> {
         DISABLE_NOTIFICATION_FIELD, disableNotification,
         REPLY_TO_MESSAGE_ID_FIELD, replyToMessageId,
         REPLY_MARKUP_FIELD, replyMarkup,
-        LATITUDE_FIELD, latitude,
-        LONGITUDE_FIELD, longitude,
-        LIVE_PERIOD_FIELD, livePeriod
+        QUESTION_FIELD, question,
+        OPTIONS_FIELD, options
     );
   }
   
   @Override
-  public Class<? extends LocationMessage> getReturnType() {
-    return LocationMessage.class;
+  public Class<? extends PollMessage> getReturnType() {
+    return PollMessage.class;
   }
-
+  
 }

@@ -75,6 +75,8 @@ public final class MessageAdapter implements JsonDeserializer<Message>, JsonSeri
       return context.deserialize(src, SuccessfulPaymentMessage.class);
     } else if (object.has(ConnectedWebsiteMessage.CONNECTED_WEBSITE_FIELD)) {
       return context.deserialize(src, ConnectedWebsiteMessage.class);
+    } else if (object.has(PollMessage.POLL_FIELD)) {
+      return context.deserialize(src, PollMessage.class);
     }
     return new Message(
         context.deserialize(object.get(Message.ID_FIELD), Long.class),
