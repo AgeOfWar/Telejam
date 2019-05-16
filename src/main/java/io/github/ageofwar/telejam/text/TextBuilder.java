@@ -1,5 +1,6 @@
 package io.github.ageofwar.telejam.text;
 
+import io.github.ageofwar.telejam.chats.Channel;
 import io.github.ageofwar.telejam.chats.Chat;
 import io.github.ageofwar.telejam.chats.SuperGroup;
 import io.github.ageofwar.telejam.messages.Message;
@@ -303,10 +304,16 @@ public class TextBuilder {
   
   private String toLink(Message message) {
     Chat chat = message.getChat();
-    if (chat instanceof SuperGroup) {
-      Optional<String> username = ((SuperGroup) chat).getUsername();
+    if (chat instanceof SuperGroup || chat instanceof Channel) {
+      Optional<String> username = chat instanceof SuperGroup ?
+          ((SuperGroup) chat).getUsername() :
+          ((Channel) chat).getUsername();
       if (username.isPresent()) {
         return TELEGRAM_LINK + "/" + username.get() + "/" + message.getId();
+      } else {
+        return TELEGRAM_LINK + "/c/" +
+            Long.toString(message.getChat().getId()).substring(4) +
+            "/" + message.getId();
       }
     }
     return TELEGRAM_LINK + "/c/" + message.getChat().getId() + "/" + message.getId();
