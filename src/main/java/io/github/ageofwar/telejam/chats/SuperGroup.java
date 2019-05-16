@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * This class represents a supergroup.
@@ -40,7 +41,7 @@ public class SuperGroup extends Chat {
   public SuperGroup(long id, String title, String username) {
     super(id);
     this.title = Objects.requireNonNull(title);
-    this.username = Objects.requireNonNull(username);
+    this.username = username;
   }
   
   
@@ -59,8 +60,8 @@ public class SuperGroup extends Chat {
    *
    * @return value for property {@link #username}
    */
-  public String getUsername() {
-    return username;
+  public Optional<String> getUsername() {
+    return Optional.ofNullable(username);
   }
   
 }

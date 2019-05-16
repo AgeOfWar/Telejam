@@ -1,5 +1,6 @@
 package io.github.ageofwar.telejam.text;
 
+import io.github.ageofwar.telejam.messages.Message;
 import io.github.ageofwar.telejam.messages.MessageEntity;
 import io.github.ageofwar.telejam.users.User;
 
@@ -139,6 +140,17 @@ public final class Text implements CharSequence {
   }
   
   /**
+   * Creates a link.
+   *
+   * @param text    the text of the link
+   * @param message the message to link
+   * @return the created text
+   */
+  public static Text link(String text, Message message) {
+    return new TextBuilder().appendLink(text, message).build();
+  }
+  
+  /**
    * Creates an url.
    *
    * @param url the url
@@ -146,6 +158,16 @@ public final class Text implements CharSequence {
    */
   public static Text url(String url) {
     return new TextBuilder().appendUrl(url).build();
+  }
+  
+  /**
+   * Creates an url.
+   *
+   * @param message the message to link
+   * @return the created text
+   */
+  public static Text url(Message message) {
+    return new TextBuilder().appendUrl(message).build();
   }
   
   /**

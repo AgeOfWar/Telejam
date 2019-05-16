@@ -1,9 +1,13 @@
 package io.github.ageofwar.telejam.text;
 
+import io.github.ageofwar.telejam.chats.Chat;
+import io.github.ageofwar.telejam.chats.SuperGroup;
+import io.github.ageofwar.telejam.messages.Message;
 import io.github.ageofwar.telejam.messages.MessageEntity;
 import io.github.ageofwar.telejam.users.User;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Factory class for {@link Text}.
@@ -14,6 +18,7 @@ import java.util.ArrayList;
 public class TextBuilder {
   
   static final String TEXT_MENTION_LINK = "tg://user?id=";
+  static final String TELEGRAM_LINK = "https://t.me";
   
   /**
    * Builder of the string of the Text.
@@ -148,6 +153,17 @@ public class TextBuilder {
   }
   
   /**
+   * Appends a link to a message to this TextBuilder.
+   *
+   * @param text    the text of the link
+   * @param message the message to link
+   * @return this instance
+   */
+  public TextBuilder appendLink(String text, Message message) {
+    return append(text, toLink(message), true);
+  }
+  
+  /**
    * Appends a mention to this TextBuilder.
    *
    * @param text the username to mention, without <code>@</code>
@@ -222,7 +238,7 @@ public class TextBuilder {
   }
   
   /**
-   * Appends a bot command to this TextBuilder.
+   * Appends an url to this TextBuilder.
    *
    * @param url the url to append
    * @return this instance
@@ -232,13 +248,23 @@ public class TextBuilder {
   }
   
   /**
+   * Appends a link to a message to this TextBuilder.
+   *
+   * @param message message to link
+   * @return this instance
+   */
+  public TextBuilder appendUrl(Message message) {
+    return append(toLink(message), MessageEntity.Type.URL, false);
+  }
+  
+  /**
    * Appends an email to this TextBuilder.
    *
    * @param email the email to append
    * @return this instance
    */
   public TextBuilder appendEmail(String email) {
-    return append(email, MessageEntity.Type.BOT_COMMAND, false);
+    return append(email, MessageEntity.Type.EMAIL, false);
   }
   
   /**
@@ -273,6 +299,17 @@ public class TextBuilder {
   @Deprecated
   public TextBuilder appendMention(String text, long mention) {
     return appendLink(text, TEXT_MENTION_LINK + mention);
+  }
+  
+  private String toLink(Message message) {
+    Chat chat = message.getChat();
+    if (chat instanceof SuperGroup) {
+      Optional<String> username = ((SuperGroup) chat).getUsername();
+      if (username.isPresent()) {
+        return TELEGRAM_LINK + "/" + username.get() + "/" + message.getId();
+      }
+    }
+    return TELEGRAM_LINK + "/c/" + message.getChat().getId() + "/" + message.getId();
   }
   
   private TextBuilder append(String text, MessageEntity.Type type, boolean concat) {
