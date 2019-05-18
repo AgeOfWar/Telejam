@@ -32,7 +32,7 @@ This program re-sends messages.
     
     public RepeaterBot(Bot bot) {
       super(bot);
-      events.registerTextMessageHandler(new MessageRepeater(bot));
+      events.registerUpdateHandler(new MessageRepeater(bot));
     }
     
   }
