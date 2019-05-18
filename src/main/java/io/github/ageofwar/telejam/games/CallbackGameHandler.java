@@ -1,12 +1,13 @@
 package io.github.ageofwar.telejam.games;
 
 import io.github.ageofwar.telejam.callbacks.CallbackQuery;
+import io.github.ageofwar.telejam.callbacks.CallbackQueryHandler;
 
 /**
  * Interface that handles callback games received from a bot.
  */
 @FunctionalInterface
-public interface CallbackGameHandler {
+public interface CallbackGameHandler extends CallbackQueryHandler {
   
   /**
    * Handles an incoming callback game.
@@ -18,5 +19,13 @@ public interface CallbackGameHandler {
    */
   void onCallbackGame(CallbackQuery callbackQuery, String gameShortName)
       throws Throwable;
+  
+  @Override
+  default void onCallbackQuery(CallbackQuery callbackQuery) throws Throwable {
+    if (callbackQuery.getGameShortName().isPresent()) {
+      String gameShortName = callbackQuery.getGameShortName().get();
+      onCallbackGame(callbackQuery, gameShortName);
+    }
+  }
   
 }

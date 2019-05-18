@@ -1,10 +1,14 @@
 package io.github.ageofwar.telejam.messages;
 
+import io.github.ageofwar.telejam.updates.MessageUpdate;
+import io.github.ageofwar.telejam.updates.Update;
+import io.github.ageofwar.telejam.updates.UpdateHandler;
+
 /**
  * Interface that handles messages received from a bot.
  */
 @FunctionalInterface
-public interface MessageHandler {
+public interface MessageHandler extends UpdateHandler {
   
   /**
    * Handles an incoming message.
@@ -14,4 +18,11 @@ public interface MessageHandler {
    */
   void onMessage(Message message) throws Throwable;
   
+  @Override
+  default void onUpdate(Update update) throws Throwable {
+    if (update instanceof MessageUpdate) {
+      onMessage(((MessageUpdate) update).getMessage());
+    }
+  }
+
 }

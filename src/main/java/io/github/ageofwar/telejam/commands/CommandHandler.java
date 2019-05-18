@@ -1,14 +1,14 @@
 package io.github.ageofwar.telejam.commands;
 
 import io.github.ageofwar.telejam.messages.TextMessage;
-
-import java.util.Arrays;
+import io.github.ageofwar.telejam.messages.TextMessageHandler;
+import io.github.ageofwar.telejam.text.Text;
 
 /**
  * Interface that handles commands received from a bot.
  */
 @FunctionalInterface
-public interface CommandHandler {
+public interface CommandHandler extends TextMessageHandler {
   
   /**
    * Handles a command.
@@ -19,20 +19,15 @@ public interface CommandHandler {
    */
   void onCommand(Command command, TextMessage message) throws Throwable;
   
-  /**
-   * Returns a new CommandHandler that filters command with the specified
-   * name or aliases.
-   *
-   * @param name    the name of the commands to handle
-   * @param aliases the aliases of the command to handle
-   * @return a new CommandHandler that filters command with the specified name or aliases
-   */
-  default CommandHandler withName(String name, String... aliases) {
-    return (command, message) -> {
-      if (command.getName().equals(name) || Arrays.asList(aliases).contains(name)) {
-        onCommand(command, message);
-      }
-    };
+  @Override
+  default void onTextMessage(TextMessage message) throws Throwable {
+    if (!message.isCommand()) {
+      return;
+    }
+    Text text = message.getText();
+    String name = text.getBotCommands().get(0);
+    Text args = text.subSequence(name.length() + 1).trim();
+    onCommand(new Command(name, args), message);
   }
   
 }

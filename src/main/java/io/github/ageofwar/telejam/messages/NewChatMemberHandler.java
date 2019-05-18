@@ -7,7 +7,7 @@ import io.github.ageofwar.telejam.users.User;
  * Interface that handles new chat members messages received from a bot.
  */
 @FunctionalInterface
-public interface NewChatMemberHandler {
+public interface NewChatMemberHandler extends MessageHandler {
   
   /**
    * Handles an incoming new chat member.
@@ -18,5 +18,14 @@ public interface NewChatMemberHandler {
    * @throws Throwable if a throwable is thrown
    */
   void onNewChatMember(Chat chat, User user, NewChatMembersMessage message) throws Throwable;
+  
+  @Override
+  default void onMessage(Message message) throws Throwable {
+    if (message instanceof NewChatMembersMessage) {
+      for (User newMember : ((NewChatMembersMessage) message).getNewChatMembers()) {
+        onNewChatMember(message.getChat(), newMember, (NewChatMembersMessage) message);
+      }
+    }
+  }
   
 }

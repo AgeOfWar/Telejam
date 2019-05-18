@@ -1,10 +1,14 @@
 package io.github.ageofwar.telejam.messages;
 
+import io.github.ageofwar.telejam.updates.EditedChannelPostUpdate;
+import io.github.ageofwar.telejam.updates.Update;
+import io.github.ageofwar.telejam.updates.UpdateHandler;
+
 /**
  * Interface that handles edited channel posts received from a bot.
  */
 @FunctionalInterface
-public interface ChannelPostEditHandler {
+public interface ChannelPostEditHandler extends UpdateHandler {
   
   /**
    * Handles an incoming channel post edit.
@@ -14,5 +18,13 @@ public interface ChannelPostEditHandler {
    * @throws Throwable if a throwable is thrown
    */
   void onChannelPostEdit(Message message, long editDate) throws Throwable;
+  
+  @Override
+  default void onUpdate(Update update) throws Throwable {
+    if (update instanceof EditedChannelPostUpdate) {
+      Message message = ((EditedChannelPostUpdate) update).getEditedChannelPost();
+      onChannelPostEdit(message, message.getEditDate().getAsLong());
+    }
+  }
   
 }

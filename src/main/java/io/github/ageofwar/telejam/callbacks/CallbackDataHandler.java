@@ -4,7 +4,7 @@ package io.github.ageofwar.telejam.callbacks;
  * Interface that handles callback data received from a bot.
  */
 @FunctionalInterface
-public interface CallbackDataHandler {
+public interface CallbackDataHandler extends CallbackQueryHandler {
   
   /**
    * Handles an incoming callback game.
@@ -16,6 +16,17 @@ public interface CallbackDataHandler {
    */
   void onCallbackData(CallbackQuery callbackQuery, String name, String args)
       throws Throwable;
+  
+  
+  @Override
+  default void onCallbackQuery(CallbackQuery callbackQuery) throws Throwable {
+    if (callbackQuery.getData().isPresent()) {
+      String[] data = callbackQuery.getData().get().split("\\s+", 2);
+      String name = data[0];
+      String args = data.length > 1 ? data[1] : "";
+      onCallbackData(callbackQuery, name, args);
+    }
+  }
   
   /**
    * Returns a new CallbackDataHandler that filters callbacks with the specified name.
