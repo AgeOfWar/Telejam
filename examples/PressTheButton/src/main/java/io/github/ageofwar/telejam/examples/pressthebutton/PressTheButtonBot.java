@@ -52,9 +52,9 @@ public class PressTheButtonBot extends LongPollingBot {
   public PressTheButtonBot(Bot bot, Map<String, PressTheButton> games, PressTheButtonStyle style) {
     super(bot);
     PressTheButtonMessageUpdater messageUpdater = new PressTheButtonMessageUpdater(bot, games, style);
-    events.registerInlineQueryHandler(new PressTheButtonInlineQueryHandler(bot, style));
-    events.registerCallbackDataHandler(new PressTheButtonStartCallbackHandler(bot, games, messageUpdater).withName("start"));
-    events.registerCallbackDataHandler(new PressTheButtonButtonCallbackHandler(bot, games, messageUpdater).withName("button"));
+    events.registerUpdateHandler(new PressTheButtonInlineQueryHandler(bot, style));
+    events.registerCallbackDataHandler(new PressTheButtonStartCallbackHandler(games, messageUpdater), "start");
+    events.registerCallbackDataHandler(new PressTheButtonButtonCallbackHandler(bot, games, messageUpdater), "button");
   }
   
 }

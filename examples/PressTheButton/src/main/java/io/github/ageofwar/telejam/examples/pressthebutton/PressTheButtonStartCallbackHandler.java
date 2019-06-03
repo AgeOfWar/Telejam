@@ -1,6 +1,5 @@
 package io.github.ageofwar.telejam.examples.pressthebutton;
 
-import io.github.ageofwar.telejam.Bot;
 import io.github.ageofwar.telejam.callbacks.CallbackDataHandler;
 import io.github.ageofwar.telejam.callbacks.CallbackQuery;
 import io.github.ageofwar.telejam.examples.pressthebutton.game.PressTheButton;
@@ -12,14 +11,11 @@ import java.util.Map;
 
 public class PressTheButtonStartCallbackHandler implements CallbackDataHandler {
   
-  private final Bot bot;
   private final Map<String, PressTheButton> games;
   private final PressTheButtonMessageUpdater messageUpdater;
   
-  public PressTheButtonStartCallbackHandler(Bot bot,
-                                            Map<String, PressTheButton> games,
+  public PressTheButtonStartCallbackHandler(Map<String, PressTheButton> games,
                                             PressTheButtonMessageUpdater messageUpdater) {
-    this.bot = bot;
     this.games = games;
     this.messageUpdater = messageUpdater;
   }

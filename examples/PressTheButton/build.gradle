@@ -19,6 +19,10 @@ jar {
     }
 }
 
+repositories {
+    jcenter()
+}
+
 dependencies {
-    compile fileTree(dir: 'libs')
+    compile 'io.github.ageofwar:telejam:7.7'
 }

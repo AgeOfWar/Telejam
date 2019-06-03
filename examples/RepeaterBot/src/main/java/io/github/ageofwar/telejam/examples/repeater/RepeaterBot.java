@@ -9,7 +9,7 @@ public class RepeaterBot extends LongPollingBot {
   
   public RepeaterBot(Bot bot) {
     super(bot);
-    events.registerTextMessageHandler(new MessageRepeater(bot));
+    events.registerUpdateHandler(new MessageRepeater(bot));
   }
   
   public static void main(String... args) throws IOException {
