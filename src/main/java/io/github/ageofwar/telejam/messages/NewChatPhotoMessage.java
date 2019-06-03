@@ -28,7 +28,7 @@ public class NewChatPhotoMessage extends Message {
                              long date,
                              Chat chat,
                              PhotoSize[] newChatPhoto) {
-    super(id, sender, date, chat, null, null, null);
+    super(id, sender, date, chat, null, null, null, null);
     this.newChatPhoto = Objects.requireNonNull(newChatPhoto);
   }
   

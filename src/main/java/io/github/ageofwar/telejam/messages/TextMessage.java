@@ -2,6 +2,7 @@ package io.github.ageofwar.telejam.messages;
 
 import com.google.gson.annotations.SerializedName;
 import io.github.ageofwar.telejam.chats.Chat;
+import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup;
 import io.github.ageofwar.telejam.users.User;
 import io.github.ageofwar.telejam.text.Text;
 
@@ -38,8 +39,9 @@ public class TextMessage extends Message {
                      Message replyToMessage,
                      Long editDate,
                      String authorSignature,
-                     Text text) {
-    super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
+                     Text text,
+                     InlineKeyboardMarkup replyMarkup) {
+    super(id, sender, date, chat, replyToMessage, editDate, authorSignature, replyMarkup);
     this.text = text.toString();
     entities = text.getEntities();
   }

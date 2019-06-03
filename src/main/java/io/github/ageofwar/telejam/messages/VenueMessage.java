@@ -2,6 +2,7 @@ package io.github.ageofwar.telejam.messages;
 
 import com.google.gson.annotations.SerializedName;
 import io.github.ageofwar.telejam.chats.Chat;
+import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup;
 import io.github.ageofwar.telejam.users.User;
 
 import java.util.Objects;
@@ -28,8 +29,9 @@ public class VenueMessage extends Message {
                       Chat chat,
                       Message replyToMessage,
                       String authorSignature,
-                      Venue venue) {
-    super(id, sender, date, chat, replyToMessage, null, authorSignature);
+                      Venue venue,
+                      InlineKeyboardMarkup replyMarkup) {
+    super(id, sender, date, chat, replyToMessage, null, authorSignature, replyMarkup);
     this.venue = Objects.requireNonNull(venue);
   }
   

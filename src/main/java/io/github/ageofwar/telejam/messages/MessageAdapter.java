@@ -2,6 +2,7 @@ package io.github.ageofwar.telejam.messages;
 
 import com.google.gson.*;
 import io.github.ageofwar.telejam.chats.Chat;
+import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup;
 import io.github.ageofwar.telejam.users.User;
 
 import java.lang.reflect.Type;
@@ -85,7 +86,8 @@ public final class MessageAdapter implements JsonDeserializer<Message>, JsonSeri
         context.deserialize(object.get(Message.CHAT_FIELD), Chat.class),
         context.deserialize(object.get(Message.REPLY_TO_MESSAGE_FIELD), Message.class),
         context.deserialize(object.get(Message.EDIT_DATE_FIELD), Long.class),
-        context.deserialize(object.get(Message.AUTHOR_SIGNATURE_FIELD), String.class)
+        context.deserialize(object.get(Message.AUTHOR_SIGNATURE_FIELD), String.class),
+        context.deserialize(object.get(Message.REPLY_MARKUP_FIELD), InlineKeyboardMarkup.class)
     ) {
     };
   }

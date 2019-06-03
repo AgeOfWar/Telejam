@@ -31,6 +31,8 @@ public final class InlineKeyboardButtonAdapter implements JsonSerializer<InlineK
       return context.deserialize(src, CallbackGameInlineKeyboardButton.class);
     } else if (object.has(PayInlineKeyboardButton.PAY_FIELD)) {
       return context.deserialize(src, PayInlineKeyboardButton.class);
+    } else if (object.has(LoginUrlInlineKeyboardButton.LOGIN_URL_FIELD)) {
+      return context.deserialize(src, LoginUrlInlineKeyboardButton.class);
     }
     return new InlineKeyboardButton(
         context.deserialize(object.get(InlineKeyboardButton.TEXT_FIELD), String.class)

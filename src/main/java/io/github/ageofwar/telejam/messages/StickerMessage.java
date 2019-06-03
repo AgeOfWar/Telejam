@@ -30,7 +30,7 @@ public class StickerMessage extends Message {
                         Message replyToMessage,
                         String authorSignature,
                         Sticker sticker) {
-    super(id, sender, date, chat, replyToMessage, null, authorSignature);
+    super(id, sender, date, chat, replyToMessage, null, authorSignature, null);
     this.sticker = Objects.requireNonNull(sticker);
   }
   

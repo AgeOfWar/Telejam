@@ -3,6 +3,7 @@ package io.github.ageofwar.telejam.messages;
 import com.google.gson.annotations.SerializedName;
 import io.github.ageofwar.telejam.TelegramObject;
 import io.github.ageofwar.telejam.chats.Chat;
+import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup;
 import io.github.ageofwar.telejam.users.User;
 
 import java.util.Objects;
@@ -23,6 +24,7 @@ public abstract class Message implements TelegramObject {
   static final String REPLY_TO_MESSAGE_FIELD = "reply_to_message";
   static final String EDIT_DATE_FIELD = "edit_date";
   static final String AUTHOR_SIGNATURE_FIELD = "author_signature";
+  static final String REPLY_MARKUP_FIELD = "reply_markup";
   
   /**
    * Unique message identifier inside this chat.
@@ -69,6 +71,11 @@ public abstract class Message implements TelegramObject {
   @SerializedName(AUTHOR_SIGNATURE_FIELD)
   private final String authorSignature;
   
+  /**
+   * Inline keyboard attached to the message.
+   */
+  @SerializedName(REPLY_MARKUP_FIELD)
+  private final InlineKeyboardMarkup replyMarkup;
   
   public Message(long id,
                  User sender,
@@ -76,7 +83,8 @@ public abstract class Message implements TelegramObject {
                  Chat chat,
                  Message replyToMessage,
                  Long editDate,
-                 String authorSignature) {
+                 String authorSignature,
+                 InlineKeyboardMarkup replyMarkup) {
     this.id = id;
     this.sender = sender;
     this.date = date;
@@ -84,6 +92,7 @@ public abstract class Message implements TelegramObject {
     this.replyToMessage = replyToMessage;
     this.editDate = editDate;
     this.authorSignature = authorSignature;
+    this.replyMarkup = replyMarkup;
   }
   
   

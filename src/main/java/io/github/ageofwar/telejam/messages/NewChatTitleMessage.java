@@ -25,7 +25,7 @@ public class NewChatTitleMessage extends Message {
                              long date,
                              Chat chat,
                              String newChatTitle) {
-    super(id, sender, date, chat, null, null, null);
+    super(id, sender, date, chat, null, null, null, null);
     this.newChatTitle = newChatTitle;
   }
   

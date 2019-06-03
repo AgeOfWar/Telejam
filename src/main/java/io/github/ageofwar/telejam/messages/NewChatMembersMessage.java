@@ -28,7 +28,7 @@ public class NewChatMembersMessage extends Message {
                                long date,
                                Chat chat,
                                User[] newChatMembers) {
-    super(id, sender, date, chat, null, null, null);
+    super(id, sender, date, chat, null, null, null, null);
     this.newChatMembers = Objects.requireNonNull(newChatMembers);
   }
   

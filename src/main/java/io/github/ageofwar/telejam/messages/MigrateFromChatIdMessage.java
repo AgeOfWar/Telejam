@@ -25,7 +25,7 @@ public class MigrateFromChatIdMessage extends Message {
                                   long date,
                                   Chat chat,
                                   long oldChatId) {
-    super(id, sender, date, chat, null, null, null);
+    super(id, sender, date, chat, null, null, null, null);
     this.oldChatId = oldChatId;
   }
   

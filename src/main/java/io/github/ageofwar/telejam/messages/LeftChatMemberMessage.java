@@ -28,7 +28,7 @@ public class LeftChatMemberMessage extends Message {
                                long date,
                                Chat chat,
                                User leftChatMember) {
-    super(id, sender, date, chat, null, null, null);
+    super(id, sender, date, chat, null, null, null, null);
     this.leftChatMember = Objects.requireNonNull(leftChatMember);
   }
   

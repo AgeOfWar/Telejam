@@ -3,6 +3,7 @@ package io.github.ageofwar.telejam.messages;
 import com.google.gson.annotations.SerializedName;
 import io.github.ageofwar.telejam.contacts.Contact;
 import io.github.ageofwar.telejam.chats.Chat;
+import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup;
 import io.github.ageofwar.telejam.users.User;
 
 import java.util.Objects;
@@ -29,8 +30,9 @@ public class ContactMessage extends Message {
                         Chat chat,
                         Message replyToMessage,
                         String authorSignature,
-                        Contact contact) {
-    super(id, sender, date, chat, replyToMessage, null, authorSignature);
+                        Contact contact,
+                        InlineKeyboardMarkup replyMarkup) {
+    super(id, sender, date, chat, replyToMessage, null, authorSignature, replyMarkup);
     this.contact = Objects.requireNonNull(contact);
   }
   

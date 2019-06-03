@@ -29,7 +29,7 @@ public class MessagePinnedMessage extends Message {
                               long date,
                               Chat chat,
                               Message pinnedMessage) {
-    super(id, sender, date, chat, null, null, null);
+    super(id, sender, date, chat, null, null, null, null);
     this.pinnedMessage = Objects.requireNonNull(pinnedMessage);
   }
   

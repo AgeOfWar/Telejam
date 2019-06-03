@@ -31,7 +31,8 @@ public class JsonTest {
         null,
         null,
         new Audio("AwGDJSHSshhdhShSHSHhhshshSHHSHshSshHS-N0C", 10, null, "Hello", null, null, null),
-        Text.parseHtml("<b>Hello</b>\n<a href=www.google.it>World</a>!")
+        Text.parseHtml("<b>Hello</b>\n<a href=www.google.it>World</a>!"),
+        null
     );
     JsonObject jsonUser = new JsonObject();
     jsonUser.addProperty("id", 8437262L);

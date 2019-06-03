@@ -16,7 +16,7 @@ public class DeleteChatPhotoMessage extends Message {
                                 User sender,
                                 long date,
                                 Chat chat) {
-    super(id, sender, date, chat, null, null, null);
+    super(id, sender, date, chat, null, null, null, null);
   }
   
 }

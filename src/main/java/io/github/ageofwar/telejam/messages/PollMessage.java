@@ -2,6 +2,7 @@ package io.github.ageofwar.telejam.messages;
 
 import com.google.gson.annotations.SerializedName;
 import io.github.ageofwar.telejam.chats.Chat;
+import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup;
 import io.github.ageofwar.telejam.users.User;
 
 import java.util.Objects;
@@ -28,8 +29,9 @@ public class PollMessage extends Message {
                      Message replyToMessage,
                      Long editDate,
                      String authorSignature,
-                     Poll poll) {
-    super(id, sender, date, chat, replyToMessage, editDate, authorSignature);
+                     Poll poll,
+                     InlineKeyboardMarkup replyMarkup) {
+    super(id, sender, date, chat, replyToMessage, editDate, authorSignature, replyMarkup);
     this.poll = Objects.requireNonNull(poll);
   }
   
