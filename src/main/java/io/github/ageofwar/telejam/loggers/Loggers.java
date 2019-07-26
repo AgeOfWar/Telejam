@@ -60,7 +60,7 @@ public final class Loggers {
    * @param t      the error
    */
   public static void logError(Logger logger, Throwable t) {
-    logger.warning(t.getLocalizedMessage());
+    logger.warning(t.getClass().getName() + ": " + t.getLocalizedMessage());
     StackTraceElement[] stackTrace = t.getStackTrace();
     if (stackTrace.length > 0) {
       logger.throwing(stackTrace[0].getClassName(), stackTrace[0].getMethodName(), t);
