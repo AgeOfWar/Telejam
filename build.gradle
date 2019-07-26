@@ -1,8 +1,5 @@
 plugins {
     id 'java'
-    id 'maven'
-    id 'maven-publish'
-    id 'com.jfrog.bintray' version '1.8.4'
 }
 
 ext {
@@ -10,7 +7,7 @@ ext {
 }
 
 group 'io.github.ageofwar'
-version '7.7'
+version '7.8'
 
 repositories {
     mavenCentral()
@@ -60,38 +57,4 @@ artifacts {
     archives libWithDependenciesJar
     archives sourcesJar
     archives javadocJar
-}
-
-publishing {
-    publications {
-        TelejamPublication(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-            groupId project.group
-            artifactId rootProject.name.toLowerCase()
-            version project.version
-        }
-    }
-}
-
-bintray {
-    user = project.property('bintrayUser')
-    key = project.property('bintrayApiKey')
-    publications = ['TelejamPublication']
-    publish = true
-    override = true
-    pkg {
-        repo = 'Telegram'
-        name = 'Telejam'
-        userOrg = user
-        licenses = ['MIT']
-        vcsUrl = 'https://github.com/AgeOfWar/Telejam.git'
-        githubRepo = 'https://github.com/AgeOfWar/Telejam'
-        publicDownloadNumbers = true
-        version {
-            name = project.version
-            vcsTag = "v${project.version}"
-        }
-    }
 }
