@@ -214,7 +214,7 @@ public class SendAnimation implements TelegramMethod<AnimationMessage> {
         WIDTH_FIELD, width,
         HEIGHT_FIELD, height,
         THUMBNAIL_FIELD, thumbnail,
-        CAPTION_FIELD, caption,
+            CAPTION_FIELD, caption != null ? caption.toHtmlString() : null,
         PARSE_MODE_FIELD, "HTML",
         DISABLE_NOTIFICATION_FIELD, disableNotification,
         REPLY_TO_MESSAGE_ID_FIELD, replyToMessageId,
