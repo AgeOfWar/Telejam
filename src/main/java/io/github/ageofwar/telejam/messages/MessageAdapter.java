@@ -22,7 +22,7 @@ public final class MessageAdapter implements JsonDeserializer<Message>, JsonSeri
   @Override
   public Message deserialize(JsonElement src, Type type, JsonDeserializationContext context) throws JsonParseException {
     JsonObject object = src.getAsJsonObject();
-    if (object.has(Forward.FORWARD_MESSAGE_ID_FIELD)) {
+    if (object.has(Forward.FORWARD_MESSAGE_SENDER_NAME_FIELD) || object.has(Forward.FORWARD_MESSAGE_SENDER_FIELD)) {
       return context.deserialize(src, Forward.class);
     } else if (object.has(TextMessage.TEXT_FIELD)) {
       return context.deserialize(src, TextMessage.class);

@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Forward<T extends Message> extends Message {
   
   static final String FORWARD_MESSAGE_SENDER_FIELD = "forward_from";
+    static final String FORWARD_MESSAGE_SENDER_NAME_FIELD = "forward_sender_name";
   static final String FORWARD_MESSAGE_CHAT_FIELD = "forward_from_chat";
   static final String FORWARD_MESSAGE_ID_FIELD = "forward_from_message_id";
   static final String FORWARD_MESSAGE_DATE_FIELD = "forward_date";
