@@ -1,5 +1,6 @@
 package io.github.ageofwar.telejam.updates;
 
+import com.google.gson.JsonParseException;
 import io.github.ageofwar.telejam.Bot;
 import io.github.ageofwar.telejam.methods.GetUpdates;
 
@@ -92,12 +93,21 @@ public final class UpdateReader implements AutoCloseable {
    * @throws IOException if an I/O Exception occurs
    */
   public int getUpdates() throws IOException {
-    Update[] newUpdates = getUpdates(lastUpdateId + 1);
-    Collections.addAll(updates, newUpdates);
-    if (newUpdates.length > 0) {
-      lastUpdateId = newUpdates[newUpdates.length - 1].getId();
+    try {
+      Update[] newUpdates = getUpdates(lastUpdateId + 1);
+      Collections.addAll(updates, newUpdates);
+      if (newUpdates.length > 0) {
+        lastUpdateId = newUpdates[newUpdates.length - 1].getId();
+      }
+      return newUpdates.length;
+    } catch (IOException e) {
+      if (e.getCause() instanceof JsonParseException) {
+        lastUpdateId++;
+      } else {
+        throw e;
+      }
+      return 0;
     }
-    return newUpdates.length;
   }
   
   /**
