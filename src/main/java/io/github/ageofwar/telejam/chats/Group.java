@@ -13,7 +13,6 @@ import java.util.Objects;
 public class Group extends Chat {
   
   static final String TITLE_FIELD = "title";
-  static final String ALL_ADMINS_FIELD = "all_members_are_administrators";
   
   @Expose
   @SerializedName(TYPE_FIELD)
@@ -25,17 +24,10 @@ public class Group extends Chat {
   @SerializedName(TITLE_FIELD)
   private final String title;
   
-  /**
-   * True if a group has ‘All Members Are Admins’ enabled.
-   */
-  @SerializedName(ALL_ADMINS_FIELD)
-  private final boolean allAdmins;
-  
   
   public Group(long id, String title, boolean allAdmins) {
     super(id);
     this.title = Objects.requireNonNull(title);
-    this.allAdmins = allAdmins;
   }
   
   
@@ -47,15 +39,6 @@ public class Group extends Chat {
   @Override
   public String getTitle() {
     return title;
-  }
-  
-  /**
-   * Getter for property {@link #allAdmins}.
-   *
-   * @return value for property {@link #allAdmins}
-   */
-  public boolean allMembersAreAdministrators() {
-    return allAdmins;
   }
   
 }

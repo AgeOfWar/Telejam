@@ -23,6 +23,7 @@ public class Sticker implements TelegramObject {
   static final String SET_NAME_FIELD = "set_name";
   static final String MASK_POSITION_FIELD = "mask_position";
   static final String SIZE_FIELD = "file_size";
+  static final String IS_ANIMATED_FIELD = "is_animated";
   
   /**
    * Unique identifier for this file.
@@ -72,6 +73,31 @@ public class Sticker implements TelegramObject {
   @SerializedName(SIZE_FIELD)
   private Integer size;
   
+  /**
+   * True, if the sticker is animated.
+   */
+  @SerializedName(IS_ANIMATED_FIELD)
+  private boolean animated;
+  
+  public Sticker(String id,
+                 int width,
+                 int height,
+                 PhotoSize thumbnail,
+                 String emoji,
+                 String setName,
+                 MaskPosition maskPosition,
+                 Integer size,
+                 boolean animated) {
+    this.id = Objects.requireNonNull(id);
+    this.width = width;
+    this.height = height;
+    this.thumbnail = thumbnail;
+    this.emoji = emoji;
+    this.setName = setName;
+    this.maskPosition = maskPosition;
+    this.size = size;
+    this.animated = animated;
+  }
   
   public Sticker(String id,
                  int width,
@@ -168,6 +194,15 @@ public class Sticker implements TelegramObject {
    */
   public OptionalInt getSize() {
     return size == null ? OptionalInt.empty() : OptionalInt.of(size);
+  }
+  
+  /**
+   * Getter for property {@link #animated}.
+   *
+   * @return value for property {@link #animated}
+   */
+  public boolean isAnimated() {
+    return animated;
   }
   
   @Override

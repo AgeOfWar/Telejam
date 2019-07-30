@@ -1,6 +1,7 @@
 package io.github.ageofwar.telejam.methods;
 
 import io.github.ageofwar.telejam.chats.Chat;
+import io.github.ageofwar.telejam.chats.ChatPermissions;
 import io.github.ageofwar.telejam.users.User;
 
 import java.util.Map;
@@ -23,10 +24,7 @@ public class RestrictChatMember implements TelegramMethod<Boolean> {
   static final String CHAT_ID_FIELD = "chat_id";
   static final String USER_ID_FIELD = "user_id";
   static final String UNTIL_DATE_FIELD = "until_date";
-  static final String CAN_SEND_MESSAGES_FIELD = "can_send_messages";
-  static final String CAN_SEND_MEDIA_MESSAGES_FIELD = "can_send_media_messages";
-  static final String CAN_SEND_OTHER_MESSAGES_FIELD = "can_send_other_messages";
-  static final String CAN_ADD_WEB_PAGE_PREVIEWS_FIELD = "can_add_web_page_previews";
+  static final String PERMISSIONS_FIELD = "permissions";
   
   /**
    * Unique identifier for the target chat.
@@ -51,27 +49,9 @@ public class RestrictChatMember implements TelegramMethod<Boolean> {
   private Long untilDate;
 
   /**
-   * Pass True, if the user can send text messages, contacts, locations and venues.
+   * New user permissions.
    */
-  private Boolean canSendMessages;
-
-  /**
-   * Pass True, if the user can send audios, documents, photos,
-   * videos, video notes and voice notes, implies {@link #canSendMessages}.
-   */
-  private Boolean canSendMediaMessages;
-
-  /**
-   * Pass True, if the user can send animations, games,
-   * stickers and use inline bots, implies {@link #canSendMessages}.
-   */
-  private Boolean canSendOtherMessages;
-
-  /**
-   * Pass True, if the user may add web page previews
-   * to their messages, implies {@link #canSendMessages}.
-   */
-  private Boolean canAddWebPagePreviews;
+  private ChatPermissions permissions;
   
   
   public RestrictChatMember chat(String chatUsername) {
@@ -107,23 +87,8 @@ public class RestrictChatMember implements TelegramMethod<Boolean> {
     return this;
   }
   
-  public RestrictChatMember canSendMessages(Boolean canSendMessages) {
-    this.canSendMessages = canSendMessages;
-    return this;
-  }
-
-  public RestrictChatMember canSendMediaMessages(Boolean canSendMediaMessages) {
-    this.canSendMediaMessages = canSendMediaMessages;
-    return this;
-  }
-
-  public RestrictChatMember canSendOtherMessages(Boolean canSendOtherMessages) {
-    this.canSendOtherMessages = canSendOtherMessages;
-    return this;
-  }
-
-  public RestrictChatMember canAddWebPagePreviews(Boolean canAddWebPagePreviews) {
-    this.canAddWebPagePreviews = canAddWebPagePreviews;
+  public RestrictChatMember permissions(ChatPermissions permissions) {
+    this.permissions = permissions;
     return this;
   }
 
@@ -138,10 +103,7 @@ public class RestrictChatMember implements TelegramMethod<Boolean> {
         CHAT_ID_FIELD, chatId != null ? chatId : chatUsername,
         USER_ID_FIELD, userId,
         UNTIL_DATE_FIELD, untilDate,
-        CAN_SEND_MESSAGES_FIELD, canSendMessages,
-        CAN_SEND_MEDIA_MESSAGES_FIELD, canSendMediaMessages,
-        CAN_SEND_OTHER_MESSAGES_FIELD, canSendOtherMessages,
-        CAN_ADD_WEB_PAGE_PREVIEWS_FIELD, canAddWebPagePreviews
+        PERMISSIONS_FIELD, permissions
     );
   }
   

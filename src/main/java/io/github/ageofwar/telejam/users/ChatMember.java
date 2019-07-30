@@ -29,6 +29,7 @@ public class ChatMember implements TelegramObject {
   static final String CAN_SEND_MEDIA_MESSAGES_FIELD = "can_send_media_messages";
   static final String CAN_SEND_OTHER_MESSAGES_FIELD = "can_send_other_messages";
   static final String CAN_ADD_WEB_PAGE_PREVIEWS_FIELD = "can_add_web_page_previews";
+  static final String CAN_SEND_POLLS_FIELD = "can_send_polls";
   
   /**
    * Information about the user.
@@ -105,6 +106,12 @@ public class ChatMember implements TelegramObject {
   private boolean canPinMessages = false;
   
   /**
+   * True, if the user is allowed to send polls
+   */
+  @SerializedName(CAN_SEND_POLLS_FIELD)
+  private boolean canSendPolls = true;
+  
+  /**
    * True, if the member can add new administrators with a
    * subset of his own privileges or demote administrators that
    * it has promoted, directly or indirectly (promoted by
@@ -151,6 +158,7 @@ public class ChatMember implements TelegramObject {
                     boolean canInviteUsers,
                     boolean canRestrictUsers,
                     boolean canPinMessages,
+                    boolean canSendPolls,
                     boolean canPromoteMembers,
                     boolean canSendMessages,
                     boolean canSendMediaMessages,
@@ -167,6 +175,7 @@ public class ChatMember implements TelegramObject {
     this.canInviteUsers = canInviteUsers;
     this.canRestrictUsers = canRestrictUsers;
     this.canPinMessages = canPinMessages;
+    this.canSendPolls = canSendPolls;
     this.canPromoteMembers = canPromoteMembers;
     this.canSendMessages = canSendMessages;
     this.canSendMediaMessages = canSendMediaMessages;
@@ -349,6 +358,15 @@ public class ChatMember implements TelegramObject {
    */
   public boolean canAddWebPagePreviews() {
     return canAddWebPagePreviews;
+  }
+  
+  /**
+   * Getter for property {@link #canSendPolls}.
+   *
+   * @return value for property {@link #canSendPolls}
+   */
+  public boolean canSendPolls() {
+    return canSendPolls;
   }
   
   @Override

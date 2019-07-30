@@ -14,6 +14,7 @@ public class StickerSet implements TelegramObject {
   static final String TITLE_FIELD = "title";
   static final String CONTAINS_MASKS_FIELD = "contains_masks";
   static final String STICKERS_FIELD = "stickers";
+  static final String IS_ANIMATED_FIELD = "is_animated";
   
   /**
    * Sticker set name.
@@ -39,6 +40,19 @@ public class StickerSet implements TelegramObject {
   @SerializedName(STICKERS_FIELD)
   private final Sticker[] stickers;
   
+  /**
+   * True, if the sticker set contains animated stickers.
+   */
+  @SerializedName(IS_ANIMATED_FIELD)
+  private boolean animated;
+  
+  public StickerSet(String name, String title, boolean containsMasks, Sticker[] stickers, boolean animated) {
+    this.name = name;
+    this.title = title;
+    this.containsMasks = containsMasks;
+    this.stickers = stickers;
+    this.animated = animated;
+  }
   
   public StickerSet(String name, String title, boolean containsMasks, Sticker[] stickers) {
     this.name = name;
@@ -82,6 +96,15 @@ public class StickerSet implements TelegramObject {
    */
   public Sticker[] getStickers() {
     return stickers;
+  }
+  
+  /**
+   * Getter for property {@link #animated}.
+   *
+   * @return value for property {@link #animated}
+   */
+  public boolean isAnimated() {
+    return animated;
   }
   
   @Override
