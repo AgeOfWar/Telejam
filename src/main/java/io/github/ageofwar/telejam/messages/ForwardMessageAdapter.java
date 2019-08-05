@@ -23,10 +23,10 @@ public final class ForwardMessageAdapter implements JsonSerializer<Forward<?>>, 
   public Forward<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
       throws JsonParseException {
     JsonObject object = json.getAsJsonObject();
-    
-    long id = object.getAsJsonPrimitive(Message.ID_FIELD).getAsLong();
-    User sender = context.deserialize(object.getAsJsonObject(Message.SENDER_FIELD), User.class);
-    long date = object.getAsJsonPrimitive(Message.DATE_FIELD).getAsLong();
+  
+    long id = object.get(Message.ID_FIELD).getAsLong();
+    User sender = object.has(Message.SENDER_FIELD) ? context.deserialize(object.getAsJsonObject(Message.SENDER_FIELD), User.class) : null;
+    long date = object.get(Message.DATE_FIELD).getAsLong();
     Chat chat = context.deserialize(object.getAsJsonObject(Message.CHAT_FIELD), Chat.class);
     
     object.add(Message.SENDER_FIELD, object.get(Forward.FORWARD_MESSAGE_SENDER_FIELD));
@@ -40,6 +40,7 @@ public final class ForwardMessageAdapter implements JsonSerializer<Forward<?>>, 
     object.remove(Forward.FORWARD_MESSAGE_ID_FIELD);
     object.remove(Forward.FORWARD_MESSAGE_DATE_FIELD);
     object.remove(Forward.FORWARD_SIGNATURE_FIELD);
+    object.remove(Forward.FORWARD_MESSAGE_SENDER_NAME_FIELD);
     
     return new Forward(
         id, sender, date, chat, context.deserialize(object, Message.class)
