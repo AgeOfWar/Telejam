@@ -1,7 +1,7 @@
 package io.github.ageofwar.telejam.updates;
 
-import com.google.gson.JsonParseException;
 import io.github.ageofwar.telejam.Bot;
+import io.github.ageofwar.telejam.TelegramException;
 import io.github.ageofwar.telejam.methods.GetUpdates;
 
 import java.io.IOException;
@@ -100,13 +100,11 @@ public final class UpdateReader implements AutoCloseable {
         lastUpdateId = newUpdates[newUpdates.length - 1].getId();
       }
       return newUpdates.length;
-    } catch (IOException e) {
-      if (e.getCause() instanceof JsonParseException) {
+    } catch (Throwable e) {
+      if (!(e instanceof TelegramException)) {
         lastUpdateId++;
-      } else {
-        throw e;
       }
-      return 0;
+      throw e;
     }
   }
   
