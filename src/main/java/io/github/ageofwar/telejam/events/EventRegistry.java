@@ -10,6 +10,7 @@ import io.github.ageofwar.telejam.updates.UpdateHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,6 +44,15 @@ public class EventRegistry implements UpdateHandler {
   public <T extends UpdateHandler> T registerUpdateHandler(T handler) {
     updateHandlers.add(handler);
     return handler;
+  }
+  
+  /**
+   * Registers an array of update handlers.
+   *
+   * @param handlers handlers to register
+   */
+  public void registerUpdateHandlers(UpdateHandler... handlers) {
+    Collections.addAll(updateHandlers, handlers);
   }
   
   /**
