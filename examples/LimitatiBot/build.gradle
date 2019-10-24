@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'io.github.ageofwar.telejam.examples'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+mainClassName = 'io.github.ageofwar.telejam.examples.pressthebutton.PressTheButtonBot'
+
+jar {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'io.github.ageofwar:telejam:7.7'
+}
