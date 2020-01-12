@@ -45,6 +45,11 @@ public class SuperGroup extends Chat {
   }
   
   
+  @Override
+  public String toUrl() {
+    return username != null ? "https://t.me/" + username : "https://t.me/c/" + Long.toString(getId()).substring(4);
+  }
+  
   /**
    * Getter for property {@link #title}.
    *

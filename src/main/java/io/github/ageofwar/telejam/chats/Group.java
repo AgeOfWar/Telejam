@@ -31,6 +31,11 @@ public class Group extends Chat {
   }
   
   
+  @Override
+  public String toUrl() {
+    return "https://t.me/c/" + getId();
+  }
+  
   /**
    * Getter for property {@link #title}.
    *

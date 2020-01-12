@@ -15,11 +15,20 @@ import java.util.OptionalInt;
  */
 public class Document implements TelegramObject {
   
+  static final String FILE_UNIQUE_ID_FIELD = "file_unique_id";
   static final String ID_FIELD = "file_id";
   static final String THUMBNAIL_FIELD = "thumb";
   static final String NAME_FIELD = "file_name";
   static final String MIME_TYPE_FIELD = "mime_type";
   static final String SIZE_FIELD = "file_size";
+  
+  /**
+   * Unique identifier for this file, which is
+   * supposed to be the same over time and for different bots.
+   * Can't be used to download or reuse the file.
+   */
+  @SerializedName(FILE_UNIQUE_ID_FIELD)
+  private final String uniqueId;
   
   /**
    * Unique file identifier.
@@ -52,7 +61,8 @@ public class Document implements TelegramObject {
   private Integer size;
   
   
-  public Document(String id, PhotoSize thumbnail, String name, String mimeType, Integer size) {
+  public Document(String uniqueId, String id, PhotoSize thumbnail, String name, String mimeType, Integer size) {
+    this.uniqueId = Objects.requireNonNull(uniqueId);
     this.id = Objects.requireNonNull(id);
     this.thumbnail = thumbnail;
     this.name = name;
@@ -60,10 +70,20 @@ public class Document implements TelegramObject {
     this.size = size;
   }
   
-  public Document(String id) {
+  public Document(String uniqueId, String id) {
+    this.uniqueId = Objects.requireNonNull(uniqueId);
     this.id = Objects.requireNonNull(id);
   }
   
+  
+  /**
+   * Getter for property {@link #uniqueId}.
+   *
+   * @return value for property {@link #uniqueId}
+   */
+  public String getUniqueId() {
+    return uniqueId;
+  }
   
   /**
    * Getter for property {@link #id}.
@@ -121,12 +141,12 @@ public class Document implements TelegramObject {
     }
     
     Document document = (Document) obj;
-    return id.equals(document.getId());
+    return uniqueId.equals(document.getUniqueId());
   }
   
   @Override
   public int hashCode() {
-    return id.hashCode();
+    return uniqueId.hashCode();
   }
   
 }

@@ -6,6 +6,7 @@ import io.github.ageofwar.telejam.updates.UpdateReader;
 
 import java.io.IOException;
 import java.util.function.LongUnaryOperator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static io.github.ageofwar.telejam.loggers.Loggers.*;
@@ -69,7 +70,7 @@ public abstract class LongPollingBot extends TelegramBot implements AutoCloseabl
       logger.info(() -> "Discarding previous updates...");
       updateReader.discardAll();
     } catch (IOException e) {
-      logError(logger, e);
+      logger.log(Level.WARNING, e.getLocalizedMessage(), e);
       onError(e);
     }
     logger.info(() -> "Waiting for updates...");
@@ -82,7 +83,7 @@ public abstract class LongPollingBot extends TelegramBot implements AutoCloseabl
         logger.info(() -> "Stopping " + bot.getUsername() + "...");
         Thread.currentThread().interrupt();
       } catch (Throwable e) {
-        logError(logger, e);
+        logger.log(Level.WARNING, e.getLocalizedMessage(), e);
         onError(e);
       }
     }

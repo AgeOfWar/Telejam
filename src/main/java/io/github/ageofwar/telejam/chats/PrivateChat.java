@@ -49,6 +49,11 @@ public class PrivateChat extends Chat {
   
   
   @Override
+  public String toUrl() {
+    return username != null ? "https://t.me/" + username : "https://t.me/c/" + getId();
+  }
+  
+  @Override
   public String getTitle() {
     return lastName == null ? firstName : firstName + " " + lastName;
   }

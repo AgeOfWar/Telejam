@@ -23,9 +23,6 @@ public class MessageEntity implements TelegramObject {
   
   /**
    * Type of the entity.
-   * Can be mention (@username), hashtag, bot_command, url, email, bold (bold text),
-   * italic (italic text), code (monowidth string), pre (monowidth block),
-   * text_link (for clickable text URLs), text_mention (for users without usernames).
    */
   @SerializedName(TYPE_FIELD)
   private final Type type;
@@ -172,7 +169,9 @@ public class MessageEntity implements TelegramObject {
     @SerializedName("url") URL,
     @SerializedName("email") EMAIL,
     @SerializedName("cashtag") CASHTAG,
-    @SerializedName("phone_number") PHONE_NUMBER
+    @SerializedName("phone_number") PHONE_NUMBER,
+    @SerializedName("underline") UNDERLINE,
+    @SerializedName("strikethrough") STRIKETHROUGH
   }
   
 }

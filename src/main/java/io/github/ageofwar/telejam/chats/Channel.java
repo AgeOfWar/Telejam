@@ -39,6 +39,10 @@ public class Channel extends Chat {
     this.username = username;
   }
   
+  @Override
+  public String toUrl() {
+    return username != null ? "https://t.me/" + username : "https://t.me/c/" + Long.toString(getId()).substring(4);
+  }
   
   /**
    * Getter for property {@link #title}.

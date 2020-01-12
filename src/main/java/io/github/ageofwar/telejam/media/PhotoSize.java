@@ -3,6 +3,7 @@ package io.github.ageofwar.telejam.media;
 import com.google.gson.annotations.SerializedName;
 import io.github.ageofwar.telejam.TelegramObject;
 
+import java.util.Objects;
 import java.util.OptionalInt;
 
 /**
@@ -12,10 +13,19 @@ import java.util.OptionalInt;
  */
 public class PhotoSize implements TelegramObject {
   
+  static final String FILE_UNIQUE_ID_FIELD = "file_unique_id";
   static final String ID_FIELD = "file_id";
   static final String WIDTH_FIELD = "width";
   static final String HEIGHT_FIELD = "height";
   static final String SIZE_FIELD = "file_size";
+  
+  /**
+   * Unique identifier for this file, which is
+   * supposed to be the same over time and for different bots.
+   * Can't be used to download or reuse the file.
+   */
+  @SerializedName(FILE_UNIQUE_ID_FIELD)
+  private final String uniqueId;
   
   /**
    * Unique identifier for this file.
@@ -42,19 +52,29 @@ public class PhotoSize implements TelegramObject {
   private Integer size;
   
   
-  public PhotoSize(String id, int width, int height, Integer size) {
-    this.id = id;
+  public PhotoSize(String uniqueId, String id, int width, int height, Integer size) {
+    this.uniqueId = Objects.requireNonNull(uniqueId);
+    this.id = Objects.requireNonNull(id);
     this.width = width;
     this.height = height;
     this.size = size;
   }
   
-  public PhotoSize(String id, int width, int height) {
-    this.id = id;
+  public PhotoSize(String uniqueId, String id, int width, int height) {
+    this.uniqueId = Objects.requireNonNull(uniqueId);
+    this.id = Objects.requireNonNull(id);
     this.width = width;
     this.height = height;
   }
   
+  /**
+   * Getter for property {@link #uniqueId}.
+   *
+   * @return value for property {@link #uniqueId}
+   */
+  public String getUniqueId() {
+    return uniqueId;
+  }
   
   /**
    * Getter for property {@link #id}.
@@ -103,12 +123,12 @@ public class PhotoSize implements TelegramObject {
     }
     
     PhotoSize photoSize = (PhotoSize) obj;
-    return id.equals(photoSize.getId());
+    return uniqueId.equals(photoSize.getUniqueId());
   }
   
   @Override
   public int hashCode() {
-    return id.hashCode();
+    return uniqueId.hashCode();
   }
   
 }

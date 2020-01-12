@@ -15,6 +15,7 @@ import java.util.OptionalInt;
  */
 public class Sticker implements TelegramObject {
   
+  static final String FILE_UNIQUE_ID_FIELD = "file_unique_id";
   static final String ID_FIELD = "file_id";
   static final String WIDTH_FIELD = "width";
   static final String HEIGHT_FIELD = "height";
@@ -24,6 +25,14 @@ public class Sticker implements TelegramObject {
   static final String MASK_POSITION_FIELD = "mask_position";
   static final String SIZE_FIELD = "file_size";
   static final String IS_ANIMATED_FIELD = "is_animated";
+  
+  /**
+   * Unique identifier for this file, which is
+   * supposed to be the same over time and for different bots.
+   * Can't be used to download or reuse the file.
+   */
+  @SerializedName(FILE_UNIQUE_ID_FIELD)
+  private final String uniqueId;
   
   /**
    * Unique identifier for this file.
@@ -79,7 +88,8 @@ public class Sticker implements TelegramObject {
   @SerializedName(IS_ANIMATED_FIELD)
   private boolean animated;
   
-  public Sticker(String id,
+  public Sticker(String uniqueId,
+                 String id,
                  int width,
                  int height,
                  PhotoSize thumbnail,
@@ -88,6 +98,7 @@ public class Sticker implements TelegramObject {
                  MaskPosition maskPosition,
                  Integer size,
                  boolean animated) {
+    this.uniqueId = Objects.requireNonNull(uniqueId);
     this.id = Objects.requireNonNull(id);
     this.width = width;
     this.height = height;
@@ -99,7 +110,8 @@ public class Sticker implements TelegramObject {
     this.animated = animated;
   }
   
-  public Sticker(String id,
+  public Sticker(String uniqueId,
+                 String id,
                  int width,
                  int height,
                  PhotoSize thumbnail,
@@ -107,6 +119,7 @@ public class Sticker implements TelegramObject {
                  String setName,
                  MaskPosition maskPosition,
                  Integer size) {
+    this.uniqueId = Objects.requireNonNull(uniqueId);
     this.id = Objects.requireNonNull(id);
     this.width = width;
     this.height = height;
@@ -117,12 +130,21 @@ public class Sticker implements TelegramObject {
     this.size = size;
   }
   
-  public Sticker(String id, int width, int height) {
+  public Sticker(String uniqueId, String id, int width, int height) {
+    this.uniqueId = Objects.requireNonNull(uniqueId);
     this.id = id;
     this.width = width;
     this.height = height;
   }
   
+  /**
+   * Getter for property {@link #uniqueId}.
+   *
+   * @return value for property {@link #uniqueId}
+   */
+  public String getUniqueId() {
+    return uniqueId;
+  }
   
   /**
    * Getter for property {@link #id}.
@@ -216,12 +238,12 @@ public class Sticker implements TelegramObject {
     }
     
     Sticker sticker = (Sticker) obj;
-    return id.equals(sticker.getId());
+    return uniqueId.equals(sticker.getUniqueId());
   }
   
   @Override
   public int hashCode() {
-    return id.hashCode();
+    return uniqueId.hashCode();
   }
   
 }

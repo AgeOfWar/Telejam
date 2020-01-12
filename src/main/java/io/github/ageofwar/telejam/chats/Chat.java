@@ -3,6 +3,8 @@ package io.github.ageofwar.telejam.chats;
 import com.google.gson.annotations.SerializedName;
 import io.github.ageofwar.telejam.TelegramObject;
 
+import java.util.Optional;
+
 /**
  * This class represents a chat.
  *
@@ -24,6 +26,12 @@ public abstract class Chat implements TelegramObject {
     this.id = id;
   }
   
+  /**
+   * Returns the url of the chat.
+   *
+   * @return the url of the chat
+   */
+  public abstract String toUrl();
   
   /**
    * Returns the title of the chat.

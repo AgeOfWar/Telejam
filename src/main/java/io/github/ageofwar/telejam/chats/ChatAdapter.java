@@ -35,6 +35,11 @@ public final class ChatAdapter implements JsonDeserializer<Chat>, JsonSerializer
             context.deserialize(object.get(Chat.ID_FIELD), Long.class)
         ) {
           @Override
+          public String toUrl() {
+            return "https://t.me/c/" + getId();
+          }
+  
+          @Override
           public String getTitle() {
             return Long.toString(getId());
           }

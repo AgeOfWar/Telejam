@@ -3,147 +3,218 @@ package io.github.ageofwar.telejam.text;
 import io.github.ageofwar.telejam.messages.MessageEntity;
 
 import java.io.*;
-
-import static io.github.ageofwar.telejam.text.TextBuilder.TEXT_MENTION_LINK;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Markdown text parser and writer.
+ * MarkdownV2 text format.
  *
  * @author Michi Palazzo
  */
-final class Markdown {
+public class Markdown implements TextFormat {
   
-  public static Text readText(Reader reader) throws IOException, TextParseException {
-    TextBuilder builder = new TextBuilder();
+  public static final Markdown INSTANCE = new Markdown();
   
-    int c;
-    while ((c = reader.read()) >= 0) {
-      switch (c) {
-        case '*':
-          builder.appendBold(readUntil(reader, '*'));
-          break;
-        case '_':
-          builder.appendItalic(readUntil(reader, '_'));
-          break;
-        case '[':
-          String text = readUntil(reader, ']');
-          expect(reader, '(');
-          String link = readUntil(reader, ')');
-          builder.appendLink(text, link);
-          break;
-        case ']':
-          throw new TextParseException("Unexpected ']'");
-        case '`':
-          String code = readUntil(reader, '`');
-          if (code.contains("\n")) {
-            builder.appendCodeBlock(code);
-          } else {
-            builder.appendCode(code);
-          }
-          break;
-        case '\\':
-          int escape = reader.read();
-          switch (escape) {
-            case '*':
-            case '_':
-            case '[':
-            case ']':
-            case '(':
-            case ')':
-            case '`':
-            case '\\':
-              builder.append(String.valueOf((char) escape));
-              break;
-            default:
-              throw new TextParseException("Illegal escape");
-          }
-          break;
-        default:
-          builder.append(String.valueOf((char) c));
-      }
-    }
-    
-    return builder.build();
+  private Markdown() {
   }
   
-  public static Text parseText(String s) throws TextParseException {
-    try (StringReader reader = new StringReader(s)) {
-      return readText(reader);
-    } catch (IOException e) {
-      throw new AssertionError(e);
-    }
+  public static String escape(String text) {
+    return text.replace("\\", "\\\\")
+        .replaceAll("[*_~\\[\\]()`]", "\\\\$0");
   }
   
-  private static String readUntil(Reader reader, char delimiter) throws IOException {
+  public static String unescape(String text) {
+    return text.replaceAll("\\\\([*_~\\[\\]()`])", "$1")
+        .replace("\\\\", "\\");
+  }
+  
+  @Override
+  public Text readText(Reader reader) throws IOException, TextParseException {
+    return readText(reader, null);
+  }
+  
+  private Text readText(Reader reader, MessageEntity.Type type) throws IOException, TextParseException {
     StringBuilder builder = new StringBuilder();
-    int c;
-    while ((c = reader.read()) != delimiter) {
-      if (c <= 0) {
-        throw new TextParseException("Expected '" + delimiter + "'");
-      } else if (c == '\\') {
-        int escape = reader.read();
-        switch (escape) {
+    List<MessageEntity> entities = new ArrayList<>();
+    int codePoint;
+    while ((codePoint = reader.read()) >= 0) {
+      if (codePoint == '*') {
+        if (type == MessageEntity.Type.BOLD) break;
+        readTextEntities(reader, MessageEntity.Type.BOLD, builder, entities);
+      } else if (codePoint == '_') {
+        reader.mark(1);
+        codePoint = reader.read();
+        if (codePoint == '_') {
+          if (type == MessageEntity.Type.UNDERLINE) break;
+          readTextEntities(reader, MessageEntity.Type.UNDERLINE, builder, entities);
+        } else {
+          reader.reset();
+          if (type == MessageEntity.Type.ITALIC) break;
+          readTextEntities(reader, MessageEntity.Type.ITALIC, builder, entities);
+        }
+      } else if (codePoint == '~') {
+        if (type == MessageEntity.Type.STRIKETHROUGH) break;
+        readTextEntities(reader, MessageEntity.Type.STRIKETHROUGH, builder, entities);
+      } else if (codePoint == '[') {
+        int offset = builder.length();
+        while ((codePoint = reader.read()) != ']') {
+          if (codePoint < 0) throw new TextParseException("Incomplete " + MessageEntity.Type.LINK);
+          if (codePoint == '\\') {
+            codePoint = reader.read();
+            switch (codePoint) {
+              case ']':
+              case '\\':
+                builder.append((char) codePoint);
+                break;
+              default:
+                throw new TextParseException("Illegal escape");
+            }
+          } else {
+            builder.append((char) codePoint);
+          }
+        }
+        if (reader.read() != '(') throw new TextParseException("Incomplete " + MessageEntity.Type.LINK);
+        StringBuilder url = new StringBuilder();
+        while ((codePoint = reader.read()) != ')') {
+          if (codePoint < 0) throw new TextParseException("Unclosed " + MessageEntity.Type.LINK);
+          if (codePoint == '\\') {
+            codePoint = reader.read();
+            switch (codePoint) {
+              case ')':
+              case '\\':
+                url.append((char) codePoint);
+                break;
+              default:
+                throw new TextParseException("Illegal escape");
+            }
+          } else {
+            url.append((char) codePoint);
+          }
+        }
+        entities.add(new MessageEntity(url.toString(), offset, builder.length() - offset));
+      } else if (codePoint == ']') {
+        throw new TextParseException("Unexpected ']'");
+      } else if (codePoint == '`') {
+        reader.mark(1);
+        codePoint = reader.read();
+        if (codePoint == '`') {
+          reader.mark(1);
+          codePoint = reader.read();
+          if (codePoint == '`') {
+            int offset = builder.length();
+            while ((codePoint = reader.read()) != '`') {
+              if (codePoint < 0) throw new TextParseException("Unclosed " + MessageEntity.Type.CODE_BLOCK);
+              if (codePoint == '\\') {
+                codePoint = reader.read();
+                switch (codePoint) {
+                  case '`':
+                  case '\\':
+                    builder.append((char) codePoint);
+                    break;
+                  default:
+                    throw new TextParseException("Illegal escape");
+                }
+              } else {
+                builder.append((char) codePoint);
+              }
+            }
+            if (reader.read() != '`') throw new TextParseException("Unclosed " + MessageEntity.Type.CODE_BLOCK);
+            if (reader.read() != '`') throw new TextParseException("Unclosed " + MessageEntity.Type.CODE_BLOCK);
+            entities.add(new MessageEntity(MessageEntity.Type.CODE_BLOCK, offset, builder.length() - offset));
+          } else {
+            reader.reset();
+          }
+        } else {
+          reader.reset();
+          int offset = builder.length();
+          while ((codePoint = reader.read()) != '`') {
+            if (codePoint < 0) throw new TextParseException("Unclosed " + MessageEntity.Type.CODE);
+            if (codePoint == '\\') {
+              codePoint = reader.read();
+              switch (codePoint) {
+                case '`':
+                case '\\':
+                  builder.append((char) codePoint);
+                  break;
+                default:
+                  throw new TextParseException("Illegal escape");
+              }
+            } else {
+              builder.append((char) codePoint);
+            }
+          }
+          entities.add(new MessageEntity(MessageEntity.Type.CODE, offset, builder.length() - offset));
+        }
+      } else if (codePoint == '\\') {
+        codePoint = reader.read();
+        switch (codePoint) {
           case '*':
           case '_':
+          case '~':
           case '[':
           case ']':
           case '(':
           case ')':
           case '`':
           case '\\':
-            builder.appendCodePoint(escape);
+            builder.append((char) codePoint);
             break;
           default:
             throw new TextParseException("Illegal escape");
         }
       } else {
-        builder.appendCodePoint(c);
+        builder.append((char) codePoint);
       }
     }
-    return builder.toString();
+    
+    return new Text(builder.toString(), entities.toArray(new MessageEntity[0]));
   }
   
-  private static void expect(Reader reader, char c) throws IOException {
-    if (reader.read() != c) {
-      throw new TextParseException("Expected '" + c + "'");
+  private void readTextEntities(Reader reader, MessageEntity.Type type, StringBuilder builder, List<MessageEntity> entities) throws IOException {
+    int offset = builder.length();
+    Text entity = readText(reader, type);
+    builder.append(entity);
+    entities.add(new MessageEntity(type, offset, entity.length()));
+    for (MessageEntity messageEntity : entity.getEntities()) {
+      entities.add(messageEntity.move(offset + messageEntity.getOffset(), messageEntity.getLength()));
     }
   }
   
-  public static void write(Text text, Writer writer) throws IOException {
+  @Override
+  public void write(Text text, Writer writer) throws IOException {
     String s = text.toString();
     int offset = 0;
-    for (MessageEntity entity : text.getEntities()) {
-      writer.write(escape(s.substring(offset, entity.getOffset())));
-      beginEntity(entity, writer);
-      writer.write(escape(s.substring(entity.getOffset(), entity.getOffset() + entity.getLength())));
-      endEntity(entity, writer);
-      offset = entity.getOffset() + entity.getLength();
+    for (Token token : Token.fromEntities(text.getEntities())) {
+      writer.write(escape(s.substring(offset, token.getIndex())));
+      if (token.isStart()) {
+        beginEntity(token, writer);
+      } else {
+        endEntity(token, writer);
+      }
+      offset = token.getIndex();
     }
     writer.write(escape(s.substring(offset)));
   }
   
-  public static String toString(Text text) {
-    try (StringWriter writer = new StringWriter()) {
-      write(text, writer);
-      return writer.toString();
-    } catch (IOException e) {
-      throw new AssertionError(e);
-    }
-  }
-  
-  private static void beginEntity(MessageEntity entity, Writer writer) throws IOException {
-    switch (entity.getType()) {
+  private void beginEntity(Token token, Writer writer) throws IOException {
+    switch (token.getType()) {
       case BOLD:
         writer.write("*");
         break;
       case ITALIC:
         writer.write("_");
         break;
+      case UNDERLINE:
+        writer.write("__");
+        break;
+      case STRIKETHROUGH:
+        writer.write("~");
+        break;
       case CODE:
         writer.write("`");
         break;
       case CODE_BLOCK:
-        writer.write("`");
+        writer.write("```");
         break;
       case LINK:
       case TEXT_MENTION:
@@ -152,42 +223,33 @@ final class Markdown {
     }
   }
   
-  private static void endEntity(MessageEntity entity, Writer writer) throws IOException {
-    switch (entity.getType()) {
+  private void endEntity(Token token, Writer writer) throws IOException {
+    switch (token.getType()) {
       case BOLD:
         writer.write("*");
         break;
       case ITALIC:
-        writer.write("_");
+        writer.write("_\r");
+        break;
+      case UNDERLINE:
+        writer.write("__");
+        break;
+      case STRIKETHROUGH:
+        writer.write("~");
         break;
       case CODE:
         writer.write("`");
         break;
       case CODE_BLOCK:
-        writer.write("`");
+        writer.write("```");
         break;
       case LINK:
-        writer.write("](" + escape(entity.getUrl().get()) + ")");
+        writer.write("](" + escape(token.getUrl()) + ")");
         break;
       case TEXT_MENTION:
-        writer.write("](" + TEXT_MENTION_LINK + entity.getUser().get().getId() + ")");
+        writer.write("](tg://user?id=" + token.getUser().getId() + ")");
         break;
     }
-  }
-  
-  private static String escape(String s) {
-    return s.replace("\\", "\\\\")
-        .replace("*", "\\*")
-        .replace("_", "\\_")
-        .replace("[", "\\[")
-        .replace("]", "\\]")
-        .replace("(", "\\(")
-        .replace(")", "\\)")
-        .replace("`", "\\`");
-  }
-  
-  private Markdown() {
-    throw new AssertionError();
   }
   
 }

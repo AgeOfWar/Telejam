@@ -30,7 +30,7 @@ public class JsonTest {
         null,
         null,
         null,
-        new Audio("AwGDJSHSshhdhShSHSHhhshshSHHSHshSshHS-N0C", 10, null, "Hello", null, null, null),
+        new Audio("AwGDJSHSshhdhShSHSHhhshshSHHSHshSshHS-N0D", "AwGDJSHSshhdhShSHSHhhshshSHHSHshSshHS-N0C", 10, null, "Hello", null, null, null),
         Text.parseHtml("<b>Hello</b>\n<a href=www.google.it>World</a>!"),
         null
     );
@@ -45,6 +45,7 @@ public class JsonTest {
     jsonChat.addProperty("title", "Times");
     jsonChat.addProperty("username", "times_official");
     JsonObject jsonAudio = new JsonObject();
+    jsonAudio.addProperty("file_unique_id", "AwGDJSHSshhdhShSHSHhhshshSHHSHshSshHS-N0D");
     jsonAudio.addProperty("file_id", "AwGDJSHSshhdhShSHSHhhshshSHHSHshSshHS-N0C");
     jsonAudio.addProperty("duration", 10);
     jsonAudio.addProperty("title", "Hello");

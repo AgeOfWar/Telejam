@@ -2,7 +2,9 @@ package io.github.ageofwar.telejam.messages;
 
 import com.google.gson.annotations.SerializedName;
 import io.github.ageofwar.telejam.TelegramObject;
+import io.github.ageofwar.telejam.chats.Channel;
 import io.github.ageofwar.telejam.chats.Chat;
+import io.github.ageofwar.telejam.chats.SuperGroup;
 import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup;
 import io.github.ageofwar.telejam.users.User;
 
@@ -95,6 +97,9 @@ public abstract class Message implements TelegramObject {
     this.replyMarkup = replyMarkup;
   }
   
+  public String toUrl() {
+    return chat.toUrl() + "/" + id;
+  }
   
   /**
    * Getter for property {@link #id}.

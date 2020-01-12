@@ -14,11 +14,20 @@ import java.util.OptionalInt;
  */
 public class VideoNote implements TelegramObject {
   
+  static final String FILE_UNIQUE_ID_FIELD = "file_unique_id";
   static final String ID_FIELD = "file_id";
   static final String LENGTH_FIELD = "length";
   static final String DURATION_FIELD = "duration";
   static final String THUMBNAIL_FIELD = "thumb";
   static final String SIZE_FIELD = "file_size";
+  
+  /**
+   * Unique identifier for this file, which is
+   * supposed to be the same over time and for different bots.
+   * Can't be used to download or reuse the file.
+   */
+  @SerializedName(FILE_UNIQUE_ID_FIELD)
+  private final String uniqueId;
   
   /**
    * Unique identifier for this file.
@@ -51,7 +60,8 @@ public class VideoNote implements TelegramObject {
   private Integer size;
   
   
-  public VideoNote(String id, int length, int duration, PhotoSize thumbnail, Integer size) {
+  public VideoNote(String uniqueId, String id, int length, int duration, PhotoSize thumbnail, Integer size) {
+    this.uniqueId = Objects.requireNonNull(uniqueId);
     this.id = Objects.requireNonNull(id);
     this.length = length;
     this.duration = duration;
@@ -59,12 +69,22 @@ public class VideoNote implements TelegramObject {
     this.size = size;
   }
   
-  public VideoNote(String id, int length, int duration) {
+  public VideoNote(String uniqueId, String id, int length, int duration) {
+    this.uniqueId = Objects.requireNonNull(uniqueId);
     this.id = Objects.requireNonNull(id);
     this.length = length;
     this.duration = duration;
   }
   
+  
+  /**
+   * Getter for property {@link #uniqueId}.
+   *
+   * @return value for property {@link #uniqueId}
+   */
+  public String getUniqueId() {
+    return uniqueId;
+  }
   
   /**
    * Getter for property {@link #id}.
@@ -122,12 +142,12 @@ public class VideoNote implements TelegramObject {
     }
     
     VideoNote videoNote = (VideoNote) obj;
-    return id.equals(videoNote.getId());
+    return uniqueId.equals(videoNote.getUniqueId());
   }
   
   @Override
   public int hashCode() {
-    return id.hashCode();
+    return uniqueId.hashCode();
   }
   
 }

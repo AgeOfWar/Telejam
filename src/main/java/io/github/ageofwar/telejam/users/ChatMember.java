@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import io.github.ageofwar.telejam.TelegramObject;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * This object contains information about one member of a chat.
@@ -16,6 +17,7 @@ public class ChatMember implements TelegramObject {
   static final String STATUS_FIELD = "status";
   static final String UNTIL_DATE_FIELD = "until_date";
   static final String IS_MEMBER_FIELD = "is_member";
+  static final String CUSTOM_TITLE_FIELD = "custom_title";
   static final String CAN_BE_EDITED_FIELD = "can_be_edited";
   static final String CAN_CHANGE_INFORMATION_FIELD = "can_change_info";
   static final String CAN_POST_MESSAGES_FIELD = "can_post_messages";
@@ -56,6 +58,13 @@ public class ChatMember implements TelegramObject {
    */
   @SerializedName(IS_MEMBER_FIELD)
   private boolean isMember = true;
+  
+  /**
+   * Owner and administrators only.
+   * Custom title for this user.
+   */
+  @SerializedName(CUSTOM_TITLE_FIELD)
+  private String customTitle;
   
   /**
    * True, if the bot is allowed to edit administrator privileges of that user.
@@ -232,6 +241,15 @@ public class ChatMember implements TelegramObject {
    */
   public Status getStatus() {
     return status;
+  }
+  
+  /**
+   * Getter for property {@link #customTitle}.
+   *
+   * @return value for property {@link #customTitle}
+   */
+  public Optional<String> getCustomTitle() {
+    return Optional.ofNullable(customTitle);
   }
   
   /**

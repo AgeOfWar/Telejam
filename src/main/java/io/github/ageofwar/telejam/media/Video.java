@@ -14,6 +14,7 @@ import java.util.OptionalInt;
  */
 public class Video implements TelegramObject {
   
+  static final String FILE_UNIQUE_ID_FIELD = "file_unique_id";
   static final String ID_FIELD = "file_id";
   static final String WIDTH_FIELD = "width";
   static final String HEIGHT_FIELD = "height";
@@ -21,6 +22,14 @@ public class Video implements TelegramObject {
   static final String THUMBNAIL_FIELD = "thumb";
   static final String MIME_TYPE_FIELD = "mime_type";
   static final String SIZE_FIELD = "file_size";
+  
+  /**
+   * Unique identifier for this file, which is
+   * supposed to be the same over time and for different bots.
+   * Can't be used to download or reuse the file.
+   */
+  @SerializedName(FILE_UNIQUE_ID_FIELD)
+  private final String uniqueId;
   
   /**
    * Unique identifier for this file.
@@ -65,13 +74,15 @@ public class Video implements TelegramObject {
   private Integer size;
   
   
-  public Video(String id,
+  public Video(String uniqueId,
+               String id,
                int width,
                int height,
                int duration,
                PhotoSize thumbnail,
                String mimeType,
                Integer size) {
+    this.uniqueId = Objects.requireNonNull(uniqueId);
     this.id = Objects.requireNonNull(id);
     this.width = width;
     this.height = height;
@@ -81,13 +92,22 @@ public class Video implements TelegramObject {
     this.size = size;
   }
   
-  public Video(String id, int width, int height, int duration) {
+  public Video(String uniqueId, String id, int width, int height, int duration) {
+    this.uniqueId = Objects.requireNonNull(uniqueId);
     this.id = Objects.requireNonNull(id);
     this.width = width;
     this.height = height;
     this.duration = duration;
   }
   
+  /**
+   * Getter for property {@link #uniqueId}.
+   *
+   * @return value for property {@link #uniqueId}
+   */
+  public String getUniqueId() {
+    return uniqueId;
+  }
   
   /**
    * Getter for property {@link #id}.
@@ -163,12 +183,12 @@ public class Video implements TelegramObject {
     }
     
     Video video = (Video) obj;
-    return id.equals(video.getId());
+    return uniqueId.equals(video.getUniqueId());
   }
   
   @Override
   public int hashCode() {
-    return id.hashCode();
+    return uniqueId.hashCode();
   }
   
 }

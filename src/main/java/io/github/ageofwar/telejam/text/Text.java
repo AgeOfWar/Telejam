@@ -4,27 +4,59 @@ import io.github.ageofwar.telejam.messages.Message;
 import io.github.ageofwar.telejam.messages.MessageEntity;
 import io.github.ageofwar.telejam.users.User;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import static java.util.Collections.emptyList;
-import static java.util.Collections.unmodifiableList;
 
 /**
  * Class representing a text with entities.
  *
  * @author Michi Palazzo
- * @see TextBuilder
  */
 public final class Text implements CharSequence {
   
   public static final Text EMPTY = new Text("");
   
   private final String text;
-  private final List<MessageEntity> entities;
+  private final MessageEntity[] entities;
+  
+  /**
+   * Constructs a text.
+   *
+   * @param text     the text
+   * @param entities text entities
+   */
+  public Text(String text, MessageEntity... entities) {
+    this.text = text;
+    Comparator<MessageEntity> comparator = (e1, e2) -> {
+      int offset = e1.getOffset() - e2.getOffset();
+      if (offset == 0) {
+        return e2.getLength() - e1.getLength();
+      } else {
+        return offset;
+      }
+    };
+    this.entities = entities != null ? Arrays.copyOf(entities, entities.length) : new MessageEntity[0];
+    Arrays.sort(this.entities, comparator);
+  }
+  
+  /**
+   * Constructs a text.
+   *
+   * @param text     the text
+   * @param entities text entities
+   */
+  public Text(String text, List<MessageEntity> entities) {
+    this(text, entities.toArray(new MessageEntity[0]));
+  }
+  
+  /**
+   * Constructs a text.
+   *
+   * @param text the text
+   */
+  public Text(String text) {
+    this(text, new MessageEntity[0]);
+  }
   
   /**
    * Converts an HTML String into a Text.
@@ -36,10 +68,16 @@ public final class Text implements CharSequence {
    * &lt;a href="tg://user?id=123456789"&gt;inline mention of a user&lt;/a&gt;
    * &lt;code&gt;inline fixed-width code&lt;/code&gt;
    * &lt;pre&gt;pre-formatted fixed-width code block&lt;/pre&gt;
+   * &lt;pre&gt;&lt;code class="language-python"&gt;pre-formatted fixed-width code block written in the Python programming language&lt;/code&gt;&lt;/pre&gt;
    * </pre>
+   * Only the tags mentioned above are currently supported.
    * All &lt;, &gt; and &amp; symbols that are not a part of a tag or an HTML
    * entity must be replaced with the corresponding HTML entities
    * (&lt; with &amp;lt;, &gt; with &amp;gt; and &amp; with &amp;amp;)
+   * All numerical HTML entities are supported.
+   * The API currently supports only the following named HTML entities: &lt;, &gt;, &amp; and &quot;.
+   * Use nested pre and code tags, to define programming language for pre entity.
+   * Programming language can't be specified for standalone code tags.
    *
    * @param text the string to convert
    * @return the parsed text
@@ -49,23 +87,37 @@ public final class Text implements CharSequence {
     if (text == null) {
       return null;
     }
-    return Html.parseText(text);
+    return Html.INSTANCE.parseText(text);
   }
   
   /**
-   * Converts an Markdown String into a Text.
+   * Converts an MarkdownV2 String into a Text.
    * Use the following syntax in your message:
    * <pre>
-   * *bold text*
-   * _italic text_
+   * *bold \*text*
+   * _italic \*text_
+   * __underline__
+   * ~strikethrough~
+   * *bold _italic bold ~italic bold strikethrough~ __underline italic bold___ bold*
    * [inline URL](http://www.example.com/)
    * [inline mention of a user](tg://user?id=123456789)
    * `inline fixed-width code`
-   * `pre-formatted fixed-width
-   * code block`
+   * ```
+   * pre-formatted fixed-width code block
+   * ```
+   * ```python
+   * pre-formatted fixed-width code block written in the Python programming language
+   * ```
    * </pre>
-   * All Markdown symbols that are not a part of a Markdown
-   * entity must be escaped with the <code>\</code> character.
+   * Any character between 1 and 126 inclusively can be escaped anywhere with a preceding '\' character,
+   * in which case it is treated as an ordinary character and not a part of the markup.
+   * Inside pre and code entities, all '`‘ and ’\‘ characters must be escaped with a preceding ’\' character.
+   * Inside (...) part of inline link definition, all ')‘ and ’\‘ must be escaped with a preceding ’\' character.
+   * In all other places characters '_‘, ’*‘, ’[‘, ’]‘, ’(‘, ’)‘, ’~‘, ’`‘, ’&gt;‘, ’#‘, ’+‘, ’-‘, ’=‘, ’|‘, ’{‘, ’}‘,
+   * ’.‘, ’!‘ must be escaped with the preceding character ’\'.
+   * In case of ambiguity between italic and underline entities ‘__’ is always greadily treated from left to right as
+   * beginning or end of underline entity, so instead of ___italic underline___ use ___italic underline_\r__,
+   * where \r is a character with code 13, which will be ignored.
    *
    * @param text the string to convert
    * @return the parsed text
@@ -75,7 +127,7 @@ public final class Text implements CharSequence {
     if (text == null) {
       return null;
     }
-    return Markdown.parseText(text);
+    return Markdown.INSTANCE.parseText(text);
   }
   
   /**
@@ -85,7 +137,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text bold(String text) {
-    return new TextBuilder().appendBold(text).build();
+    return new Text(text, new MessageEntity(MessageEntity.Type.BOLD, 0, text.length()));
   }
   
   /**
@@ -95,7 +147,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text italic(String text) {
-    return new TextBuilder().appendItalic(text).build();
+    return new Text(text, new MessageEntity(MessageEntity.Type.ITALIC, 0, text.length()));
   }
   
   /**
@@ -105,7 +157,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text code(String text) {
-    return new TextBuilder().appendCode(text).build();
+    return new Text(text, new MessageEntity(MessageEntity.Type.CODE, 0, text.length()));
   }
   
   /**
@@ -115,7 +167,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text codeBlock(String text) {
-    return new TextBuilder().appendCodeBlock(text).build();
+    return new Text(text, new MessageEntity(MessageEntity.Type.CODE_BLOCK, 0, text.length()));
   }
   
   /**
@@ -125,7 +177,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text link(Link link) {
-    return new TextBuilder().appendLink(link).build();
+    return new Text(link.getText(), new MessageEntity(link.getUrl(), 0, link.getText().length()));
   }
   
   /**
@@ -136,7 +188,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text link(String text, String url) {
-    return new TextBuilder().appendLink(text, url).build();
+    return new Text(text, new MessageEntity(url, 0, text.length()));
   }
   
   /**
@@ -147,7 +199,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text link(String text, Message message) {
-    return new TextBuilder().appendLink(text, message).build();
+    return new Text(text, new MessageEntity(message.toUrl(), 0, text.length()));
   }
   
   /**
@@ -157,7 +209,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text url(String url) {
-    return new TextBuilder().appendUrl(url).build();
+    return new Text(url, new MessageEntity(MessageEntity.Type.URL, 0, url.length()));
   }
   
   /**
@@ -167,7 +219,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text url(Message message) {
-    return new TextBuilder().appendUrl(message).build();
+    return url(message.toUrl());
   }
   
   /**
@@ -177,7 +229,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text email(String email) {
-    return new TextBuilder().appendEmail(email).build();
+    return new Text(email, new MessageEntity(MessageEntity.Type.EMAIL, 0, email.length()));
   }
   
   /**
@@ -187,7 +239,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text hashtag(String hashtag) {
-    return new TextBuilder().appendHashtag(hashtag).build();
+    return new Text("#" + hashtag, new MessageEntity(MessageEntity.Type.HASHTAG, 0, hashtag.length() + 1));
   }
   
   /**
@@ -197,7 +249,12 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text mention(User mention) {
-    return new TextBuilder().appendMention(mention).build();
+    if (mention.getUsername().isPresent()) {
+      String username = mention.getUsername().get();
+      return mention(username);
+    } else {
+      return textMention(mention);
+    }
   }
   
   /**
@@ -207,7 +264,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text mention(String mention) {
-    return new TextBuilder().appendMention(mention).build();
+    return new Text("@" + mention, new MessageEntity(MessageEntity.Type.MENTION, 0, mention.length() + 1));
   }
   
   /**
@@ -217,7 +274,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text textMention(Mention mention) {
-    return new TextBuilder().appendTextMention(mention).build();
+    return textMention(mention.getText(), mention.getUser());
   }
   
   /**
@@ -228,7 +285,18 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text textMention(String text, User mention) {
-    return new TextBuilder().appendTextMention(text, mention).build();
+    return new Text(text, new MessageEntity(mention, 0, text.length()));
+  }
+  
+  /**
+   * Creates a text mention.
+   *
+   * @param text    the text of the mention
+   * @param mention the mentioned user id
+   * @return the created text
+   */
+  public static Text textMention(String text, long mention) {
+    return new Text(text, new MessageEntity("tg://user?id=" + mention, 0, text.length()));
   }
   
   /**
@@ -238,7 +306,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text textMention(User mention) {
-    return new TextBuilder().appendTextMention(mention).build();
+    return textMention(mention.getName(), mention);
   }
   
   /**
@@ -248,7 +316,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text botCommand(String botCommand) {
-    return new TextBuilder().appendBotCommand(botCommand).build();
+    return new Text("/" + botCommand, new MessageEntity(MessageEntity.Type.BOT_COMMAND, 0, botCommand.length() + 1));
   }
   
   /**
@@ -258,7 +326,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text phoneNumber(String phoneNumber) {
-    return new TextBuilder().appendPhoneNumber(phoneNumber).build();
+    return new Text(phoneNumber, new MessageEntity(MessageEntity.Type.PHONE_NUMBER, 0, phoneNumber.length()));
   }
   
   /**
@@ -268,30 +336,27 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text cashtag(String cashtag) {
-    return new TextBuilder().appendCashtag(cashtag).build();
-  }
-  
-  
-  /**
-   * Constructs a text.
-   *
-   * @param text     the text
-   * @param entities text entities
-   * @see TextBuilder
-   */
-  public Text(String text, List<MessageEntity> entities) {
-    this.text = text;
-    this.entities = entities != null ? unmodifiableList(entities) : emptyList();
+    return new Text("$" + cashtag.toUpperCase(), new MessageEntity(MessageEntity.Type.CASHTAG, 0, cashtag.length() + 1));
   }
   
   /**
-   * Constructs a text.
+   * Creates an underlined text.
    *
-   * @param text the text
-   * @see TextBuilder
+   * @param text the underlined text
+   * @return the created text
    */
-  public Text(String text) {
-    this(text, emptyList());
+  public static Text underline(String text) {
+    return new Text(text, new MessageEntity(MessageEntity.Type.UNDERLINE, 0, text.length()));
+  }
+  
+  /**
+   * Creates an strikethrough text.
+   *
+   * @param text the strikethrough text
+   * @return the created text
+   */
+  public static Text strikethrough(String text) {
+    return new Text(text, new MessageEntity(MessageEntity.Type.STRIKETHROUGH, 0, text.length()));
   }
   
   
@@ -313,10 +378,13 @@ public final class Text implements CharSequence {
   public Text concat(Text other) {
     if (other.isEmpty()) return this;
     if (isEmpty()) return other;
-    return new TextBuilder()
-        .append(this)
-        .append(other)
-        .build();
+    MessageEntity[] entities = new MessageEntity[this.entities.length + other.entities.length];
+    System.arraycopy(this.entities, 0, entities, 0, this.entities.length);
+    for (int i = 0; i < other.entities.length; i++) {
+      MessageEntity entity = other.entities[i];
+      entities[this.entities.length + i] = entity.move(length() + entity.getOffset(), entity.getLength());
+    }
+    return new Text(text + other.text, entities);
   }
   
   /**
@@ -454,11 +522,32 @@ public final class Text implements CharSequence {
     );
   }
   
+  /**
+   * Returns a list containing all the underlined strings in this text.
+   *
+   * @return a list containing all the underlined strings in this text
+   */
+  public List<String> getUnderlineText() {
+    return getEntities(MessageEntity.Type.UNDERLINE);
+  }
+  
+  /**
+   * Returns a list containing all the strikethrough strings in this text.
+   *
+   * @return a list containing all the strikethrough strings in this text
+   */
+  public List<String> getStrikethroughText() {
+    return getEntities(MessageEntity.Type.STRIKETHROUGH);
+  }
+  
   private <T> List<T> getEntities(MessageEntity.Type type, Function<MessageEntity, T> mapper) {
-    return entities.stream()
-        .filter(e -> e.getType() == type)
-        .map(mapper)
-        .collect(Collectors.toList());
+    List<T> result = new ArrayList<>();
+    for (MessageEntity entity : entities) {
+      if (entity.getType() == type) {
+        result.add(mapper.apply(entity));
+      }
+    }
+    return result;
   }
   
   private List<String> getEntities(MessageEntity.Type type) {
@@ -474,16 +563,16 @@ public final class Text implements CharSequence {
    * @return this text in HTML format
    */
   public String toHtmlString() {
-    return Html.toString(this);
+    return Html.INSTANCE.toString(this);
   }
   
   /**
-   * Return this text in Markdown format.
+   * Return this text in MarkdownV2 format.
    *
-   * @return this text in Markdown format
+   * @return this text in MarkdownV2 format
    */
   public String toMarkdownString() {
-    return Markdown.toString(this);
+    return Markdown.INSTANCE.toString(this);
   }
   
   public Text trim() {
@@ -532,7 +621,7 @@ public final class Text implements CharSequence {
         entities.add(entity.move(newOffset, newEnd - newOffset));
       }
     }
-    return new Text(text, entities);
+    return new Text(text, entities.toArray(new MessageEntity[0]));
   }
   
   public Text subSequence(int start) {
@@ -550,7 +639,7 @@ public final class Text implements CharSequence {
    * @return the text entities
    */
   public List<MessageEntity> getEntities() {
-    return unmodifiableList(entities);
+    return Arrays.asList(entities);
   }
   
   @Override
@@ -562,7 +651,7 @@ public final class Text implements CharSequence {
       return false;
     }
     Text text = (Text) obj;
-    return this.text.equals(text.text) && entities.equals(text.entities);
+    return this.text.equals(text.text) && Arrays.equals(entities, text.entities);
   }
   
   @Override
