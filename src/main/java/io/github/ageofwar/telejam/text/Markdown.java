@@ -91,7 +91,7 @@ public class Markdown implements TextFormat {
             url.append((char) codePoint);
           }
         }
-        entities.add(new MessageEntity(url.toString(), offset, builder.length() - offset));
+        entities.add(new MessageEntity(MessageEntity.Type.LINK, offset, builder.length() - offset, url.toString(), null, null));
       } else if (codePoint == ']') {
         throw new TextParseException("Unexpected ']'");
       } else if (codePoint == '`') {

@@ -1,6 +1,7 @@
 package io.github.ageofwar.telejam.updates;
 
 import com.google.gson.*;
+import io.github.ageofwar.telejam.messages.PollAnswer;
 
 import java.lang.reflect.Type;
 
@@ -39,6 +40,8 @@ public final class UpdateAdapter implements JsonDeserializer<Update>, JsonSerial
       return context.deserialize(src, PreCheckoutQueryUpdate.class);
     } else if (object.has(PollUpdate.POLL_FIELD)) {
       return context.deserialize(src, PollUpdate.class);
+    } else if (object.has(PollAnswerUpdate.POLL_ANSWER_FIELD)) {
+      return context.deserialize(src, PollAnswer.class);
     }
     return new Update(
         context.deserialize(object.get(Update.ID_FIELD), Long.class)

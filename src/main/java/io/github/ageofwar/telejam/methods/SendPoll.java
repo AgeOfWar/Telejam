@@ -26,6 +26,11 @@ public class SendPoll implements TelegramMethod<PollMessage> {
   static final String DISABLE_NOTIFICATION_FIELD = "disable_notification";
   static final String REPLY_TO_MESSAGE_ID_FIELD = "reply_to_message_id";
   static final String REPLY_MARKUP_FIELD = "reply_markup";
+  static final String IS_ANONYMOUS_FIELD = "is_anonymous";
+  static final String TYPE_FIELD = "type";
+  static final String ALLOWS_MULTIPLE_ANSWERS_FIELD = "allows_multiple_answers";
+  static final String CORRECT_OPTION_ID_FIELD = "correct_option_id";
+  static final String IS_CLOSED_FIELD = "is_closed";
   
   /**
    * Unique identifier for the target chat.
@@ -62,6 +67,31 @@ public class SendPoll implements TelegramMethod<PollMessage> {
    */
   private ReplyMarkup replyMarkup;
   
+  /**
+   * Whether or not the poll needs to be immediately closed.
+   */
+  private Boolean isAnonymous;
+  
+  /**
+   * Poll type, "quiz" or "regular", defaults to "regular".
+   */
+  private String type;
+  
+  /**
+   * Whether or not the poll allows multiple answers, ignored for polls in quiz mode, defaults to False.
+   */
+  private Boolean allowsMultipleAnswers;
+  
+  /**
+   * 0-based identifier of the correct answer option, required for polls in quiz mode.
+   */
+  private Integer correctOptionId;
+  
+  /**
+   * Whether or not the poll needs to be immediately closed.
+   */
+  private Boolean isClosed;
+  
   public SendPoll chat(String chatUsername) {
     this.chatUsername = chatUsername;
     chatId = null;
@@ -87,6 +117,48 @@ public class SendPoll implements TelegramMethod<PollMessage> {
   
   public SendPoll disableNotification() {
     disableNotification = true;
+    return this;
+  }
+  
+  public SendPoll anonymous(Boolean isAnonymous) {
+    this.isAnonymous = isAnonymous;
+    return this;
+  }
+  
+  public SendPoll anonymous() {
+    isAnonymous = true;
+    return this;
+  }
+  
+  public SendPoll quiz(int correctOptionId) {
+    type = "quiz";
+    this.correctOptionId = correctOptionId;
+    return this;
+  }
+  
+  public SendPoll regular() {
+    type = "regular";
+    correctOptionId = null;
+    return this;
+  }
+  
+  public SendPoll allowsMultipleAnswers(Boolean allowsMultipleAnswers) {
+    this.allowsMultipleAnswers = allowsMultipleAnswers;
+    return this;
+  }
+  
+  public SendPoll allowsMultipleAnswers() {
+    allowsMultipleAnswers = true;
+    return this;
+  }
+  
+  public SendPoll isClosed(Boolean isClosed) {
+    this.isClosed = isClosed;
+    return this;
+  }
+  
+  public SendPoll isClosed() {
+    isClosed = true;
     return this;
   }
   
@@ -130,7 +202,12 @@ public class SendPoll implements TelegramMethod<PollMessage> {
         REPLY_TO_MESSAGE_ID_FIELD, replyToMessageId,
         REPLY_MARKUP_FIELD, replyMarkup,
         QUESTION_FIELD, question,
-        OPTIONS_FIELD, options
+        OPTIONS_FIELD, options,
+        IS_ANONYMOUS_FIELD, isAnonymous,
+        TYPE_FIELD, type,
+        ALLOWS_MULTIPLE_ANSWERS_FIELD, allowsMultipleAnswers,
+        CORRECT_OPTION_ID_FIELD, correctOptionId,
+        IS_CLOSED_FIELD, isClosed
     );
   }
   

@@ -15,7 +15,7 @@ public class TextTest {
   private static final Text HELLO_WORLD = new Text(
       "Hello World!",
       new MessageEntity(MessageEntity.Type.BOLD, 0, 5),
-      new MessageEntity("www.example.com", 6, 6)
+      new MessageEntity(MessageEntity.Type.LINK, 6, 6, "www.example.com", null, null)
   );
   
   @Test
@@ -69,7 +69,7 @@ public class TextTest {
         new MessageEntity(MessageEntity.Type.UNDERLINE, 18, 2),
         new MessageEntity(MessageEntity.Type.ITALIC, 21, 6),
         new MessageEntity(MessageEntity.Type.CODE, 27, 3),
-        new MessageEntity("www.google.it", 30, 1)
+        new MessageEntity(MessageEntity.Type.LINK, 30, 1, "www.google.it", null, null)
     );
     assertEquals(text, Text.parseHtml("hello world!\n<b>I'm &lt;<ins>17</ins>&gt;</b><i> years</i><code> ol" +
         "</code><a href=www.google.it>d</a>"));
@@ -83,7 +83,7 @@ public class TextTest {
         new MessageEntity(MessageEntity.Type.UNDERLINE, 18, 2),
         new MessageEntity(MessageEntity.Type.ITALIC, 21, 6),
         new MessageEntity(MessageEntity.Type.CODE, 27, 3),
-        new MessageEntity("www.google.it", 30, 1)
+        new MessageEntity(MessageEntity.Type.LINK, 30, 1, "www.google.it", null, null)
     );
     assertEquals(text, Text.parseMarkdown("hello world!\n*I'm \\*__17__\\**_ years_` ol`[d](www.google.it)"));
   }
@@ -98,7 +98,7 @@ public class TextTest {
             new MessageEntity(MessageEntity.Type.UNDERLINE, 18, 2),
             new MessageEntity(MessageEntity.Type.ITALIC, 21, 6),
             new MessageEntity(MessageEntity.Type.CODE, 27, 3),
-            new MessageEntity("www.google.it", 30, 1)
+            new MessageEntity(MessageEntity.Type.LINK, 30, 1, "www.google.it", null, null)
         ).toHtmlString()
     );
   }
@@ -113,7 +113,7 @@ public class TextTest {
             new MessageEntity(MessageEntity.Type.UNDERLINE, 18, 2),
             new MessageEntity(MessageEntity.Type.ITALIC, 21, 6),
             new MessageEntity(MessageEntity.Type.CODE, 27, 3),
-            new MessageEntity("www.google.it", 30, 1)
+            new MessageEntity(MessageEntity.Type.LINK, 30, 1, "www.google.it", null, null)
         ).toMarkdownString()
     );
   }
@@ -143,7 +143,7 @@ public class TextTest {
     Text text1 = new Text(
         "Hello Jimmy",
         new MessageEntity(MessageEntity.Type.BOLD, 0, 5),
-        new MessageEntity("t.me/Jimmy", 6, 5)
+        new MessageEntity(MessageEntity.Type.LINK, 6, 5, "t.me/Jimmy", null, null)
     );
     Text text2 = new Text(
         "!\n\n#hi",
@@ -153,7 +153,7 @@ public class TextTest {
     Text text3 = new Text(
         "Hello Jimmy!\n\n#hi",
         new MessageEntity(MessageEntity.Type.BOLD, 0, 5),
-        new MessageEntity("t.me/Jimmy", 6, 5),
+        new MessageEntity(MessageEntity.Type.LINK, 6, 5, "t.me/Jimmy", null, null),
         new MessageEntity(MessageEntity.Type.ITALIC, 11, 1),
         new MessageEntity(MessageEntity.Type.HASHTAG, 14, 3)
     );

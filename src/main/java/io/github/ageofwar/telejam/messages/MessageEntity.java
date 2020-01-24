@@ -20,6 +20,7 @@ public class MessageEntity implements TelegramObject {
   private static final String LENGTH_FIELD = "length";
   private static final String URL_FIELD = "url";
   private static final String USER_FIELD = "user";
+  private static final String LANGUAGE_FIELD = "language";
   
   /**
    * Type of the entity.
@@ -43,43 +44,40 @@ public class MessageEntity implements TelegramObject {
    * For "text_link" type only, url that will be opened after user taps on the text.
    */
   @SerializedName(URL_FIELD)
-  private String url;
+  private final String url;
   
   /**
    * For "text_mention" type only, the mentioned user.
    */
   @SerializedName(USER_FIELD)
-  private User user;
+  private final User user;
   
+  /**
+   * For "pre" only, the programming language of the entity text.
+   */
+  @SerializedName(LANGUAGE_FIELD)
+  private final String language;
   
-  public MessageEntity(String url, int offset, int length) {
-    type = Type.LINK;
+  public MessageEntity(Type type, int offset, int length, String url, User user, String language) {
+    this.type = type;
     this.offset = offset;
     this.length = length;
     this.url = url;
-  }
-  
-  public MessageEntity(User user, int offset, int length) {
-    type = Type.TEXT_MENTION;
-    this.offset = offset;
-    this.length = length;
     this.user = user;
+    this.language = language;
   }
   
   public MessageEntity(Type type, int offset, int length) {
     this.type = type;
     this.offset = offset;
     this.length = length;
+    url = null;
+    user = null;
+    language = null;
   }
   
   public MessageEntity move(int offset, int length) {
-    if (url != null) {
-      return new MessageEntity(url, offset, length);
-    }
-    if (user != null) {
-      return new MessageEntity(user, offset, length);
-    }
-    return new MessageEntity(type, offset, length);
+    return new MessageEntity(type, offset, length, url, user, language);
   }
   
   /**
@@ -127,6 +125,15 @@ public class MessageEntity implements TelegramObject {
     return Optional.ofNullable(user);
   }
   
+  /**
+   * Getter for property {@link #language}.
+   *
+   * @return optional value for property {@link #language}
+   */
+  public Optional<String> getLanguage() {
+    return Optional.ofNullable(language);
+  }
+  
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -142,7 +149,8 @@ public class MessageEntity implements TelegramObject {
         offset == entity.getOffset() &&
         length == entity.getLength() &&
         Objects.equals(url, entity.url) &&
-        Objects.equals(user, entity.user);
+        Objects.equals(user, entity.user) &&
+        Objects.equals(language, entity.language);
   }
   
   @Override
@@ -153,6 +161,7 @@ public class MessageEntity implements TelegramObject {
     result = 37 * result + length;
     result = 37 * result + Objects.hashCode(url);
     result = 37 * result + Objects.hashCode(user);
+    result = 37 * result + Objects.hashCode(language);
     return result;
   }
   

@@ -160,7 +160,7 @@ public class Html implements TextFormat {
               }
             }
             endTag(reader, tag);
-            entities.add(new MessageEntity(unescape(link.toString()), offset, builder.length() - offset));
+            entities.add(new MessageEntity(MessageEntity.Type.LINK, offset, builder.length() - offset, unescape(link.toString()), null, null));
           }
         }
       } else if (codePoint == '&') {

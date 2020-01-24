@@ -177,7 +177,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text link(Link link) {
-    return new Text(link.getText(), new MessageEntity(link.getUrl(), 0, link.getText().length()));
+    return new Text(link.getText(), new MessageEntity(MessageEntity.Type.LINK, 0, link.getText().length(), link.getUrl(), null, null));
   }
   
   /**
@@ -188,7 +188,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text link(String text, String url) {
-    return new Text(text, new MessageEntity(url, 0, text.length()));
+    return new Text(text, new MessageEntity(MessageEntity.Type.LINK, 0, text.length(), url, null, null));
   }
   
   /**
@@ -199,7 +199,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text link(String text, Message message) {
-    return new Text(text, new MessageEntity(message.toUrl(), 0, text.length()));
+    return new Text(text, new MessageEntity(MessageEntity.Type.LINK, 0, text.length(), message.toUrl(), null, null));
   }
   
   /**
@@ -285,7 +285,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text textMention(String text, User mention) {
-    return new Text(text, new MessageEntity(mention, 0, text.length()));
+    return new Text(text, new MessageEntity(MessageEntity.Type.TEXT_MENTION, 0, text.length(), null, mention, null));
   }
   
   /**
@@ -296,7 +296,7 @@ public final class Text implements CharSequence {
    * @return the created text
    */
   public static Text textMention(String text, long mention) {
-    return new Text(text, new MessageEntity("tg://user?id=" + mention, 0, text.length()));
+    return new Text(text, new MessageEntity(MessageEntity.Type.LINK, 0, text.length(), "tg://user?id=" + mention, null, null));
   }
   
   /**

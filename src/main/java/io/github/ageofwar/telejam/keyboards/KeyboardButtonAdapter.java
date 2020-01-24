@@ -27,6 +27,10 @@ public final class KeyboardButtonAdapter implements JsonSerializer<KeyboardButto
       if (object.get(RequestLocationKeyboardButton.REQUEST_LOCATION_FIELD).getAsBoolean()) {
         return context.deserialize(src, RequestLocationKeyboardButton.class);
       }
+    } else if (object.has(RequestPollKeyboardButton.REQUEST_POLL_FIELD)) {
+      if (!object.get(RequestPollKeyboardButton.REQUEST_POLL_FIELD).isJsonNull()) {
+        return context.deserialize(src, RequestPollKeyboardButton.class);
+      }
     }
     return new KeyboardButton(object.get(KeyboardButton.TEXT_FIELD).getAsString());
   }

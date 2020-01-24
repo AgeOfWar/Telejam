@@ -51,7 +51,7 @@ public class JsonTest {
     jsonAudio.addProperty("title", "Hello");
     JsonElement jsonEntities = PARSER.parse(toJson(new MessageEntity[] {
         new MessageEntity(MessageEntity.Type.BOLD, 0, 5),
-        new MessageEntity("www.google.it", 6, 5)
+        new MessageEntity(MessageEntity.Type.LINK, 6, 5, "www.google.it", null, null)
     }));
     JsonObject json = new JsonObject();
     json.addProperty("message_id", 123456L);

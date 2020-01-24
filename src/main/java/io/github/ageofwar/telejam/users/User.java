@@ -20,6 +20,9 @@ public class User implements TelegramObject {
   static final String USERNAME_FIELD = "username";
   static final String LANGUAGE_CODE_FIELD = "language_code";
   static final String IS_BOT_FIELD = "is_bot";
+  static final String CAN_JOIN_GROUPS_FIELD = "can_join_groups";
+  static final String CAN_READ_ALL_GROUP_MESSAGES_FIELD = "can_read_all_group_messages";
+  static final String SUPPORTS_INLINE_QUERIES_FIELD = "supports_inline_queries";
   
   /**
    * Unique identifier for this user or bot.
@@ -57,6 +60,44 @@ public class User implements TelegramObject {
   @SerializedName(IS_BOT_FIELD)
   private final boolean isBot;
   
+  /**
+   * True, if the bot can be invited to groups.
+   */
+  @SerializedName(CAN_JOIN_GROUPS_FIELD)
+  private final Boolean canJoinGroups;
+  
+  /**
+   * True, if privacy mode is disabled for the bot.
+   */
+  @SerializedName(CAN_READ_ALL_GROUP_MESSAGES_FIELD)
+  private final Boolean canReadAllGroupMessages;
+  
+  /**
+   * True, if the bot supports inline queries.
+   */
+  @SerializedName(SUPPORTS_INLINE_QUERIES_FIELD)
+  private final Boolean supportsInlineQueries;
+  
+  
+  public User(long id,
+              String firstName,
+              String lastName,
+              String username,
+              Locale locale,
+              boolean isBot,
+              boolean canJoinGroups,
+              boolean canReadAllGroupMessages,
+              boolean supportsInlineQueries) {
+    this.id = id;
+    this.firstName = Objects.requireNonNull(firstName);
+    this.lastName = lastName;
+    this.username = username;
+    this.locale = locale;
+    this.isBot = isBot;
+    this.canJoinGroups = canJoinGroups;
+    this.canReadAllGroupMessages = canReadAllGroupMessages;
+    this.supportsInlineQueries = supportsInlineQueries;
+  }
   
   public User(long id,
               String firstName,
@@ -70,6 +111,9 @@ public class User implements TelegramObject {
     this.username = username;
     this.locale = locale;
     this.isBot = isBot;
+    canJoinGroups = null;
+    canReadAllGroupMessages = null;
+    supportsInlineQueries = null;
   }
   
   
@@ -135,6 +179,36 @@ public class User implements TelegramObject {
    */
   public boolean isBot() {
     return isBot;
+  }
+  
+  /**
+   * Getter for property {@link #canJoinGroups}.
+   *
+   * @return value for property {@link #canJoinGroups}
+   */
+  public boolean canJoinGroups() {
+    if (!isBot) throw new IllegalStateException("user not a bot");
+    return canJoinGroups;
+  }
+  
+  /**
+   * Getter for property {@link #canReadAllGroupMessages}.
+   *
+   * @return value for property {@link #canReadAllGroupMessages}
+   */
+  public boolean canReadAllGroupMessages() {
+    if (!isBot) throw new IllegalStateException("user not a bot");
+    return canReadAllGroupMessages;
+  }
+  
+  /**
+   * Getter for property {@link #supportsInlineQueries}.
+   *
+   * @return value for property {@link #supportsInlineQueries}
+   */
+  public boolean supportsInlineQueries() {
+    if (!isBot) throw new IllegalStateException("user not a bot");
+    return supportsInlineQueries;
   }
   
   @Override
