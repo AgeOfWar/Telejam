@@ -7,8 +7,8 @@ import java.util.Map;
 import static io.github.ageofwar.telejam.methods.Maps.mapOf;
 
 /**
- * Use this method to send a dice, which will have a random value from 1 to 6.
- * On success, the sent Message is returned.
+ * Use this method to get the current list of the bot's commands. Requires no parameters.
+ * Returns Array of BotCommand on success.
  *
  * @author Michi Palazzo
  */
