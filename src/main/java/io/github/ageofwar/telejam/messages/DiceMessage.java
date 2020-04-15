@@ -17,7 +17,7 @@ public class DiceMessage extends Message {
   static final String DICE_FIELD = "dice";
   
   /**
-   * Information about the contact.
+   * Dice with random value from 1 to 6.
    */
   @SerializedName(DICE_FIELD)
   private final Dice dice;
