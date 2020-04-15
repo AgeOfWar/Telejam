@@ -68,3 +68,4 @@ You can see other examples [here](https://github.com/AgeOfWar/Telejam/tree/maste
 
 Read the [wiki](https://github.com/AgeOfWar/Telejam/wiki)
 for more information.
+JavaDocs can be found [here](https://ageofwar.github.io/Telejam/docs/).
