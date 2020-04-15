@@ -23,6 +23,7 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
   static final String NAME_FIELD = "name";
   static final String TITLE_FIELD = "title";
   static final String STICKER_FIELD = "png_sticker";
+  static final String ANIMATED_STICKER_FIELD = "tgs_sticker";
   static final String EMOJIS_FIELD = "emojis";
   static final String CONTAINS_MASKS_FIELD = "contains_masks";
   static final String MASK_POSITION_FIELD = "mask_position";
@@ -76,6 +77,11 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
    */
   private UploadFile newSticker;
   
+  /**
+   * TGS animation with the sticker.
+   */
+  private UploadFile newAnimatedSticker;
+  
   
   public CreateNewStickerSet user(long userId) {
     this.userId = userId;
@@ -99,13 +105,22 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
   
   public CreateNewStickerSet sticker(String sticker) {
     newSticker = null;
+    newAnimatedSticker = null;
     this.sticker = sticker;
     return this;
   }
   
   public CreateNewStickerSet sticker(UploadFile newSticker) {
     sticker = null;
+    newAnimatedSticker = null;
     this.newSticker = newSticker;
+    return this;
+  }
+  
+  public CreateNewStickerSet animatedSticker(UploadFile newAnimatedSticker) {
+    sticker = null;
+    newSticker = null;
+    this.newAnimatedSticker = newAnimatedSticker;
     return this;
   }
   
@@ -154,7 +169,10 @@ public class CreateNewStickerSet implements TelegramMethod<Boolean> {
   
   @Override
   public Map<String, UploadFile> getFiles() {
-    return mapOf(STICKER_FIELD, newSticker);
+    return mapOf(
+        STICKER_FIELD, newSticker,
+        ANIMATED_STICKER_FIELD, newAnimatedSticker
+    );
   }
   
   @Override

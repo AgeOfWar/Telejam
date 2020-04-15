@@ -2,6 +2,9 @@ package io.github.ageofwar.telejam.stickers;
 
 import com.google.gson.annotations.SerializedName;
 import io.github.ageofwar.telejam.TelegramObject;
+import io.github.ageofwar.telejam.media.PhotoSize;
+
+import java.util.Optional;
 
 /**
  * This object represents a sticker set.
@@ -15,6 +18,7 @@ public class StickerSet implements TelegramObject {
   static final String CONTAINS_MASKS_FIELD = "contains_masks";
   static final String STICKERS_FIELD = "stickers";
   static final String IS_ANIMATED_FIELD = "is_animated";
+  static final String THUMBNAIL_FIELD = "thumb";
   
   /**
    * Sticker set name.
@@ -46,12 +50,19 @@ public class StickerSet implements TelegramObject {
   @SerializedName(IS_ANIMATED_FIELD)
   private boolean animated;
   
-  public StickerSet(String name, String title, boolean containsMasks, Sticker[] stickers, boolean animated) {
+  /**
+   * Sticker set thumbnail in the .WEBP or .TGS format.
+   */
+  @SerializedName(THUMBNAIL_FIELD)
+  private PhotoSize thumbnail;
+  
+  public StickerSet(String name, String title, boolean containsMasks, Sticker[] stickers, boolean animated, PhotoSize thumbnail) {
     this.name = name;
     this.title = title;
     this.containsMasks = containsMasks;
     this.stickers = stickers;
     this.animated = animated;
+    this.thumbnail = thumbnail;
   }
   
   public StickerSet(String name, String title, boolean containsMasks, Sticker[] stickers) {
@@ -105,6 +116,15 @@ public class StickerSet implements TelegramObject {
    */
   public boolean isAnimated() {
     return animated;
+  }
+  
+  /**
+   * Getter for property {@link #thumbnail}.
+   *
+   * @return optional value for property {@link #thumbnail}
+   */
+  public Optional<PhotoSize> getThumbnail() {
+    return Optional.ofNullable(thumbnail);
   }
   
   @Override

@@ -21,6 +21,7 @@ public class AddStickerToSet implements TelegramMethod<Boolean> {
   static final String USER_ID_FIELD = "user_id";
   static final String NAME_FIELD = "name";
   static final String STICKER_FIELD = "png_sticker";
+  static final String ANIMATED_STICKER_FIELD = "tgs_sticker";
   static final String EMOJIS_FIELD = "emojis";
   static final String MASK_POSITION_FIELD = "mask_position";
 
@@ -47,23 +48,28 @@ public class AddStickerToSet implements TelegramMethod<Boolean> {
    * One or more emoji corresponding to the sticker.
    */
   private String emojis;
-
+  
   /**
    * A JSON-serialized object for position where the mask should be placed on faces.
    */
   private MaskPosition maskPosition;
-
+  
   /**
    * True if the sticker is not present in Telegram servers.
    */
   private UploadFile newSticker;
-
-
+  
+  /**
+   * TGS animation with the sticker.
+   */
+  private UploadFile newAnimatedSticker;
+  
+  
   public AddStickerToSet user(long userId) {
     this.userId = userId;
     return this;
   }
-
+  
   public AddStickerToSet user(User user) {
     userId = user.getId();
     return this;
@@ -73,19 +79,28 @@ public class AddStickerToSet implements TelegramMethod<Boolean> {
     this.name = name;
     return this;
   }
-
+  
   public AddStickerToSet sticker(String sticker) {
     newSticker = null;
+    newAnimatedSticker = null;
     this.sticker = sticker;
     return this;
   }
-
+  
   public AddStickerToSet sticker(UploadFile newSticker) {
-    this.newSticker = newSticker;
     sticker = null;
+    newAnimatedSticker = null;
+    this.newSticker = newSticker;
     return this;
   }
-
+  
+  public AddStickerToSet animatedSticker(UploadFile newAnimatedSticker) {
+    sticker = null;
+    newSticker = null;
+    this.newAnimatedSticker = newAnimatedSticker;
+    return this;
+  }
+  
   public AddStickerToSet emojis(String emojis) {
     this.emojis = emojis;
     return this;
@@ -114,7 +129,10 @@ public class AddStickerToSet implements TelegramMethod<Boolean> {
   
   @Override
   public Map<String, UploadFile> getFiles() {
-    return mapOf(STICKER_FIELD, newSticker);
+    return mapOf(
+        STICKER_FIELD, newSticker,
+        ANIMATED_STICKER_FIELD, newAnimatedSticker
+    );
   }
   
   @Override
