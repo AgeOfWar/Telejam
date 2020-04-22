@@ -20,9 +20,9 @@ jar {
 }
 
 repositories {
-    jcenter()
+  maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    compile 'io.github.ageofwar:telejam:7.7'
+  compile 'com.github.AgeOfWar:Telejam:v7.14'
 }
