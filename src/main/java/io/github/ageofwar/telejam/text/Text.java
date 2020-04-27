@@ -46,7 +46,7 @@ public final class Text implements CharSequence {
    * @param entities text entities
    */
   public Text(String text, List<MessageEntity> entities) {
-    this(text, entities.toArray(new MessageEntity[0]));
+    this(text, entities != null ? entities.toArray(new MessageEntity[0]) : null);
   }
   
   /**

@@ -29,7 +29,7 @@ public class TextMessage extends Message {
    * URLs, bot commands, etc. that appear in the text.
    */
   @SerializedName(ENTITIES_FIELD)
-  private final List<MessageEntity> entities;
+  private final MessageEntity[] entities;
   
   
   public TextMessage(long id,
@@ -43,7 +43,7 @@ public class TextMessage extends Message {
                      InlineKeyboardMarkup replyMarkup) {
     super(id, sender, date, chat, replyToMessage, editDate, authorSignature, replyMarkup);
     this.text = text.toString();
-    entities = text.getEntities();
+    entities = text.getEntities().toArray(new MessageEntity[0]);
   }
   
   
@@ -53,9 +53,9 @@ public class TextMessage extends Message {
    * @return whether or not this message is a command
    */
   public boolean isCommand() {
-    if (entities == null || entities.size() < 1)
+    if (entities == null || entities.length < 1)
       return false;
-    MessageEntity entity = entities.get(0);
+    MessageEntity entity = entities[0];
     return entity.getType() == MessageEntity.Type.BOT_COMMAND && entity.getOffset() == 0;
   }
   
