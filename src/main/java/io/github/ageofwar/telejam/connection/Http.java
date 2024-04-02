@@ -73,11 +73,10 @@ public final class Http {
           }
           output.flush();
           value.getInputStream().close();
-  
+
           output.append("\r\n");
           output.flush();
         }
-        output.append("\r\n");
         output.append("--").append(boundary).append("--");
         output.append("\r\n");
       }
