@@ -62,15 +62,10 @@ artifacts {
 
 publishing {
     publications {
-        maven(MavenPublication) {
-            groupId = 'io.github.ageofwar'
-            artifactId = 'Telejam'
-            version = '7.16'
-
-            artifacts {
-                archives libWithDependenciesJar
-                archives sourcesJar
-                archives javadocJar
+        mavenDefault(MavenPublication) {
+            from components.java
+            artifact(sourcesJar) {
+                classifier "sources"
             }
         }
     }
